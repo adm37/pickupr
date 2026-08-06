@@ -1,0 +1,84 @@
+---
+import App from '../App.tsx';
+import '../index.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  robots?: string;
+  ogType?: string;
+  keywords?: string[] | string;
+  structuredData?: Record<string, unknown> | null;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  robots = 'index, follow',
+  ogType = 'website',
+  keywords,
+  structuredData = null,
+} = Astro.props;
+
+const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
+const canonicalUrl = canonical.startsWith('http') ? canonical : (siteBase ? `${siteBase}${canonical}` : canonical);
+const heroImagePath = '/hero-airport-transfer.jpg';
+const heroImageUrl = siteBase ? `${siteBase}${heroImagePath}` : heroImagePath;
+const pageTopic = title.replace(/\s*\|\s*Pickupr\s*$/i, '').trim() || 'Private transfer service';
+const normalizedPath = canonical.replace(/^https?:\/\/[^/]+/i, '').replace(/\/$/, '') || '/';
+const slugWords = normalizedPath
+  .replace(/^\//, '')
+  .split('-')
+  .filter(Boolean)
+  .slice(0, 8)
+  .map((word) => word.toLowerCase());
+const defaultKeywords = Array.from(
+  new Set([
+    pageTopic,
+    `${pageTopic} booking`,
+    'private transfer',
+    'airport transfer',
+    'chauffeur service',
+    ...slugWords,
+  ])
+).filter(Boolean);
+const keywordList = Array.isArray(keywords)
+  ? keywords.filter(Boolean)
+  : typeof keywords === 'string'
+    ? keywords.split(',').map((part) => part.trim()).filter(Boolean)
+    : defaultKeywords;
+const keywordContent = keywordList.join(', ');
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywordContent} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={heroImageUrl} />
+    <meta property="og:image:alt" content={title} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={heroImageUrl} />
+
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+    )}
+  </head>
+  <body>
+    <App client:load initialPath={normalizedPath} />
+  </body>
+</html>

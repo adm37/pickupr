@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Amsterdam Airport to Dusseldorf Taxi | Pickupr"
+  description="Book Amsterdam Airport to Dusseldorf Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/amsterdam-airport-to-dusseldorf-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Amsterdam Airport to Dusseldorf Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Amsterdam Airport to Dusseldorf Taxi | Pickupr",
+        url: "/amsterdam-airport-to-dusseldorf-taxi",
+        description: "Book Amsterdam Airport to Dusseldorf Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Amsterdam Airport to Dusseldorf Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Amsterdam Airport to Dusseldorf Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Amsterdam Airport to Dusseldorf Taxi?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Amsterdam Airport to Dusseldorf Taxi, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

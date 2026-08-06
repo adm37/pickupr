@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Taxi to Rotterdam Airport | Pickupr"
+  description="Book Taxi to Rotterdam Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/taxi-to-rotterdam-airport"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Taxi to Rotterdam Airport",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Taxi to Rotterdam Airport | Pickupr",
+        url: "/taxi-to-rotterdam-airport",
+        description: "Book Taxi to Rotterdam Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Taxi to Rotterdam Airport online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Taxi to Rotterdam Airport online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Taxi to Rotterdam Airport?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Taxi to Rotterdam Airport, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

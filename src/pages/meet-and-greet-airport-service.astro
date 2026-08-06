@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Meet and Greet Airport Service | Pickupr"
+  description="Book Meet and Greet Airport Service with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/meet-and-greet-airport-service"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Meet and Greet Airport Service",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Meet and Greet Airport Service | Pickupr",
+        url: "/meet-and-greet-airport-service",
+        description: "Book Meet and Greet Airport Service with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Meet and Greet Airport Service online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Meet and Greet Airport Service online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Meet and Greet Airport Service?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Meet and Greet Airport Service, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

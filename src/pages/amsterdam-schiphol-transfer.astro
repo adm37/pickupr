@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Amsterdam Schiphol Transfer | Pickupr"
+  description="Book Amsterdam Schiphol Transfer with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/amsterdam-schiphol-transfer"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Amsterdam Schiphol Transfer",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Amsterdam Schiphol Transfer | Pickupr",
+        url: "/amsterdam-schiphol-transfer",
+        description: "Book Amsterdam Schiphol Transfer with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Amsterdam Schiphol Transfer online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Amsterdam Schiphol Transfer online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Amsterdam Schiphol Transfer for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Amsterdam Schiphol Transfer is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

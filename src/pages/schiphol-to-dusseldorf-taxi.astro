@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Schiphol to Dusseldorf Taxi | Pickupr"
+  description="Book Schiphol to Dusseldorf Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/schiphol-to-dusseldorf-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Schiphol to Dusseldorf Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Schiphol to Dusseldorf Taxi | Pickupr",
+        url: "/schiphol-to-dusseldorf-taxi",
+        description: "Book Schiphol to Dusseldorf Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Schiphol to Dusseldorf Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Schiphol to Dusseldorf Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Schiphol to Dusseldorf Taxi for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Schiphol to Dusseldorf Taxi is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Schiphol Airport to Eupen Taxi | Pickupr"
+  description="Book Schiphol Airport to Eupen Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/schiphol-airport-to-eupen-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Schiphol Airport to Eupen Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Schiphol Airport to Eupen Taxi | Pickupr",
+        url: "/schiphol-airport-to-eupen-taxi",
+        description: "Book Schiphol Airport to Eupen Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Schiphol Airport to Eupen Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Schiphol Airport to Eupen Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Schiphol Airport to Eupen Taxi?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Schiphol Airport to Eupen Taxi, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

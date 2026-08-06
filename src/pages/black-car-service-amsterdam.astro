@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Black Car Service Amsterdam | Pickupr"
+  description="Book Black Car Service Amsterdam with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/black-car-service-amsterdam"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Black Car Service Amsterdam",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Black Car Service Amsterdam | Pickupr",
+        url: "/black-car-service-amsterdam",
+        description: "Book Black Car Service Amsterdam with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Black Car Service Amsterdam online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Black Car Service Amsterdam online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Black Car Service Amsterdam for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Black Car Service Amsterdam is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

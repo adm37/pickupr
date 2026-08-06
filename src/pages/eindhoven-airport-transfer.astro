@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Eindhoven Airport Transfer | Pickupr"
+  description="Book Eindhoven Airport Transfer with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/eindhoven-airport-transfer"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Eindhoven Airport Transfer",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Eindhoven Airport Transfer | Pickupr",
+        url: "/eindhoven-airport-transfer",
+        description: "Book Eindhoven Airport Transfer with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Eindhoven Airport Transfer online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Eindhoven Airport Transfer online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Eindhoven Airport Transfer?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Eindhoven Airport Transfer, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

@@ -1,0 +1,71 @@
+---
+import '../index.css';
+
+const pageModules = import.meta.glob('./**/*.astro', { eager: true });
+
+function toRoute(globPath: string): string {
+  const clean = globPath
+    .replace(/^\.\//, '')
+    .replace(/\.astro$/, '');
+
+  if (clean === 'index') {
+    return '/';
+  }
+
+  if (clean.endsWith('/index')) {
+    return `/${clean.replace(/\/index$/, '')}`;
+  }
+
+  return `/${clean}`;
+}
+
+const routes = Object.keys(pageModules)
+  .map(toRoute)
+  .filter((route) => !route.includes('[') && !route.includes(']'))
+  .filter((route) => route !== '/404')
+  .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+
+const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
+const totalPages = routes.length;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sitemap | Pickupr</title>
+    <meta name="description" content="Alphabetical overview of all pages on Pickupr." />
+    <link rel="canonical" href={siteBase ? `${siteBase}/sitemap` : '/sitemap'} />
+    <meta name="robots" content="index,follow" />
+  </head>
+  <body class="bg-zinc-950 text-zinc-100">
+    <main class="mx-auto max-w-7xl px-6 py-12 md:py-16">
+      <header class="mb-10 border-b border-zinc-800 pb-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">Pickupr</p>
+        <h1 class="mt-3 text-3xl font-black tracking-tight md:text-4xl">Sitemap</h1>
+        <p class="mt-3 max-w-3xl text-zinc-400">
+          Below is an alphabetical overview of all pages on the website.
+          Total: <strong class="text-zinc-100">{totalPages}</strong> pages.
+        </p>
+        <p class="mt-2 text-sm text-zinc-400">
+          XML for Search Console: <a href="/sitemap.xml" class="text-emerald-300 hover:text-emerald-200">/sitemap.xml</a>
+        </p>
+      </header>
+
+      <section>
+        <ul class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {routes.map((route) => (
+            <li>
+              <a
+                href={route}
+                class="block rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-zinc-200 transition hover:border-emerald-500 hover:text-white"
+              >
+                {route}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

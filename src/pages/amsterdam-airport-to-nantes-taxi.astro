@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Amsterdam Airport to Nantes Taxi | Pickupr"
+  description="Book Amsterdam Airport to Nantes Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/amsterdam-airport-to-nantes-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Amsterdam Airport to Nantes Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Amsterdam Airport to Nantes Taxi | Pickupr",
+        url: "/amsterdam-airport-to-nantes-taxi",
+        description: "Book Amsterdam Airport to Nantes Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Amsterdam Airport to Nantes Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Amsterdam Airport to Nantes Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Amsterdam Airport to Nantes Taxi?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Amsterdam Airport to Nantes Taxi, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

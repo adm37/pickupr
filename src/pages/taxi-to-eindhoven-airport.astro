@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Taxi to Eindhoven Airport | Pickupr"
+  description="Book Taxi to Eindhoven Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/taxi-to-eindhoven-airport"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Taxi to Eindhoven Airport",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Taxi to Eindhoven Airport | Pickupr",
+        url: "/taxi-to-eindhoven-airport",
+        description: "Book Taxi to Eindhoven Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Taxi to Eindhoven Airport online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Taxi to Eindhoven Airport online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Taxi to Eindhoven Airport?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Taxi to Eindhoven Airport, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

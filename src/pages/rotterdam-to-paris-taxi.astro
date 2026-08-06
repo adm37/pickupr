@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Rotterdam to Paris Taxi | Pickupr"
+  description="Book Rotterdam to Paris Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/rotterdam-to-paris-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Rotterdam to Paris Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Rotterdam to Paris Taxi | Pickupr",
+        url: "/rotterdam-to-paris-taxi",
+        description: "Book Rotterdam to Paris Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Rotterdam to Paris Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Rotterdam to Paris Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Rotterdam to Paris Taxi for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Rotterdam to Paris Taxi is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

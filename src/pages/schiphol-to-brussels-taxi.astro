@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Schiphol to Brussels Taxi | Pickupr"
+  description="Book Schiphol to Brussels Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/schiphol-to-brussels-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Schiphol to Brussels Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Schiphol to Brussels Taxi | Pickupr",
+        url: "/schiphol-to-brussels-taxi",
+        description: "Book Schiphol to Brussels Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Schiphol to Brussels Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Schiphol to Brussels Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Schiphol to Brussels Taxi for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Schiphol to Brussels Taxi is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

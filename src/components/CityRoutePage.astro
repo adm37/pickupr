@@ -1,0 +1,94 @@
+---
+import AppPageShell from './AppPageShell.astro';
+import { getCityRouteByPath } from '../lib/cityLandingRoutes';
+
+interface Props {
+  pathname?: string;
+}
+
+const normalizePathname = (value: string): string => {
+  const withoutQuery = value.split('?')[0].split('#')[0] || '/';
+  if (withoutQuery.length > 1 && withoutQuery.endsWith('/')) {
+    return withoutQuery.slice(0, -1);
+  }
+  return withoutQuery || '/';
+};
+
+const { pathname: pathnameProp } = Astro.props as Props;
+const resolvedPathname = normalizePathname(Astro.url?.pathname || pathnameProp || '/');
+const route = getCityRouteByPath(resolvedPathname);
+
+if (!route) {
+  throw new Error(`Unknown city route path: ${resolvedPathname}`);
+}
+
+const title = `${route.keyword} | Pickupr`;
+const description = route.pattern === 'schiphol'
+  ? `Book ${route.keyword} with private transfer, fixed pricing and direct confirmation. Reliable service from Schiphol Airport to ${route.city}.`
+  : `Book ${route.keyword} with private long-distance transfer, fixed fare clarity and reliable pickup from Amsterdam to ${route.city}.`;
+// Keep canonical aligned with the actual visited page path.
+const canonical = resolvedPathname;
+
+const faqTravelQuestion = route.pattern === 'schiphol'
+  ? `How long does ${route.origin} to ${route.city} usually take?`
+  : `What is the estimated travel time from Amsterdam to ${route.city}?`;
+
+const faqTravelAnswer = route.pattern === 'schiphol'
+  ? `Typical duration is around ${route.durationMin} minutes depending on traffic conditions.`
+  : `Estimated duration is around ${route.durationMin} minutes depending on road and border conditions.`;
+
+const serviceType = route.pattern === 'schiphol'
+  ? 'Private airport transfer'
+  : 'Private international transfer';
+
+const areaServed = route.pattern === 'schiphol'
+  ? ['Netherlands', route.city]
+  : [route.countryName, route.city];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: route.keyword,
+      provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+      areaServed,
+      serviceType,
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'EUR',
+        price: String(route.priceFrom),
+        availability: 'https://schema.org/InStock',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: `Can I pre-book ${route.keyword}?`,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. You can pre-book online and receive direct confirmation with clear route details.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: faqTravelQuestion,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faqTravelAnswer,
+          },
+        },
+      ],
+    },
+  ],
+};
+---
+
+<AppPageShell
+  title={title}
+  description={description}
+  canonical={canonical}
+  structuredData={structuredData}
+/>

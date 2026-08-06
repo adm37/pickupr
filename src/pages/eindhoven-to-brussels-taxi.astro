@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Eindhoven to Brussels Taxi | Pickupr"
+  description="Book Eindhoven to Brussels Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/eindhoven-to-brussels-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Eindhoven to Brussels Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Eindhoven to Brussels Taxi | Pickupr",
+        url: "/eindhoven-to-brussels-taxi",
+        description: "Book Eindhoven to Brussels Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Eindhoven to Brussels Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Eindhoven to Brussels Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Eindhoven to Brussels Taxi for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Eindhoven to Brussels Taxi is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

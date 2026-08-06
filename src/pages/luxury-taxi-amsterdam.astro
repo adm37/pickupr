@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Luxury Taxi Amsterdam | Pickupr"
+  description="Book Luxury Taxi Amsterdam with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/luxury-taxi-amsterdam"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Luxury Taxi Amsterdam",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Luxury Taxi Amsterdam | Pickupr",
+        url: "/luxury-taxi-amsterdam",
+        description: "Book Luxury Taxi Amsterdam with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Luxury Taxi Amsterdam online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Luxury Taxi Amsterdam online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Luxury Taxi Amsterdam for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Luxury Taxi Amsterdam is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

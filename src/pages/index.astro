@@ -1,0 +1,59 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+<AppPageShell
+  title="Pickupr | Private airport and city transfers"
+  description="Reserve reliable private transport for airports, city rides, and long-distance journeys."
+  canonical="/"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'TransportationService',
+        name: 'Pickupr',
+        url: '/',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        description: 'Private chauffeur service with transfers and hourly bookings.',
+      },
+      {
+        '@type': 'Organization',
+        name: 'Pickupr',
+        url: '/',
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'customer support',
+          availableLanguage: ['English', 'Dutch'],
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'How far in advance should I book?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'You can book as soon as your schedule is known, but same-day bookings are also possible depending on availability.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Do you offer airport transfers to and from Schiphol?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. Pickupr provides private transfers to and from Schiphol for cities in the Netherlands and neighboring countries.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Can I pay online or to the driver?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Both options are available. You can complete payment online during booking or choose to pay the driver directly.',
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

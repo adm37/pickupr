@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Airport Chauffeur Netherlands | Pickupr"
+  description="Book Airport Chauffeur Netherlands with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/airport-chauffeur-netherlands"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Airport Chauffeur Netherlands",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Airport Chauffeur Netherlands | Pickupr",
+        url: "/airport-chauffeur-netherlands",
+        description: "Book Airport Chauffeur Netherlands with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Airport Chauffeur Netherlands online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Airport Chauffeur Netherlands online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Airport Chauffeur Netherlands?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Airport Chauffeur Netherlands, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

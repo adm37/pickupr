@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Taxi from Schiphol Airport | Pickupr"
+  description="Book Taxi from Schiphol Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/taxi-from-schiphol-airport"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Taxi from Schiphol Airport",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Taxi from Schiphol Airport | Pickupr",
+        url: "/taxi-from-schiphol-airport",
+        description: "Book Taxi from Schiphol Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Taxi from Schiphol Airport online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Taxi from Schiphol Airport online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Taxi from Schiphol Airport?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Taxi from Schiphol Airport, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

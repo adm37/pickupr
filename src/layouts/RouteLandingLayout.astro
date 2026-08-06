@@ -1,0 +1,314 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  city: string;
+  country: string;
+  routeLabel: string;
+  distance: string;
+  duration: string;
+  priceFrom: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  city,
+  country,
+  routeLabel,
+  distance,
+  duration,
+  priceFrom,
+} = Astro.props as Props;
+
+const bookingLink = `/booking?type=transfer&pickup=${encodeURIComponent('Schiphol Airport')}&dropoff=${encodeURIComponent(city)}`;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: routeLabel,
+      description,
+      provider: {
+        '@type': 'Organization',
+        name: 'Pickupr',
+      },
+      areaServed: [country],
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'EUR',
+        price: priceFrom,
+        availability: 'https://schema.org/InStock',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: `How long does the transfer to ${city} take?`,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: `Typical travel time is around ${duration}, depending on traffic and border conditions.`,
+          },
+        },
+        {
+          '@type': 'Question',
+          name: `Can I pre-book a return transfer from ${city} to Schiphol?`,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: `Yes, you can pre-book both one-way and return rides in a single booking process.`,
+          },
+        },
+      ],
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+    <style>
+      :root {
+        --ink: #0f172a;
+        --mist: #f8fafc;
+        --accent: #f97316;
+        --accent-2: #06b6d4;
+        --panel: #ffffff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 15% 10%, rgba(249, 115, 22, 0.15), transparent 45%),
+          radial-gradient(circle at 90% 0%, rgba(6, 182, 212, 0.13), transparent 40%),
+          var(--mist);
+      }
+
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 24px 20px 56px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .brand {
+        font-family: 'Trebuchet MS', 'Segoe UI', 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .top-links a {
+        color: #334155;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 16px;
+      }
+
+      .hero {
+        margin-top: 34px;
+        display: grid;
+        gap: 24px;
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+
+      .hero-main,
+      .hero-card,
+      .info {
+        background: var(--panel);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+      }
+
+      .hero-main {
+        padding: 32px;
+      }
+
+      .kicker {
+        font-family: 'Trebuchet MS', 'Segoe UI', 'Inter', sans-serif;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: #ea580c;
+        font-size: 0.75rem;
+        margin: 0 0 10px;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1.06;
+      }
+
+      .lead {
+        margin-top: 14px;
+        color: #334155;
+        font-size: 1.02rem;
+      }
+
+      .cta-row {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 12px 18px;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background: linear-gradient(120deg, var(--accent), #fb923c);
+      }
+
+      .btn-secondary {
+        color: var(--ink);
+        background: #e2e8f0;
+      }
+
+      .hero-card {
+        padding: 24px;
+      }
+
+      .hero-card h2 {
+        margin: 0 0 14px;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+
+      .metric {
+        padding: 12px 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .metric:last-child {
+        border-bottom: 0;
+      }
+
+      .metric p {
+        margin: 0;
+      }
+
+      .label {
+        color: #64748b;
+        font-size: 0.9rem;
+      }
+
+      .value {
+        margin-top: 4px;
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+
+      .info {
+        margin-top: 24px;
+        padding: 24px;
+      }
+
+      .info h3 {
+        margin: 0 0 10px;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.35rem;
+      }
+
+      .info p {
+        margin: 8px 0;
+        color: #334155;
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .top-links {
+          display: none;
+        }
+
+        .wrap {
+          padding: 18px 16px 44px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="topbar">
+        <a href="/" class="brand">Pickupr</a>
+        <nav class="top-links" aria-label="Primary">
+          <a href="/services">Services</a>
+          <a href="/blog">Blog</a>
+          <a href="/booking">Book now</a>
+        </nav>
+      </div>
+
+      <section class="hero">
+        <div class="hero-main">
+          <p class="kicker">Airport transfer</p>
+          <h1>{routeLabel}</h1>
+          <p class="lead">{description}</p>
+          <div class="cta-row">
+            <a href={bookingLink} class="btn btn-primary">Book this route</a>
+            <a href="/booking" class="btn btn-secondary">Custom booking</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Route facts">
+          <h2>Route snapshot</h2>
+          <div class="metric">
+            <p class="label">Distance</p>
+            <p class="value">{distance}</p>
+          </div>
+          <div class="metric">
+            <p class="label">Estimated duration</p>
+            <p class="value">{duration}</p>
+          </div>
+          <div class="metric">
+            <p class="label">Private fare from</p>
+            <p class="value">EUR {priceFrom}</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="info">
+        <h3>What you can expect</h3>
+        <p>Flight monitoring, fixed-rate pricing, and direct communication with your assigned driver.</p>
+        <p>Door-to-door private transfers with modern vehicles and optional return booking.</p>
+      </section>
+    </main>
+  </body>
+</html>

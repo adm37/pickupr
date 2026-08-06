@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Executive Chauffeur Netherlands | Pickupr"
+  description="Book Executive Chauffeur Netherlands with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/executive-chauffeur-netherlands"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Executive Chauffeur Netherlands",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Executive Chauffeur Netherlands | Pickupr",
+        url: "/executive-chauffeur-netherlands",
+        description: "Book Executive Chauffeur Netherlands with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Executive Chauffeur Netherlands online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Executive Chauffeur Netherlands online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can I book Executive Chauffeur Netherlands for business travel?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. Executive Chauffeur Netherlands is available for business and private travel with fixed-fare clarity and direct confirmation.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

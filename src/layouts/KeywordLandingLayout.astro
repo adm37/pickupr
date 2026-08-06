@@ -1,0 +1,377 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface SectionItem {
+  heading: string;
+  paragraphs: string[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  primaryKeyword: string;
+  h1: string;
+  intro: string;
+  bookingHref: string;
+  benefits: string[];
+  sections: SectionItem[];
+  faqs: FaqItem[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  primaryKeyword,
+  h1,
+  intro,
+  bookingHref,
+  benefits,
+  sections,
+  faqs,
+} = Astro.props as Props;
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      name: title,
+      description,
+      url: canonical,
+      inLanguage: 'en',
+      isPartOf: {
+        '@type': 'WebSite',
+        name: 'Pickupr',
+        url: '/',
+      },
+    },
+    {
+      '@type': 'Service',
+      name: primaryKeyword,
+      description,
+      provider: {
+        '@type': 'Organization',
+        name: 'Pickupr',
+        url: '/',
+      },
+      areaServed: {
+        '@type': 'Country',
+        name: 'Netherlands',
+      },
+      serviceType: 'Private airport transfer',
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: '/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: primaryKeyword,
+          item: canonical,
+        },
+      ],
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)}></script>
+
+    <style>
+      :root {
+        --bg: #09090b;
+        --card: #18181b;
+        --line: #27272a;
+        --text: #fafafa;
+        --muted: #d4d4d8;
+        --brand: #10b981;
+        --brand-strong: #059669;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.17), transparent 40%),
+          radial-gradient(circle at 85% 0%, rgba(6, 182, 212, 0.13), transparent 35%),
+          var(--bg);
+      }
+
+      .container {
+        width: min(1120px, 100% - 2rem);
+        margin-inline: auto;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.1rem 0;
+      }
+
+      .brand {
+        color: white;
+        text-decoration: none;
+        font-weight: 900;
+        letter-spacing: 0.02em;
+      }
+
+      .nav-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 1rem;
+      }
+
+      .hero {
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: linear-gradient(150deg, rgba(24, 24, 27, 0.92), rgba(24, 24, 27, 0.76));
+        padding: clamp(1.4rem, 2.8vw, 2.5rem);
+      }
+
+      .kicker {
+        margin: 0;
+        color: #6ee7b7;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.75rem;
+        font-weight: 800;
+      }
+
+      h1 {
+        margin: 0.6rem 0 0;
+        line-height: 1.08;
+        font-size: clamp(1.9rem, 4vw, 3.2rem);
+      }
+
+      .intro {
+        max-width: 780px;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1.1rem;
+      }
+
+      .btn {
+        border-radius: 999px;
+        padding: 0.75rem 1.1rem;
+        text-decoration: none;
+        font-weight: 800;
+      }
+
+      .btn-main {
+        color: white;
+        background: linear-gradient(120deg, var(--brand), var(--brand-strong));
+      }
+
+      .btn-alt {
+        color: #e4e4e7;
+        background: #27272a;
+        border: 1px solid #3f3f46;
+      }
+
+      .grid {
+        margin-top: 1rem;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: #18181b;
+        padding: 1rem;
+      }
+
+      .card h2,
+      .card h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .card p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .section {
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #111114;
+        padding: 1.15rem;
+      }
+
+      .section h2 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+
+      .section p {
+        color: var(--muted);
+        margin: 0.55rem 0 0;
+        line-height: 1.65;
+      }
+
+      .faq-item {
+        border-top: 1px solid #27272a;
+        padding-top: 0.8rem;
+        margin-top: 0.8rem;
+      }
+
+      .faq-item:first-child {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+      }
+
+      .faq-item h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .faq-item p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+      }
+
+      .footer-cta {
+        margin: 1rem 0 2rem;
+        border-radius: 18px;
+        border: 1px solid #14532d;
+        background: linear-gradient(120deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+        padding: 1.2rem;
+      }
+
+      .footer-cta h2 {
+        margin: 0;
+      }
+
+      .footer-cta p {
+        margin: 0.55rem 0 0;
+        color: #d1fae5;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <header class="topbar">
+        <a href="/" class="brand">Pickupr</a>
+        <nav aria-label="Primary navigation">
+          <a class="nav-link" href="/services">Services</a>
+          <a class="nav-link" href="/booking">Book now</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <p class="kicker">Airport transfer landing page</p>
+        <h1>{h1}</h1>
+        <p class="intro">{intro}</p>
+        <div class="cta-row">
+          <a class="btn btn-main" href={bookingHref}>Book your ride now</a>
+          <a class="btn btn-alt" href="/booking">Get instant quote</a>
+        </div>
+      </section>
+
+      <section class="grid" aria-label="Key benefits">
+        {benefits.map((benefit) => (
+          <article class="card">
+            <h2>{benefit}</h2>
+            <p>Designed to remove booking friction and help travelers confirm a private ride in minutes.</p>
+          </article>
+        ))}
+      </section>
+
+      {sections.map((section) => (
+        <section class="section">
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </section>
+      ))}
+
+      <section class="section" aria-label="Frequently asked questions">
+        <h2>FAQ about {primaryKeyword}</h2>
+        {faqs.map((item) => (
+          <article class="faq-item">
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </article>
+        ))}
+      </section>
+
+      <section class="footer-cta">
+        <h2>Ready to secure your transfer?</h2>
+        <p>Book now to lock your preferred time slot and receive immediate confirmation for your airport ride.</p>
+        <div class="cta-row">
+          <a class="btn btn-main" href={bookingHref}>Book this transfer</a>
+          <a class="btn btn-alt" href="/booking">Open booking form</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

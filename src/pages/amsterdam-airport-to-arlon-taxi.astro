@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Amsterdam Airport to Arlon Taxi | Pickupr"
+  description="Book Amsterdam Airport to Arlon Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/amsterdam-airport-to-arlon-taxi"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Amsterdam Airport to Arlon Taxi",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Amsterdam Airport to Arlon Taxi | Pickupr",
+        url: "/amsterdam-airport-to-arlon-taxi",
+        description: "Book Amsterdam Airport to Arlon Taxi with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Amsterdam Airport to Arlon Taxi online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Amsterdam Airport to Arlon Taxi online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Amsterdam Airport to Arlon Taxi?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Amsterdam Airport to Arlon Taxi, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="International Chauffeur Service | Pickupr"
+  description="Book International Chauffeur Service with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/international-chauffeur-service"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "International Chauffeur Service",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "International Chauffeur Service | Pickupr",
+        url: "/international-chauffeur-service",
+        description: "Book International Chauffeur Service with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book International Chauffeur Service online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book International Chauffeur Service online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Can International Chauffeur Service include cross-border travel support?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For International Chauffeur Service, we confirm route requirements in advance so your cross-border transfer runs smoothly.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>

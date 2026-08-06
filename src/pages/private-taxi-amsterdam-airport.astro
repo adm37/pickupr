@@ -1,0 +1,53 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Private Taxi Amsterdam Airport | Pickupr"
+  description="Book Private Taxi Amsterdam Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr."
+  canonical="/private-taxi-amsterdam-airport"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: "Private Taxi Amsterdam Airport",
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private airport and long-distance transfer',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: "Private Taxi Amsterdam Airport | Pickupr",
+        url: "/private-taxi-amsterdam-airport",
+        description: "Book Private Taxi Amsterdam Airport with private transfer, direct confirmation, and clear fixed-fare details from Pickupr.",
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: '/hero-airport-transfer.jpg',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: "Can I pre-book Private Taxi Amsterdam Airport online?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. You can pre-book Private Taxi Amsterdam Airport online and receive direct confirmation with full route details.",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: "Do you monitor flight arrivals for Private Taxi Amsterdam Airport?",
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Yes. For Private Taxi Amsterdam Airport, we monitor flight status and adjust pickup timing when your arrival is delayed.",
+            },
+          },
+        ],
+      },
+    ],
+  }}
+/>
