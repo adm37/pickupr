@@ -50,6 +50,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-zinc-900 text-sm flex flex-col md:flex-row justify-between items-center text-zinc-500">
         <p>&copy; {new Date().getFullYear()} Pickupr Services. All rights reserved.</p>
         <div className="flex gap-6 mt-4 md:mt-0">
+          <a href="/routes" className="hover:text-white transition">Routes</a>
+          <a href="/destinations" className="hover:text-white transition">Destinations</a>
           <a href="/sitemap" className="hover:text-white transition">Sitemap</a>
           <a href="#" className="hover:text-white transition">Privacy Policy</a>
           <a href="#" className="hover:text-white transition">Terms of Service</a>

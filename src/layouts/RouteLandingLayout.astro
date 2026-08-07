@@ -24,6 +24,7 @@ const {
 } = Astro.props as Props;
 
 const bookingLink = `/booking?type=transfer&pickup=${encodeURIComponent('Schiphol Airport')}&dropoff=${encodeURIComponent(city)}`;
+const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -84,6 +85,9 @@ const structuredData = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    {googleSiteVerification && (
+      <meta name="google-site-verification" content={googleSiteVerification} />
+    )}
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
     <style>
       :root {

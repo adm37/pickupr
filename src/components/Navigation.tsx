@@ -41,6 +41,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
   const navLinks = [
     { name: 'Services', href: '/services', sectionId: 'services' },
     { name: 'Hourly Rates', href: '/hourly', sectionId: 'hourly' },
+    { name: 'Routes', href: '/routes', fullPage: true },
     { name: 'Blog', href: '/blog', fullPage: true },
   ];
 

@@ -31,12 +31,22 @@ export const GET: APIRoute = ({ url }) => {
   const requestBase = `${url.protocol}//${url.host}`.replace(/\/$/, '');
   const siteBase = configuredBase || requestBase;
 
-  const routes = Object.entries(pageModules)
+  const rawRoutes = Object.entries(pageModules)
     .filter(([filePath]) => !filePath.includes('[') && !filePath.includes(']'))
     .filter(([_, source]) => !/robots\s*=\s*["']noindex/i.test(source))
     .map(([filePath]) => toRoute(filePath))
     .filter((route) => !blockedRoutes.has(route))
     .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+
+  const routeSet = new Set(rawRoutes);
+  const routes = rawRoutes.filter((route) => {
+    if (route === '/' || route.endsWith('-taxi')) {
+      return true;
+    }
+
+    const canonicalCandidate = `${route}-taxi`;
+    return !routeSet.has(canonicalCandidate);
+  });
 
   const now = new Date().toISOString();
 

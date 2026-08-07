@@ -1,6 +1,7 @@
 ---
 import App from '../App.tsx';
 import '../index.css';
+import { isCityLandingPath } from '../lib/cityLandingRoutes';
 
 interface Props {
   title: string;
@@ -23,11 +24,26 @@ const {
 } = Astro.props;
 
 const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
-const canonicalUrl = canonical.startsWith('http') ? canonical : (siteBase ? `${siteBase}${canonical}` : canonical);
+const canonicalPath = (() => {
+  if (!canonical.startsWith('/')) {
+    return canonical;
+  }
+
+  const trimmed = canonical.replace(/\/$/, '') || '/';
+  const looksLikeAlias = /^\/(amsterdam|schiphol)-to-[^/]+$/i.test(trimmed);
+  const preferredTaxiPath = `${trimmed}-taxi`;
+
+  if (looksLikeAlias && isCityLandingPath(preferredTaxiPath)) {
+    return preferredTaxiPath;
+  }
+
+  return trimmed;
+})();
+const canonicalUrl = canonicalPath.startsWith('http') ? canonicalPath : (siteBase ? `${siteBase}${canonicalPath}` : canonicalPath);
 const heroImagePath = '/hero-airport-transfer.jpg';
 const heroImageUrl = siteBase ? `${siteBase}${heroImagePath}` : heroImagePath;
 const pageTopic = title.replace(/\s*\|\s*Pickupr\s*$/i, '').trim() || 'Private transfer service';
-const normalizedPath = canonical.replace(/^https?:\/\/[^/]+/i, '').replace(/\/$/, '') || '/';
+const normalizedPath = canonicalPath.replace(/^https?:\/\/[^/]+/i, '').replace(/\/$/, '') || '/';
 const slugWords = normalizedPath
   .replace(/^\//, '')
   .split('-')
@@ -50,6 +66,7 @@ const keywordList = Array.isArray(keywords)
     ? keywords.split(',').map((part) => part.trim()).filter(Boolean)
     : defaultKeywords;
 const keywordContent = keywordList.join(', ');
+const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
 ---
 
 <html lang="en">
@@ -73,6 +90,10 @@ const keywordContent = keywordList.join(', ');
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={heroImageUrl} />
+
+    {googleSiteVerification && (
+      <meta name="google-site-verification" content={googleSiteVerification} />
+    )}
 
     {structuredData && (
       <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>

@@ -37,6 +37,7 @@ const relatedPosts = [
   { href: '/blog/taxi-amsterdam-airport', label: 'Taxi Amsterdam Airport guide' },
 ];
 const relatedForPage = relatedPosts.filter((post) => !canonical.includes(post.href.replace('/blog/', ''))).slice(0, 4);
+const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
 ---
 
 <html lang="en">
@@ -56,6 +57,9 @@ const relatedForPage = relatedPosts.filter((post) => !canonical.includes(post.hr
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    {googleSiteVerification && (
+      <meta name="google-site-verification" content={googleSiteVerification} />
+    )}
 
     <script
       type="application/ld+json"

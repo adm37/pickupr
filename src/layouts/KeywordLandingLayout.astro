@@ -34,6 +34,7 @@ const {
   sections,
   faqs,
 } = Astro.props as Props;
+const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
 
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -117,6 +118,9 @@ const serviceSchema = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    {googleSiteVerification && (
+      <meta name="google-site-verification" content={googleSiteVerification} />
+    )}
     <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)}></script>
 
     <style>

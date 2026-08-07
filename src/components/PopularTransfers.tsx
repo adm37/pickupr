@@ -77,6 +77,13 @@ export default function PopularTransfers() {
           <p className="text-zinc-600 max-w-2xl text-lg mx-auto md:mx-0">
             Experience seamless door-to-door luxury travel from the Netherlands to Europe's most iconic destinations.
           </p>
+          <a
+            href="/routes"
+            className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-600 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
+          >
+            View all routes
+            <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
