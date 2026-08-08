@@ -172,45 +172,6 @@ async function startServer() {
     }
   });
 
-  // API Route: Fetch Bookings
-  app.get('/api/bookings', async (req, res) => {
-    if (!supabase) return res.json({ bookings: [] });
-    try {
-      const { data, error } = await runWithSupabaseRetry((client) =>
-        client
-          .from('bookings')
-          .select('*')
-          .order('created_at', { ascending: false }),
-      );
-      if (error) throw error;
-      res.json({ bookings: data });
-    } catch (e: any) {
-      res.status(503).json({ error: { message: e?.message || 'Failed to fetch bookings' } });
-    }
-  });
-
-  // API Route: Create Booking
-  app.post('/api/bookings', async (req, res) => {
-    if (!supabase) {
-      return res.status(500).json({ error: { message: 'Database niet geconfigureerd' } });
-    }
-    try {
-      const { data, error } = await runWithSupabaseRetry((client) =>
-        client
-          .from('bookings')
-          .insert([req.body])
-          .select(),
-      );
-        
-      if (error) {
-         return res.status(400).json({ error });
-      }
-      res.json({ success: true, booking: data[0] });
-    } catch (e: any) {
-      res.status(500).json({ error: { message: e.message || 'Failed to create booking' } });
-    }
-  });
-
   // API Route: Mollie Payment
   app.get('/api/mollie/components-config', async (req, res) => {
     try {

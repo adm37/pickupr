@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { logEvent } from "../lib/tracking";
 import { navigateTo } from "../lib/navigation";
+import { supabase } from "../lib/supabaseClient";
 
 const REVIEWS = [
   {
@@ -392,20 +393,6 @@ export default function BookingPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const parseApiJson = async (response: Response, context: string) => {
-    const raw = await response.text();
-    if (!raw) {
-      const backendHint = context === "Booking API" ? " Start ook de backend API met: npm run dev:server" : "";
-      throw new Error(`${context}: empty response from server (status ${response.status}).${backendHint}`);
-    }
-
-    try {
-      return JSON.parse(raw);
-    } catch {
-      throw new Error(`${context}: invalid server response (status ${response.status})`);
-    }
-  };
-
   const generateFallbackBookingId = () => {
     if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
       return `BK-${crypto.randomUUID()}`;
@@ -426,79 +413,43 @@ export default function BookingPage() {
     const bookingPriceAmount = computePrice();
 
     try {
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customer_name: `${firstName} ${lastName}`.trim(),
-          customer_email: customerEmail,
-          customer_phone: customerPhone,
-          pickup_location: pickup,
-          dropoff_location: dropoff || "N/A",
-          date: pickupDate,
-          time: pickupTime,
-          price: bookingPriceAmount.toFixed(2),
-          status: "Pending",
-          vehicle: selectedVehicle || "Sedan",
-          passengers: parseInt(passengers, 10),
-          luggage: parseInt(luggage, 10),
-          flight_number: flightNumber,
-          notes: notes.trim(),
-          payment_method: paymentMethod,
-          ride_type: bookingType === "hourly" ? "Hourly Driver" : "Transfer",
-          return_date: returnDate || null,
-          return_time: returnTime || null,
-        }),
-      });
+      const { data, error } = await supabase
+        .from("bookings")
+        .insert([
+          {
+            customer_name: `${firstName} ${lastName}`.trim(),
+            customer_email: customerEmail,
+            customer_phone: customerPhone,
+            pickup_location: pickup,
+            dropoff_location: dropoff || "N/A",
+            date: pickupDate,
+            time: pickupTime,
+            price: bookingPriceAmount.toFixed(2),
+            status: "Pending",
+            vehicle: selectedVehicle || "Sedan",
+            passengers: parseInt(passengers, 10),
+            luggage: parseInt(luggage, 10),
+            flight_number: flightNumber,
+            notes: notes.trim(),
+            payment_method: paymentMethod,
+            payment_status: "Pending",
+            ride_type: bookingType === "hourly" ? "Hourly Driver" : "Transfer",
+            return_date: returnDate || null,
+            return_time: returnTime || null,
+          },
+        ])
+        .select()
+        .single();
 
-      const insertResult = await parseApiJson(response, "Booking API");
-
-      if (!response.ok || insertResult.error) {
-        logEvent("Booking Failed", `API error: ${insertResult.error?.message || "Unknown"}`);
-        alert(`Booking error: ${insertResult.error?.message || "Please try again."}`);
+      if (error) {
+        logEvent("Booking Failed", `Supabase error: ${error.message || "Unknown"}`);
+        alert(`Booking error: ${error.message || "Please try again."}`);
         return;
       }
 
-      if (insertResult.success && insertResult.booking) {
-        const resolvedBookingId = String(insertResult.booking.id || generateFallbackBookingId());
-
-        try {
-          const existing = JSON.parse(localStorage.getItem("adminBookings") || "[]");
-          const createdBooking = {
-            id: resolvedBookingId,
-            name: `${firstName} ${lastName}`.trim(),
-            route:
-              bookingType === "hourly"
-                ? `${pickup} (Hourly)`
-                : `${pickup}${waypointLocations.length ? ` via ${waypointLocations.join(" -> ")}` : ""} to ${dropoff || "N/A"}`,
-            date: pickupDate,
-            time: pickupTime,
-            status: "Pending",
-            paymentStatus: "Pending",
-            price: `€ ${bookingPriceAmount.toFixed(2)}`,
-            vehicle: selectedVehicle || "Sedan",
-            passengers: parseInt(passengers, 10),
-            paymentMethod,
-            flightNumber,
-            notes: notes.trim(),
-            client: {
-              name: `${firstName} ${lastName}`.trim(),
-              phone: customerPhone,
-              email: customerEmail,
-            },
-            origin: pickup,
-            destination: dropoff || "N/A",
-          };
-
-          const merged = Array.from(new Map([createdBooking, ...existing].map((b: any) => [b.id, b])).values());
-          localStorage.setItem("adminBookings", JSON.stringify(merged));
-        } catch {
-          // Local fallback should never block booking creation flow
-        }
-
-        logEvent("Booking Confirmed", `Payment method: Driver | Booking: ${resolvedBookingId}`);
-        setBookingConfirmed(true);
-      }
+      const resolvedBookingId = String(data?.id || generateFallbackBookingId());
+      logEvent("Booking Confirmed", `Payment method: Driver | Booking: ${resolvedBookingId}`);
+      setBookingConfirmed(true);
     } catch (err: any) {
       logEvent("Booking Failed", `Unexpected error: ${err.message}`);
       alert(`Unexpected error: ${err.message}`);
