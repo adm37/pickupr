@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Private Driver Services With Fixed Fare Booking | Pickupr"
+  description="Reserve private driver services for airport rides, executive meetings, and daily transfers with fixed fare transparency and professional chauffeur support."
+  canonical="/private-driver-services"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Private Driver Services',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private driver and transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Private Driver Services With Fixed Fare Booking | Pickupr',
+        url: '/private-driver-services',
+        description: 'Reserve private driver services for airport rides, executive meetings, and daily transfers with fixed fare transparency and professional chauffeur support.',
+      },
+    ],
+  }}
+/>

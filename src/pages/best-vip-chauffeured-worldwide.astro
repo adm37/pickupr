@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Best VIP Chauffeured Worldwide Travel Options | Pickupr"
+  description="Compare best VIP chauffeured worldwide style transfer options with private booking, executive comfort, and fixed fare transparency for premium travel needs."
+  canonical="/best-vip-chauffeured-worldwide"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Best VIP Chauffeured Worldwide',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'VIP chauffeur and premium private transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Best VIP Chauffeured Worldwide Travel Options | Pickupr',
+        url: '/best-vip-chauffeured-worldwide',
+        description: 'Compare best VIP chauffeured worldwide style transfer options with private booking, executive comfort, and fixed fare transparency for premium travel needs.',
+      },
+    ],
+  }}
+/>

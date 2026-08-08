@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Business Chauffeur Hire for Executive Transport | Pickupr"
+  description="Arrange business chauffeur hire for meetings, roadshows, and airport schedules with punctual service, fixed fare pricing, and direct booking confirmation."
+  canonical="/business-chauffeur-hire"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Business Chauffeur Hire',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Business chauffeur and executive transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Business Chauffeur Hire for Executive Transport | Pickupr',
+        url: '/business-chauffeur-hire',
+        description: 'Arrange business chauffeur hire for meetings, roadshows, and airport schedules with punctual service, fixed fare pricing, and direct booking confirmation.',
+      },
+    ],
+  }}
+/>

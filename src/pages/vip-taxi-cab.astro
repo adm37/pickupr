@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="VIP Taxi Cab Service for Premium Airport Transfers | Pickupr"
+  description="Book VIP taxi cab service with private chauffeur support, direct online confirmation, and fixed fare pricing for premium airport and city transport."
+  canonical="/vip-taxi-cab"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'VIP Taxi Cab',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'VIP taxi and private chauffeur transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'VIP Taxi Cab Service for Premium Airport Transfers | Pickupr',
+        url: '/vip-taxi-cab',
+        description: 'Book VIP taxi cab service with private chauffeur support, direct online confirmation, and fixed fare pricing for premium airport and city transport.',
+      },
+    ],
+  }}
+/>

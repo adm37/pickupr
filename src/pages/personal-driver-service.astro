@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Personal Driver Service for Flexible Daily Travel | Pickupr"
+  description="Book a personal driver service for appointments, airport transfers, and city mobility with private comfort, clear fares, and reliable pickup timing."
+  canonical="/personal-driver-service"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Personal Driver Service',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Personal driver and private transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Personal Driver Service for Flexible Daily Travel | Pickupr',
+        url: '/personal-driver-service',
+        description: 'Book a personal driver service for appointments, airport transfers, and city mobility with private comfort, clear fares, and reliable pickup timing.',
+      },
+    ],
+  }}
+/>

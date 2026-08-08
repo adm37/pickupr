@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Personal Drivers for Hire With Private Transfer Comfort | Pickupr"
+  description="Find personal drivers for hire for one-way rides, return journeys, and airport trips with fixed fare confirmation and smooth private transport planning."
+  canonical="/personal-drivers-for-hire"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Personal Drivers for Hire',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Personal driver hire and private transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Personal Drivers for Hire With Private Transfer Comfort | Pickupr',
+        url: '/personal-drivers-for-hire',
+        description: 'Find personal drivers for hire for one-way rides, return journeys, and airport trips with fixed fare confirmation and smooth private transport planning.',
+      },
+    ],
+  }}
+/>

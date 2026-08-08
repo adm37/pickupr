@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Private Chauffeur Booking With Fixed Fare Service | Pickupr"
+  description="Arrange private chauffeur booking for airport transfers, day schedules, and executive rides with direct confirmation and transparent fixed fare pricing."
+  canonical="/private-chauffeur"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Private Chauffeur',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private chauffeur and executive transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Private Chauffeur Booking With Fixed Fare Service | Pickupr',
+        url: '/private-chauffeur',
+        description: 'Arrange private chauffeur booking for airport transfers, day schedules, and executive rides with direct confirmation and transparent fixed fare pricing.',
+      },
+    ],
+  }}
+/>

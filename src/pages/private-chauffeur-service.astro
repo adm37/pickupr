@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="Private Chauffeur Service for Airport and City Travel | Pickupr"
+  description="Book private chauffeur service with discreet pickup, fixed fare clarity, and direct confirmation for airport transfers, business trips, and premium city travel."
+  canonical="/private-chauffeur-service"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Private Chauffeur Service',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'Private chauffeur and airport transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Private Chauffeur Service for Airport and City Travel | Pickupr',
+        url: '/private-chauffeur-service',
+        description: 'Book private chauffeur service with discreet pickup, fixed fare clarity, and direct confirmation for airport transfers, business trips, and premium city travel.',
+      },
+    ],
+  }}
+/>

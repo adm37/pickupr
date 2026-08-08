@@ -1,0 +1,28 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+
+<AppPageShell
+  title="VIP Transportation With Private Chauffeur Comfort | Pickupr"
+  description="Reserve VIP transportation with private chauffeur comfort, fixed fare clarity, and priority pickup reliability for business, events, and airport journeys."
+  canonical="/vip-transportation"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'VIP Transportation',
+        provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
+        serviceType: 'VIP transportation and private transfer service',
+        areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
+        image: ['/hero-airport-transfer.jpg'],
+      },
+      {
+        '@type': 'WebPage',
+        name: 'VIP Transportation With Private Chauffeur Comfort | Pickupr',
+        url: '/vip-transportation',
+        description: 'Reserve VIP transportation with private chauffeur comfort, fixed fare clarity, and priority pickup reliability for business, events, and airport journeys.',
+      },
+    ],
+  }}
+/>
