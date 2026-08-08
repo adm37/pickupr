@@ -13,6 +13,12 @@ export default defineConfig({
     plugins: [tailwindcss()],
     define: {
       'process.env.GOOGLE_MAPS_PLATFORM_KEY': JSON.stringify(process.env.GOOGLE_MAPS_PLATFORM_KEY || ''),
+      'import.meta.env.PUBLIC_SUPABASE_URL': JSON.stringify(
+        process.env.PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || '',
+      ),
+      'import.meta.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(
+        process.env.PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '',
+      ),
     },
     server: {
       proxy: {
