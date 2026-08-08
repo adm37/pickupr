@@ -404,7 +404,7 @@ export default function BookingPage() {
     logEvent("Booking Initiated", `Vehicle: ${selectedVehicle} | ${pickup} -> ${dropoff}`);
 
     if (!isSupabaseConfigured || !supabase) {
-      const message = "Booking is tijdelijk niet beschikbaar: Supabase is niet geconfigureerd op deze deployment (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).";
+      const message = "Booking is tijdelijk niet beschikbaar: Supabase is niet geconfigureerd op deze deployment (VITE_SUPABASE_URL of PUBLIC_SUPABASE_URL, en VITE_SUPABASE_ANON_KEY of PUBLIC_SUPABASE_ANON_KEY).";
       logEvent("Booking Failed", message);
       alert(message);
       return;
