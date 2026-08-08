@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { logEvent } from "../lib/tracking";
 import { navigateTo } from "../lib/navigation";
-import { supabase } from "../lib/supabaseClient";
+import { isSupabaseConfigured, supabase, supabaseUrl } from "../lib/supabaseClient";
 
 const REVIEWS = [
   {
@@ -403,6 +403,13 @@ export default function BookingPage() {
   const handleBookingSubmit = async () => {
     logEvent("Booking Initiated", `Vehicle: ${selectedVehicle} | ${pickup} -> ${dropoff}`);
 
+    if (!isSupabaseConfigured || !supabase) {
+      const message = "Booking is tijdelijk niet beschikbaar: Supabase is niet geconfigureerd op deze deployment (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).";
+      logEvent("Booking Failed", message);
+      alert(message);
+      return;
+    }
+
     if (!firstName.trim() || !lastName.trim() || !customerEmail.trim() || !customerPhone.trim()) {
       logEvent("Booking Failed", "Missing fields");
       alert("Please fill in all required fields.");
@@ -451,8 +458,15 @@ export default function BookingPage() {
       logEvent("Booking Confirmed", `Payment method: Driver | Booking: ${resolvedBookingId}`);
       setBookingConfirmed(true);
     } catch (err: any) {
-      logEvent("Booking Failed", `Unexpected error: ${err.message}`);
-      alert(`Unexpected error: ${err.message}`);
+      const rawMessage = err?.message || "Unknown error";
+      const failedFetch = /failed to fetch/i.test(rawMessage);
+
+      const message = failedFetch
+        ? `Booking error: verbinding met Supabase mislukt (${supabaseUrl || "geen URL"}). Controleer VITE_SUPABASE_URL en DNS van je Supabase project.`
+        : `Unexpected error: ${rawMessage}`;
+
+      logEvent("Booking Failed", message);
+      alert(message);
     }
   };
 

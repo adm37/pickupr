@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabaseClient';
+import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
 import { Calendar, Users, DollarSign, Activity, CheckCircle, Clock, XCircle, Search, LayoutDashboard, Building2, Wallet, Settings as SettingsIcon, MapPin, User, Car, Plus, ArrowLeft, Download, Ticket, Star, ChevronDown, Trash2, Menu, X } from 'lucide-react';
 import BookingMap from './BookingMap';
 import jsPDF from 'jspdf';
@@ -249,6 +249,12 @@ export default function AdminPanel() {
   });
 
   const fetchBookings = async () => {
+    if (!isSupabaseConfigured || !supabase) {
+      console.warn('Supabase is not configured for admin bookings.');
+      setRecentBookings([]);
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from('bookings')
@@ -270,6 +276,11 @@ export default function AdminPanel() {
   };
 
   useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      setRecentBookings([]);
+      return;
+    }
+
     fetchBookings();
 
     const bookingsChannel = supabase
