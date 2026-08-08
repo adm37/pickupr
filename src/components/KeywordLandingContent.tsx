@@ -29,39 +29,39 @@ export default function KeywordLandingContent({ path }: { path: string }) {
   const priceFrom = estimateFromPrice(keyword);
 
   const heroTitle = keyword;
-  const heroSubtitle = `Book ${keyword} with private service, transparent pricing, and direct online confirmation. Use the booking form below to secure your transfer in minutes.`;
+  const heroSubtitle = `Book ${keyword} with private service, fixed pricing clarity, and instant confirmation. Use the booking form below to secure your transfer in minutes.`;
 
   const seoSections = [
     {
       title: `Why travelers book ${keyword}`,
-      text: `Travelers searching for ${keyword} usually need dependable pickup, clear fare details, and a simple checkout flow. This page is designed for that exact intent: direct reservation, private transport, and practical travel planning from one place.`,
+      text: `Travelers searching for ${keyword} are usually comparing reliability, total fare transparency, and how quickly they can confirm. This page is built for that exact intent: a direct reservation path, private transfer positioning, and practical planning details without unnecessary steps.`,
     },
     {
-      title: `${keyword} for airport and long-distance transfers`,
-      text: `Whether you are traveling for business, family visits, or international flights, ${keyword} helps reduce complexity in your trip planning. You can reserve in advance, choose timing that matches your itinerary, and keep your transfer process predictable.`,
+      title: `${keyword} for airport, executive, and cross-border travel`,
+      text: `Whether you are traveling for business meetings, family visits, or international flight connections, ${keyword} helps keep your transfer predictable. You can reserve ahead, align pickup timing with your itinerary, and avoid last-minute uncertainty around transport availability.`,
     },
     {
-      title: `Book ${keyword} online with instant confirmation`,
-      text: `This landing page allows immediate booking without unnecessary steps. Enter your transfer details in the hero form, review your trip setup, and complete your reservation directly.`,
+      title: `Book ${keyword} online with direct confirmation`,
+      text: `Enter your transfer details in the hero booking form, review your trip setup, and complete reservation in one flow. This page is optimized for users who want a fast booking action after searching high-intent terms related to ${keyword}.`,
     },
   ];
 
   const faqs = [
     {
       q: `Can I pre-book ${keyword} online?`,
-      a: `Yes. You can pre-book ${keyword} online and receive direct confirmation for your selected transfer schedule.`,
+      a: `Yes. You can pre-book ${keyword} online and receive direct confirmation for your selected transfer date and time.`,
     },
     {
       q: `Is ${keyword} a private transfer?`,
-      a: `Yes. The booking flow is designed for private transfer reservations with a dedicated vehicle for your trip.`,
+      a: `Yes. The booking flow is designed for private transfer reservations with a dedicated vehicle for your trip only.`,
     },
     {
       q: 'Can I include return travel in the same booking flow?',
-      a: 'Yes. You can provide return details during booking to arrange your full transfer plan in one process.',
+      a: 'Yes. You can provide return-trip details during booking to organize your full itinerary in one process.',
     },
     {
       q: 'Can I book this for business or executive travel?',
-      a: 'Yes. Many routes are booked for business and executive travel where timing reliability is essential.',
+      a: `Yes. ${keyword} is frequently booked for business and executive travel where punctual pickup is essential.`,
     },
   ];
 

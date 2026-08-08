@@ -2,6 +2,14 @@
 import { motion } from 'motion/react';
 
 export default function Services() {
+  const intentLinks = [
+    { label: 'City-to-city transfers', href: '/routes' },
+    { label: 'Airport transfers', href: '/airport-transfer-netherlands' },
+    { label: 'Hourly chauffeur', href: '/airport-chauffeur-netherlands' },
+    { label: 'Business travel', href: '/destinations' },
+    { label: 'Cruise port transfers', href: '/routes' },
+  ];
+
   const services = [
     {
       icon: <Car className="w-8 h-8 text-emerald-600" />,
@@ -37,10 +45,14 @@ export default function Services() {
               Experience the highest standard of private transportation. Whether you need a local transfer, a day of flexible travel, or a cross-border journey, we deliver comfort and reliability.
             </p>
             <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-              {['City-to-city transfers', 'Airport transfers', 'Hourly driver', 'Business travel', 'Cruise port transfers'].map((service, i) => (
-                <span key={i} className="px-4 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-sm font-medium">
-                  {service}
-                </span>
+              {intentLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="px-4 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-sm font-medium hover:bg-emerald-100 transition-colors"
+                >
+                  {item.label}
+                </a>
               ))}
             </div>
           </div>

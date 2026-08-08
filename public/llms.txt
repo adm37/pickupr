@@ -1,0 +1,20 @@
+# Pickupr
+
+> Premium airport transfer and private chauffeur service across the Netherlands, Belgium, France, and Germany.
+
+## Preferred URLs
+- https://pickupr.com/
+- https://pickupr.com/services
+- https://pickupr.com/routes
+- https://pickupr.com/destinations
+- https://pickupr.com/booking
+
+## Business Facts
+- Service type: Private airport transfers and hourly chauffeur rides
+- Base region: Amsterdam, Netherlands
+- Coverage: Netherlands, Belgium, France, Germany
+- Contact: bookings@pickupr.com
+
+## Policy URLs
+- https://pickupr.com/privacy-policy
+- https://pickupr.com/terms-of-service

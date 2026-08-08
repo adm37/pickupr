@@ -2,10 +2,16 @@ import { MessageCircle } from 'lucide-react';
 import { logEvent } from '../lib/tracking';
 
 export default function WhatsAppButton() {
+  const whatsappNumber = (import.meta.env.PUBLIC_WHATSAPP_NUMBER || '').toString().replace(/\D+/g, '');
+
+  if (!whatsappNumber) {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-6 right-6 z-50">
       <a 
-        href="https://wa.me/31612345678" // Using a dummy number, user can change later if needed, though they asked to remove phone number from footer. 
+        href={`https://wa.me/${whatsappNumber}`}
         target="_blank" 
         rel="noopener noreferrer"
         onClick={() => logEvent('WhatsApp Clicked', 'User clicked the floating WhatsApp button')}

@@ -22,12 +22,37 @@ if (!route) {
   throw new Error(`Unknown city route path: ${resolvedPathname}`);
 }
 
+function buildDescription(): string {
+  const primary = route.pattern === 'schiphol'
+    ? `Book ${route.keyword} with private transfer, fixed pricing, flight tracking, and meet-and-greet from Schiphol Airport to ${route.city}.`
+    : `Book ${route.keyword} with private long-distance transfer, fixed pricing, and direct door-to-door pickup from Amsterdam to ${route.city}.`;
+
+  if (primary.length <= 160) {
+    return primary;
+  }
+
+  const secondary = route.pattern === 'schiphol'
+    ? `Book ${route.keyword} private transfer from Schiphol Airport to ${route.city} with fixed pricing and direct online confirmation.`
+    : `Book ${route.keyword} private transfer from Amsterdam to ${route.city} with fixed pricing and direct online confirmation.`;
+
+  if (secondary.length <= 160) {
+    return secondary;
+  }
+
+  return `Book private transfer from ${route.origin} to ${route.city} with fixed pricing and direct online confirmation.`;
+}
+
 const title = `${route.keyword} | Pickupr`;
-const description = route.pattern === 'schiphol'
-  ? `Book ${route.keyword} with private transfer, fixed pricing and direct confirmation. Reliable service from Schiphol Airport to ${route.city}.`
-  : `Book ${route.keyword} with private long-distance transfer, fixed fare clarity and reliable pickup from Amsterdam to ${route.city}.`;
+const description = buildDescription();
 // Keep canonical aligned with the actual visited page path.
 const canonical = resolvedPathname;
+const keywords = [
+  route.keyword,
+  `${route.origin} to ${route.city} transfer`,
+  `${route.origin} to ${route.city} private taxi`,
+  `${route.city} airport transfer`,
+  'fixed price transfer',
+];
 
 const faqTravelQuestion = route.pattern === 'schiphol'
   ? `How long does ${route.origin} to ${route.city} usually take?`
@@ -90,5 +115,6 @@ const structuredData = {
   title={title}
   description={description}
   canonical={canonical}
+  keywords={keywords}
   structuredData={structuredData}
 />

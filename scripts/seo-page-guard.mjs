@@ -83,8 +83,44 @@ function extractMetaDescription(html) {
   return decodeEntities(match[1]).replace(/\s+/g, ' ').trim();
 }
 
+function extractMetaRobots(html) {
+  const match = html.match(/<meta\s+[^>]*name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/i);
+  if (!match) {
+    return '';
+  }
+  return decodeEntities(match[1]).replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function extractCanonical(html) {
+  const match = html.match(/<link\s+[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["'][^>]*>/i);
+  if (!match) {
+    return '';
+  }
+  return decodeEntities(match[1]).trim();
+}
+
+function toCanonicalRoute(canonical, fallbackRoute) {
+  if (!canonical) {
+    return fallbackRoute;
+  }
+
+  const withoutOrigin = canonical.replace(/^https?:\/\/[^/]+/i, '');
+  if (!withoutOrigin.startsWith('/')) {
+    return fallbackRoute;
+  }
+
+  return withoutOrigin.replace(/\/$/, '') || '/';
+}
+
+function isNoindex(robots) {
+  if (!robots) {
+    return false;
+  }
+  return robots.includes('noindex');
+}
+
 function toRoute(filePath) {
-  const rel = path.relative(DIST_DIR, filePath).replace(/\\/g, '/');
+  const rel = path.relative(DIST_DIR, filePath).replace(/\\/g, '/').replace(/^client\//, '');
   if (rel === 'index.html') {
     return '/';
   }
@@ -99,16 +135,32 @@ if (!fs.existsSync(DIST_DIR)) {
 const htmlFiles = walkHtmlFiles(DIST_DIR);
 const violations = [];
 const pageData = [];
+const byCanonicalRoute = new Map();
 
 for (const filePath of htmlFiles) {
   const html = fs.readFileSync(filePath, 'utf8');
   const route = toRoute(filePath);
+  const robots = extractMetaRobots(html);
+
+  if (isNoindex(robots)) {
+    continue;
+  }
+
+  const canonical = extractCanonical(html);
+  const canonicalRoute = toCanonicalRoute(canonical, route);
+
+  if (byCanonicalRoute.has(canonicalRoute)) {
+    continue;
+  }
+
+  byCanonicalRoute.set(canonicalRoute, filePath);
+
   const hasH1 = hasValidH1(html);
   const words = getWordCount(html);
   const title = extractTitle(html);
   const description = extractMetaDescription(html);
 
-  pageData.push({ route, title, description });
+  pageData.push({ route: canonicalRoute, title, description });
 
   const titleTooShort = title.length > 0 && title.length < TITLE_MIN;
   const titleTooLong = title.length > TITLE_MAX;
@@ -116,7 +168,7 @@ for (const filePath of htmlFiles) {
   const missingDescription = description.length === 0;
 
   if (!hasH1 || words < MIN_WORDS || titleTooShort || titleTooLong || missingTitle || missingDescription) {
-    violations.push({ route, hasH1, words, title, description, titleTooShort, titleTooLong, missingTitle, missingDescription });
+    violations.push({ route: canonicalRoute, hasH1, words, title, description, titleTooShort, titleTooLong, missingTitle, missingDescription });
   }
 }
 
@@ -188,5 +240,5 @@ if (violations.length > 0 || duplicateTitles.length > 0 || duplicateDescriptions
   process.exit(1);
 }
 
-console.log(`SEO guard passed for ${htmlFiles.length} HTML page(s).`);
+console.log(`SEO guard passed for ${pageData.length} canonical indexable page(s).`);
 console.log(`Rules: title+description present, title length ${TITLE_MIN}-${TITLE_MAX}, no duplicate title/description, H1 present, and at least ${MIN_WORDS} words.`);

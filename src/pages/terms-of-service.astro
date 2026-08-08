@@ -1,0 +1,36 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+<AppPageShell
+  title="Terms of Service and Booking Conditions | Pickupr"
+  description="Review Pickupr service terms, booking rules, cancellations, waiting time policy, and passenger responsibilities."
+  canonical="/terms-of-service"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Terms of Service',
+    url: 'https://pickupr.com/terms-of-service',
+    inLanguage: 'en',
+  }}
+/>
+
+<main class="mx-auto max-w-4xl px-6 py-12 text-zinc-900">
+  <h1 class="text-3xl font-black tracking-tight">Terms of Service</h1>
+  <p class="mt-4 text-zinc-700">
+    These terms apply to all transfers and chauffeur services booked via Pickupr channels.
+  </p>
+
+  <section class="mt-8 space-y-4 text-zinc-700">
+    <h2 class="text-xl font-bold text-zinc-900">Bookings and Fares</h2>
+    <p>Quotes are based on booking details and include the listed service conditions and inclusions.</p>
+
+    <h2 class="text-xl font-bold text-zinc-900">Cancellations</h2>
+    <p>Free cancellation is available up to 24 hours before scheduled pickup unless a different condition is stated at booking.</p>
+
+    <h2 class="text-xl font-bold text-zinc-900">Waiting Time</h2>
+    <p>Airport pickups include a free waiting window as stated at booking confirmation.</p>
+
+    <h2 class="text-xl font-bold text-zinc-900">Passenger Conduct</h2>
+    <p>Passengers must follow applicable laws and safety instructions during the journey.</p>
+  </section>
+</main>

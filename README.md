@@ -19,3 +19,15 @@ View your app in AI Studio: https://ai.studio/apps/f07d2891-28df-41b5-a578-66fef
 3. Optional for SEO: set `PUBLIC_GOOGLE_SITE_VERIFICATION` in `.env.local` with your Google Search Console token
 4. Run the app:
    `npm run dev`
+
+## SEO Autopilot
+
+Use this command to run the full SEO automation pipeline:
+
+`npm run seo:autopilot`
+
+This will:
+- build the Astro site
+- run page-level SEO guard checks (title, description, H1, word count, duplicate metadata)
+- run source-level metadata checks
+- validate sitemap generation and robots sitemap reference

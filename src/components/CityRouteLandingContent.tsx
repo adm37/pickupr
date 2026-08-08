@@ -28,7 +28,7 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
   const keyword = route.keyword;
   const routeLabel = `${route.origin} to ${route.city}`;
   const heroTitle = `${keyword}`;
-  const heroSubtitle = `Book your ${routeLabel} transfer with fixed pricing, private service, and direct confirmation. Complete your reservation in the booking form below.`;
+  const heroSubtitle = `Book your ${routeLabel} private transfer with fixed pricing, meet-and-greet support, and direct confirmation. Reserve in minutes through the booking form below.`;
 
   return (
     <>
@@ -54,18 +54,18 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           <article>
             <h2 className="text-2xl font-black tracking-tight text-zinc-900">Why book {keyword} with Pickupr</h2>
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
-              With Pickupr, you can reserve your {routeLabel} transfer in minutes and receive clear trip details right away.
-              Your ride is private, with no shared passengers, and managed by a professional driver. For travelers comparing transfer
-              options between {route.origin} and {route.city}, this page gives a direct booking path with transparent pricing.
+              Travelers comparing {keyword} options typically want three things: dependable pickup timing, transparent pricing,
+              and a direct booking flow without hidden extras. Pickupr is built around that intent. You get private transport,
+              professional drivers, and a clear reservation path from quote to confirmation on one page.
             </p>
           </article>
 
           <article>
-            <h2 className="text-2xl font-black tracking-tight text-zinc-900">A reliable transfer for flights, business, and family travel</h2>
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900">A reliable transfer for airport, business, and family itineraries</h2>
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
-              This route is frequently booked for airport arrivals, business appointments, and family trips. Private service removes
-              unnecessary transfers and simplifies luggage handling from pickup to destination. When you book {keyword}, your journey
-              is planned as one direct transfer from {route.origin} to {route.city}.
+              This route is frequently booked for airport arrivals, executive travel, and cross-border family trips.
+              Private door-to-door service removes connection stress, reduces waiting time, and keeps luggage handling simple.
+              When you book {keyword}, your journey is planned as one dedicated transfer from {route.origin} to {route.city}.
             </p>
           </article>
 
@@ -73,18 +73,19 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
             <h2 className="text-2xl font-black tracking-tight text-zinc-900">Route details for {routeLabel}</h2>
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
               Typical distance for {routeLabel} is around {route.distanceKm} km, with an estimated travel time of {toDurationLabel(route.durationMin)}
-              depending on traffic and border conditions. Private fares start from EUR {route.priceFrom}. During booking, you can submit
-              pickup details, choose trip timing, and confirm your reservation directly from this page. If you are comparing {keyword}
-              options in search results, this route page gives you complete booking access without extra steps.
+              depending on traffic, border flow, and pickup window. Private fares start from EUR {route.priceFrom}. During booking,
+              you can add pickup instructions, choose transfer timing, and complete confirmation directly from this page.
+              If you are comparing {keyword} providers, this page gives you route facts plus a direct conversion path.
             </p>
           </article>
 
           <article>
-            <h2 className="text-2xl font-black tracking-tight text-zinc-900">SEO travel guide: {route.origin} to {route.city}</h2>
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900">How to get the best value on {routeLabel} transfers</h2>
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
-              This page is optimized for travelers looking for {keyword.toLowerCase()}, {route.origin.toLowerCase()} transfer options, and
-              private taxi alternatives with fixed rates. You can use the booking form in the hero section to secure your ride immediately.
-              For route planning, we recommend pre-booking when possible, especially during peak flight windows and event dates in {route.city}.
+              Pre-booking usually gives the strongest balance between availability, pickup precision, and predictable pricing.
+              For high-demand windows, secure your transfer early and provide full flight details where relevant.
+              This page is optimized for travelers searching terms like {keyword.toLowerCase()}, {route.origin.toLowerCase()} transfer,
+              and private taxi alternatives with fixed rates.
             </p>
           </article>
         </div>
@@ -96,26 +97,25 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           <article className="border-b border-zinc-200 pb-4">
             <h3 className="text-sm font-bold text-zinc-900">Can I pre-book {keyword} online?</h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              Yes. You can pre-book this route online and receive direct confirmation for your planned pickup time.
+              Yes. You can pre-book this route online and receive direct confirmation with your planned pickup details.
             </p>
           </article>
           <article className="border-b border-zinc-200 pb-4">
-            <h3 className="text-sm font-bold text-zinc-900">Is this transfer private?</h3>
+            <h3 className="text-sm font-bold text-zinc-900">Is this transfer private or shared?</h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              Yes. The vehicle is reserved for you and your group only, with no shared passengers.
+              The vehicle is reserved for your booking only, with no shared passengers.
             </p>
           </article>
           <article className="border-b border-zinc-200 pb-4">
-            <h3 className="text-sm font-bold text-zinc-900">Can I include return travel as well?</h3>
+            <h3 className="text-sm font-bold text-zinc-900">Can I add return travel in the same reservation?</h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              Yes. You can schedule return details during booking to organize your full transfer in one flow.
+              Yes. You can add return details during booking to organize round-trip travel in one reservation flow.
             </p>
           </article>
           <article className="border-b border-zinc-200 pb-4">
-            <h3 className="text-sm font-bold text-zinc-900">Do prices and travel times vary?</h3>
+            <h3 className="text-sm font-bold text-zinc-900">Do travel time and final fare ever change?</h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              Travel times and final prices can vary based on traffic, timing, and special route conditions, but your booking flow always shows
-              clear details before you confirm.
+              Travel time and final fare can vary by traffic, schedule, and route conditions, but the booking flow shows clear pricing and trip details before confirmation.
             </p>
           </article>
         </div>

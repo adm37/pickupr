@@ -4,6 +4,14 @@ import { logEvent } from '../lib/tracking';
 
 const faqs = [
   {
+    question: "How much is a transfer from Schiphol to Amsterdam?",
+    answer: "Prices depend on vehicle type, time, and exact pickup point. You get a fixed all-in quote before checkout, so there are no surprises later."
+  },
+  {
+    question: "Do you operate cross-border transfers from the Netherlands?",
+    answer: "Yes. We frequently drive from the Netherlands to Belgium, Germany, and France, including airport pickups, city transfers, and business travel itineraries."
+  },
+  {
     question: "What happens if my flight is delayed?",
     answer: "We monitor all flights in real-time. If your flight is delayed, we automatically adjust your pickup time without any extra charges."
   },
@@ -18,6 +26,10 @@ const faqs = [
   {
     question: "Can I cancel my booking?",
     answer: "Yes! We offer free cancellation up to 24 hours before your scheduled pickup time."
+  },
+  {
+    question: "Can I book an hourly chauffeur for meetings and events?",
+    answer: "Absolutely. Our hourly chauffeur option is ideal for roadshows, executive meetings, shopping trips, and flexible schedules where multiple stops are needed."
   },
   {
     question: "Do you provide child seats?",

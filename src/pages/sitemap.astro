@@ -28,19 +28,49 @@ const routes = Object.keys(pageModules)
 const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
 const totalPages = routes.length;
 const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
+const canonical = siteBase ? `${siteBase}/sitemap` : '/sitemap';
+const sitemapPageSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: 'Sitemap and Page Directory | Pickupr',
+      url: canonical,
+      description: 'Alphabetical page directory for all public Pickupr URLs.',
+      inLanguage: 'en',
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: routes.slice(0, 400).map((route, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: (siteBase || '') + route,
+        name: route,
+      })),
+    },
+  ],
+};
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sitemap | Pickupr</title>
-    <meta name="description" content="Alphabetical overview of all pages on Pickupr." />
-    <link rel="canonical" href={siteBase ? `${siteBase}/sitemap` : '/sitemap'} />
+    <title>Sitemap and Page Directory | Pickupr</title>
+    <meta name="description" content="Browse an alphabetical directory of Pickupr pages, including route landings, service pages, and blog content for airport transfer travelers." />
+    <link rel="canonical" href={canonical} />
     <meta name="robots" content="index,follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sitemap and Page Directory | Pickupr" />
+    <meta property="og:description" content="Alphabetical directory of all public Pickupr pages and route URLs." />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sitemap and Page Directory | Pickupr" />
+    <meta name="twitter:description" content="Alphabetical directory of all public Pickupr pages and route URLs." />
     {googleSiteVerification && (
       <meta name="google-site-verification" content={googleSiteVerification} />
     )}
+    <script type="application/ld+json" set:html={JSON.stringify(sitemapPageSchema)}></script>
   </head>
   <body class="bg-zinc-950 text-zinc-100">
     <main class="mx-auto max-w-7xl px-6 py-12 md:py-16">

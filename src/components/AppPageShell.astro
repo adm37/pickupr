@@ -24,9 +24,9 @@ const {
 } = Astro.props;
 
 const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
-const canonicalPath = (() => {
+const { canonicalPath, isAliasCanonical } = (() => {
   if (!canonical.startsWith('/')) {
-    return canonical;
+    return { canonicalPath: canonical, isAliasCanonical: false };
   }
 
   const trimmed = canonical.replace(/\/$/, '') || '/';
@@ -34,10 +34,10 @@ const canonicalPath = (() => {
   const preferredTaxiPath = `${trimmed}-taxi`;
 
   if (looksLikeAlias && isCityLandingPath(preferredTaxiPath)) {
-    return preferredTaxiPath;
+    return { canonicalPath: preferredTaxiPath, isAliasCanonical: true };
   }
 
-  return trimmed;
+  return { canonicalPath: trimmed, isAliasCanonical: false };
 })();
 const canonicalUrl = canonicalPath.startsWith('http') ? canonicalPath : (siteBase ? `${siteBase}${canonicalPath}` : canonicalPath);
 const heroImagePath = '/hero-airport-transfer.jpg';
@@ -67,6 +67,46 @@ const keywordList = Array.isArray(keywords)
     : defaultKeywords;
 const keywordContent = keywordList.join(', ');
 const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
+const normalizedRobots = robots.toLowerCase();
+const robotsContent = isAliasCanonical && !normalizedRobots.includes('noindex')
+  ? 'noindex, follow'
+  : robots;
+const webPageSchema = {
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: canonicalUrl,
+  inLanguage: 'en',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Pickupr',
+    url: siteBase || undefined,
+  },
+};
+
+const jsonLdPayload = (() => {
+  if (!structuredData) {
+    return {
+      '@context': 'https://schema.org',
+      '@graph': [webPageSchema],
+    };
+  }
+
+  const data = structuredData as Record<string, unknown>;
+  const graph = Array.isArray(data['@graph']) ? (data['@graph'] as unknown[]) : null;
+
+  if (graph) {
+    return {
+      '@context': (data['@context'] as string) || 'https://schema.org',
+      '@graph': [webPageSchema, ...graph],
+    };
+  }
+
+  return {
+    '@context': (data['@context'] as string) || 'https://schema.org',
+    '@graph': [webPageSchema, data],
+  };
+})();
 ---
 
 <html lang="en">
@@ -76,8 +116,11 @@ const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION 
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywordContent} />
-    <meta name="robots" content={robots} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hrefLang="en" href={canonicalUrl} />
+    <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
@@ -95,9 +138,7 @@ const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION 
       <meta name="google-site-verification" content={googleSiteVerification} />
     )}
 
-    {structuredData && (
-      <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
-    )}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdPayload)}></script>
   </head>
   <body>
     <App client:load initialPath={normalizedPath} />

@@ -7,13 +7,16 @@
     "dev": "astro dev",
     "dev:server": "npx tsx server.ts",
     "build": "astro build && node scripts/create-server-cjs.mjs",
-    "build:seo": "npm run build && node scripts/seo-page-guard.mjs && node scripts/seo-meta-audit.mjs",
+    "build:seo": "npm run build && node scripts/seo-page-guard.mjs && node scripts/seo-meta-audit.mjs && node scripts/seo-source-audit.mjs && node scripts/seo-sitemap-check.mjs",
     "preview": "astro preview",
     "start": "node dist/server.cjs",
     "clean": "rm -rf dist .astro",
     "lint": "tsc --noEmit",
     "seo:guard": "node scripts/seo-page-guard.mjs",
-    "seo:audit:source": "node scripts/seo-meta-audit.mjs"
+    "seo:audit:source": "node scripts/seo-meta-audit.mjs",
+    "seo:sitemap:check": "node scripts/seo-sitemap-check.mjs",
+    "seo:source:audit": "node scripts/seo-source-audit.mjs",
+    "seo:autopilot": "npm run build:seo"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -36,6 +39,7 @@
     "react-dom": "^19.0.1"
   },
   "devDependencies": {
+    "@astrojs/sitemap": "^3.6.0",
     "@astrojs/node": "^11.1.0",
     "@astrojs/react": "^6.0.2",
     "@tailwindcss/vite": "^4.1.14",

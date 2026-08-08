@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
+import HowItWorks from './components/HowItWorks';
 import Services from './components/Services';
 import PopularTransfers from './components/PopularTransfers';
 import FAQ from './components/FAQ';
@@ -14,6 +15,7 @@ import CustomerPanel from './components/CustomerPanel';
 import CustomerRegistration from './components/CustomerRegistration';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import StickyBookingCTA from './components/StickyBookingCTA';
+import WhatsAppButton from './components/WhatsAppButton';
 import KeywordLandingContent from './components/KeywordLandingContent';
 import CityRouteLandingContent from './components/CityRouteLandingContent';
 import { APIProvider } from '@vis.gl/react-google-maps';
@@ -208,6 +210,7 @@ export default function App({ initialPath = '/' }: AppProps) {
         <Navigation isAdminView={false} />
         <main className="flex-grow">
           <Hero />
+          <HowItWorks />
           <Services />
           <DriversSection />
           <PopularTransfers />
@@ -216,6 +219,7 @@ export default function App({ initialPath = '/' }: AppProps) {
         <Footer />
         <ExitIntentPopup />
         <StickyBookingCTA />
+        <WhatsAppButton />
       </div>
     );
   };

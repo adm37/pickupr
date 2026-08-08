@@ -67,6 +67,17 @@ export default function PopularTransfers() {
     { from: 'Eindhoven', to: 'Frankfurt', duration: '3h 30m' },
   ];
 
+  const buildBookingUrl = (from: string, to: string) => {
+    const params = new URLSearchParams({
+      type: 'transfers',
+      pickup: from,
+      dropoff: to,
+      passengers: '2',
+      luggage: '2',
+    });
+    return `/booking?${params.toString()}`;
+  };
+
   return (
     <section className="py-24 bg-white text-zinc-950">
       <div className="max-w-7xl mx-auto px-6">
@@ -75,7 +86,7 @@ export default function PopularTransfers() {
             Most Popular Transfers
           </h2>
           <p className="text-zinc-600 max-w-2xl text-lg mx-auto md:mx-0">
-            Experience seamless door-to-door luxury travel from the Netherlands to Europe's most iconic destinations.
+            Discover high-demand routes with fixed pricing, free cancellation, and premium chauffeur service from door to door.
           </p>
           <a
             href="/routes"
@@ -90,7 +101,7 @@ export default function PopularTransfers() {
           {transfers.map((transfer, idx) => (
             <a 
               key={idx}
-              href="/"
+              href={buildBookingUrl(transfer.from, transfer.to)}
               className="flex items-center justify-between p-4 rounded-xl bg-white border border-zinc-200 hover:border-emerald-200 hover:bg-emerald-50 hover:shadow-sm transition-all duration-300 group"
             >
               <div>
@@ -101,6 +112,9 @@ export default function PopularTransfers() {
                 </div>
                 <div className="text-sm text-zinc-500">
                   Est. time: {transfer.duration}
+                </div>
+                <div className="mt-1 text-xs font-semibold text-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Check live fare and availability
                 </div>
               </div>
             </a>

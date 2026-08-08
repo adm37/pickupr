@@ -1,0 +1,37 @@
+---
+import AppPageShell from '../components/AppPageShell.astro';
+---
+<AppPageShell
+  title="Privacy Policy and Data Protection | Pickupr"
+  description="Read how Pickupr processes and protects customer data for booking, support, and service operations."
+  canonical="/privacy-policy"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Privacy Policy',
+    url: 'https://pickupr.com/privacy-policy',
+    inLanguage: 'en',
+  }}
+/>
+
+<main class="mx-auto max-w-4xl px-6 py-12 text-zinc-900">
+  <h1 class="text-3xl font-black tracking-tight">Privacy Policy</h1>
+  <p class="mt-4 text-zinc-700">
+    Pickupr processes personal data only for booking execution, customer support, invoicing, safety, and legal compliance.
+    We do not sell personal data.
+  </p>
+
+  <section class="mt-8 space-y-4 text-zinc-700">
+    <h2 class="text-xl font-bold text-zinc-900">What We Collect</h2>
+    <p>Contact details, pickup and drop-off details, booking metadata, and communication history needed to provide service.</p>
+
+    <h2 class="text-xl font-bold text-zinc-900">How We Use Data</h2>
+    <p>We use data to confirm rides, coordinate drivers, process payment, improve service quality, and prevent fraud.</p>
+
+    <h2 class="text-xl font-bold text-zinc-900">Retention</h2>
+    <p>Data is retained only as long as needed for service delivery, legal obligations, and financial recordkeeping.</p>
+
+    <h2 class="text-xl font-bold text-zinc-900">Your Rights</h2>
+    <p>You can request access, correction, export, or deletion by contacting bookings@pickupr.com.</p>
+  </section>
+</main>

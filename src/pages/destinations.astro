@@ -20,6 +20,27 @@ const groupedRoutes = routes.reduce((acc, route) => {
 const letters = Array.from(groupedRoutes.keys()).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
 
 const canonical = siteBase ? `${siteBase}/destinations` : '/destinations';
+const destinationsSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: 'All Transfer Destinations | Pickupr',
+      url: canonical,
+      description: 'Directory of city destination pages for airport and long-distance transfers.',
+      inLanguage: 'en',
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: routes.slice(0, 200).map((route, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: (siteBase || '') + route.pathname,
+        name: `${route.origin} to ${route.city}`,
+      })),
+    },
+  ],
+};
 ---
 
 <html lang="en">
@@ -35,6 +56,9 @@ const canonical = siteBase ? `${siteBase}/destinations` : '/destinations';
     <meta property="og:description" content="Direct links to all city transfer routes from Schiphol and Amsterdam." />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="All Transfer Destinations | Pickupr" />
+    <meta name="twitter:description" content="Direct links to all city transfer routes from Schiphol and Amsterdam." />
+    <script type="application/ld+json" set:html={JSON.stringify(destinationsSchema)}></script>
   </head>
   <body class="bg-zinc-950 text-zinc-100">
     <main class="mx-auto max-w-7xl px-6 py-12 md:py-16">

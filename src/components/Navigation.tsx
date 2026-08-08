@@ -1,4 +1,4 @@
-import { Menu, X, Shield, User } from 'lucide-react';
+import { Menu, X, User, Lock } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { navigateTo, scrollToSection } from '../lib/navigation';
 
@@ -48,18 +48,37 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
   const slimNav = isAdminView || isBookingView || isCustomerView;
 
   return (
-    <header className={`fixed w-full top-0 z-50 transition-all duration-300 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800 ${isScrolled || slimNav || forceDarkBackground ? 'py-4' : 'py-6'}`}>
-      <div className={`${slimNav ? 'w-full pl-7 pr-6' : 'max-w-7xl mx-auto px-6'} flex items-center justify-between`}>
+    <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${forceDarkBackground ? 'bg-zinc-950/90 border-zinc-800' : 'bg-white/92 border-zinc-200'} backdrop-blur-md border-b ${isScrolled || slimNav || forceDarkBackground ? 'py-3.5 shadow-sm' : 'py-5'}`}>
+      <div className={`${slimNav ? 'w-full pl-7 pr-6' : 'max-w-7xl mx-auto px-6'} relative flex items-center justify-between`}>
         <a
           href="/"
-          className="text-2xl font-bold tracking-tighter flex items-center gap-2 transition-opacity hover:opacity-80 text-white"
+          className={`text-2xl font-extrabold tracking-tighter flex items-center gap-2 transition-opacity hover:opacity-80 ${forceDarkBackground ? 'text-white' : 'text-zinc-900'}`}
           onClick={(e) => {
             e.preventDefault();
             navigateTo('/');
           }}
         >
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-emerald-500" />
           Pickupr
         </a>
+
+        {isBookingView && (
+          <div className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 sm:flex items-center gap-2.5">
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-white px-3 py-1.5 text-[11px] font-semibold text-zinc-700">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-700 text-[10px] font-bold text-white">1</span>
+              <span>Vehicle</span>
+              <span className="text-zinc-300">|</span>
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[10px] font-bold text-zinc-600">2</span>
+              <span>Details</span>
+              <span className="text-zinc-300">|</span>
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[10px] font-bold text-zinc-600">3</span>
+              <span>Confirm</span>
+            </div>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
+              <Lock className="h-3.5 w-3.5 text-emerald-600" /> Secure checkout
+            </span>
+          </div>
+        )}
 
         {/* Desktop Nav */}
         {!slimNav && (
@@ -68,7 +87,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
               <a 
                 key={link.name} 
                 href={link.href}
-                className="text-sm font-medium transition-colors text-zinc-300 hover:text-white"
+                className={`text-sm font-semibold transition-colors ${forceDarkBackground ? 'text-zinc-300 hover:text-white' : 'text-zinc-600 hover:text-zinc-900'}`}
                 onClick={(e) => {
                   if ('fullPage' in link && link.fullPage) {
                     return;
@@ -85,7 +104,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
             ))}
             <a 
               href={getLoginHref()} 
-              className="transition-colors flex items-center gap-2 text-zinc-300 hover:text-white"
+                className={`transition-colors flex items-center gap-2 ${forceDarkBackground ? 'text-zinc-300 hover:text-white' : 'text-zinc-600 hover:text-zinc-900'}`}
               onClick={(e) => {
                 e.preventDefault();
                 navigateTo(getLoginHref());
@@ -108,7 +127,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
                 setUserRole(null);
                 navigateTo('/');
               }}
-              className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-600"
+              className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors text-zinc-500 border border-zinc-300 hover:text-zinc-900 hover:border-zinc-400"
             >
               Sign Out
             </a>
@@ -123,7 +142,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
                 e.preventDefault();
                 navigateTo('/');
               }}
-              className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-600"
+              className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors text-zinc-500 border border-zinc-300 hover:text-zinc-900 hover:border-zinc-400"
             >
               Cancel Booking
             </a>
@@ -158,7 +177,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
             </a>
           ) : isCustomerView ? null : (
             <button 
-              className="text-white"
+              className={forceDarkBackground ? 'text-white' : 'text-zinc-900'}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -169,7 +188,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
 
       {/* Mobile Menu */}
       {mobileMenuOpen && !slimNav && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-zinc-950 border-b border-zinc-800 p-6 flex flex-col gap-4 shadow-2xl">
+        <div className={`md:hidden absolute top-full left-0 w-full ${forceDarkBackground ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-200'} border-b p-6 flex flex-col gap-4 shadow-2xl`}>
           {navLinks.map((link) => (
             <a 
               key={link.name} 
@@ -185,7 +204,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
                   scrollToSection(link.sectionId);
                 }
               }}
-              className="text-lg font-medium text-zinc-300 hover:text-white py-2"
+              className={`text-lg font-medium py-2 ${forceDarkBackground ? 'text-zinc-300 hover:text-white' : 'text-zinc-700 hover:text-zinc-900'}`}
             >
               {link.name}
             </a>
@@ -197,7 +216,7 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
               setMobileMenuOpen(false);
               navigateTo(getLoginHref());
             }}
-            className="text-lg font-medium text-zinc-300 hover:text-white py-2 flex items-center gap-2"
+            className={`text-lg font-medium py-2 flex items-center gap-2 ${forceDarkBackground ? 'text-zinc-300 hover:text-white' : 'text-zinc-700 hover:text-zinc-900'}`}
             title={userRole ? "Dashboard" : "Login for customers and taxi companies"}
           >
             <User className="w-5 h-5" />

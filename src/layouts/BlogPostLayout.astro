@@ -92,68 +92,68 @@ const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION 
       })}
     ></script>
   </head>
-  <body class="bg-zinc-950 text-zinc-100">
-    <div class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.16),_transparent_36%),radial-gradient(circle_at_80%_12%,_rgba(6,182,212,0.14),_transparent_34%),linear-gradient(to_bottom,_#09090b,_#111827)]">
-      <header class="sticky top-0 z-20 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-xl">
+  <body class="bg-white text-zinc-900">
+    <div class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.10),_transparent_35%),linear-gradient(to_bottom,_#f8fafc,_#ffffff_35%)]">
+      <header class="sticky top-0 z-20 border-b border-zinc-200 bg-white/90 backdrop-blur-xl">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="/" class="text-xl font-bold tracking-tight text-white">Pickupr</a>
+          <a href="/" class="text-xl font-bold tracking-tight text-zinc-900">Pickupr</a>
           <nav class="flex items-center gap-5 text-sm font-medium">
-            <a href="/" class="text-zinc-300 transition hover:text-white">Home</a>
-            <a href="/blog" class="text-white">Blog</a>
+            <a href="/" class="text-zinc-600 transition hover:text-zinc-900">Home</a>
+            <a href="/blog" class="text-zinc-900">Blog</a>
             <a href="/" class="rounded-full bg-emerald-600 px-4 py-2 text-white transition hover:bg-emerald-500">Book Ride</a>
           </nav>
         </div>
       </header>
 
       <main class="mx-auto max-w-4xl px-6 py-10 md:py-14">
-        <section class="rounded-3xl border border-zinc-800 bg-zinc-900/80 p-8 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)] backdrop-blur md:p-10">
-          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">Airport transfer blog</p>
-          <h1 class="mt-3 text-3xl font-bold leading-tight text-white md:text-5xl">{title}</h1>
-          <p class="mt-5 text-lg leading-relaxed text-zinc-300">{description}</p>
-          <div class="mt-6 inline-flex rounded-full border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm text-zinc-300">
+        <section class="rounded-3xl border border-zinc-200 bg-white p-8 shadow-[0_20px_55px_-35px_rgba(15,23,42,0.24)] backdrop-blur md:p-10">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">Airport transfer blog</p>
+          <h1 class="mt-3 text-3xl font-bold leading-tight text-zinc-900 md:text-5xl">{title}</h1>
+          <p class="mt-5 text-lg leading-relaxed text-zinc-600">{description}</p>
+          <div class="mt-6 inline-flex rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm text-zinc-600">
             Published: {publishDate}{updatedDate ? ` | Updated: ${updatedDate}` : ''}
           </div>
         </section>
 
-        <article class="blog-article mt-8 rounded-3xl border border-zinc-800 bg-zinc-900/90 p-7 shadow-[0_30px_80px_-50px_rgba(0,0,0,0.9)] md:p-10">
+        <article class="blog-article mt-8 rounded-3xl border border-zinc-200 bg-white p-7 shadow-[0_30px_80px_-55px_rgba(15,23,42,0.25)] md:p-10">
           <slot />
         </article>
 
-        <section class="mt-8 rounded-3xl border border-zinc-800 bg-zinc-900/80 p-7 shadow-[0_25px_70px_-45px_rgba(0,0,0,0.9)] md:p-8">
-          <h2 class="text-2xl font-bold text-white">Frequently asked questions</h2>
+        <section class="mt-8 rounded-3xl border border-zinc-200 bg-white p-7 shadow-[0_20px_55px_-40px_rgba(15,23,42,0.24)] md:p-8">
+          <h2 class="text-2xl font-bold text-zinc-900">Frequently asked questions</h2>
           <div class="mt-4 space-y-4">
             {faqItems.map((item) => (
-              <div class="rounded-2xl border border-zinc-700 bg-zinc-800/80 p-4">
-                <h3 class="text-base font-semibold text-white">{item.question}</h3>
-                <p class="mt-2 text-sm leading-relaxed text-zinc-300">{item.answer}</p>
+              <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                <h3 class="text-base font-semibold text-zinc-900">{item.question}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-zinc-600">{item.answer}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section class="mt-8 rounded-3xl border border-zinc-800 bg-zinc-900/80 p-7 shadow-[0_25px_70px_-45px_rgba(0,0,0,0.9)] md:p-8">
-          <h2 class="text-2xl font-bold text-white">Related transfer guides</h2>
+        <section class="mt-8 rounded-3xl border border-zinc-200 bg-white p-7 shadow-[0_20px_55px_-40px_rgba(15,23,42,0.24)] md:p-8">
+          <h2 class="text-2xl font-bold text-zinc-900">Related transfer guides</h2>
           <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {relatedForPage.map((post) => (
-              <a href={post.href} class="rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-sm font-semibold text-zinc-100 transition hover:border-emerald-500 hover:text-emerald-300">
+              <a href={post.href} class="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:text-emerald-700">
                 {post.label}
               </a>
             ))}
           </div>
         </section>
 
-        <section class="mt-8 rounded-3xl border border-emerald-700/40 bg-gradient-to-r from-emerald-950/80 to-cyan-950/70 p-7 shadow-[0_20px_70px_-45px_rgba(16,185,129,0.45)] md:p-8">
-          <h2 class="text-2xl font-bold text-white">Ready to book?</h2>
-          <p class="mt-2 text-zinc-200">Go to the homepage and book your ride directly with fixed pricing and professional drivers.</p>
+        <section class="mt-8 rounded-3xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-sky-50 p-7 shadow-[0_20px_55px_-35px_rgba(16,185,129,0.30)] md:p-8">
+          <h2 class="text-2xl font-bold text-zinc-900">Ready to book?</h2>
+          <p class="mt-2 text-zinc-600">Go to the homepage and book your ride directly with fixed pricing and professional drivers.</p>
           <div class="mt-5 flex flex-wrap gap-3">
             <a href="/" class="rounded-full bg-emerald-600 px-5 py-2.5 font-semibold text-white transition hover:bg-emerald-500">Go to homepage to book</a>
-            <a href="/services" class="rounded-full border border-zinc-600 bg-zinc-900 px-5 py-2.5 font-semibold text-zinc-100 transition hover:bg-zinc-800">View services</a>
+            <a href="/services" class="rounded-full border border-zinc-300 bg-white px-5 py-2.5 font-semibold text-zinc-700 transition hover:bg-zinc-100">View services</a>
           </div>
         </section>
       </main>
 
       <div class="fixed inset-x-0 bottom-0 z-40 px-4 pb-4 md:hidden">
-        <div class="mx-auto max-w-md rounded-2xl border border-emerald-700/60 bg-zinc-900/95 p-2.5 shadow-[0_20px_45px_-25px_rgba(5,150,105,0.75)] backdrop-blur">
+        <div class="mx-auto max-w-md rounded-2xl border border-emerald-200 bg-white/95 p-2.5 shadow-[0_18px_40px_-30px_rgba(16,185,129,0.45)] backdrop-blur">
           <a href="/" class="block w-full rounded-xl bg-emerald-600 px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-emerald-500">
             Book Your Ride Now
           </a>
@@ -167,7 +167,7 @@ const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION 
   .blog-article :global(p) {
     margin-top: 1.1rem;
     line-height: 1.9;
-    color: rgb(212 212 216);
+    color: rgb(82 82 91);
     font-size: 1.04rem;
   }
 
@@ -177,7 +177,7 @@ const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION 
     font-size: clamp(1.35rem, 3vw, 1.8rem);
     font-weight: 700;
     letter-spacing: -0.01em;
-    color: rgb(255 255 255);
+    color: rgb(24 24 27);
   }
 
   .blog-article :global(ul),
@@ -185,7 +185,7 @@ const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION 
     margin-top: 1rem;
     margin-bottom: 1.4rem;
     padding-left: 1.3rem;
-    color: rgb(212 212 216);
+    color: rgb(82 82 91);
   }
 
   .blog-article :global(li) {
@@ -194,12 +194,12 @@ const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION 
   }
 
   .blog-article :global(a) {
-    color: rgb(110 231 183);
+    color: rgb(4 120 87);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
 
   .blog-article :global(strong) {
-    color: rgb(255 255 255);
+    color: rgb(24 24 27);
   }
 </style>

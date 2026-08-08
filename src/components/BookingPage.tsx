@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BookingMap from "./BookingMap";
 import {
   Car,
@@ -14,13 +14,10 @@ import {
   Star,
   Phone,
   Mail,
-  CreditCard,
   Banknote,
   Wifi,
   Snowflake,
   ChevronRight,
-  Award,
-  ThumbsUp,
   Lock,
   RefreshCw,
   Plane,
@@ -99,7 +96,7 @@ function StarRow({ count }: { count: number }) {
 function Stepper({ step }: { step: number }) {
   const steps = ["Vehicle", "Details", "Confirm"];
   return (
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex items-center gap-1.5 sm:gap-3">
       {steps.map((label, idx) => {
         const n = idx + 1;
         const done = step > n;
@@ -112,8 +109,8 @@ function Stepper({ step }: { step: number }) {
                   done
                     ? "border-emerald-600 bg-emerald-600 text-white"
                     : active
-                      ? "border-zinc-900 bg-zinc-900 text-white shadow-sm"
-                      : "border-zinc-300 bg-white text-zinc-500"
+                      ? "border-sky-700 bg-sky-700 text-white shadow-sm"
+                      : "border-sky-100 bg-white text-zinc-500"
                 }`}
               >
                 {done ? <Check className="h-4 w-4" /> : n}
@@ -127,7 +124,7 @@ function Stepper({ step }: { step: number }) {
               </span>
             </div>
             {idx < steps.length - 1 && (
-              <span className={`h-px w-4 sm:w-10 ${step > n ? "bg-emerald-500" : "bg-zinc-300"}`} />
+              <span className={`h-px w-4 sm:w-10 ${step > n ? "bg-emerald-500" : "bg-sky-200"}`} />
             )}
           </React.Fragment>
         );
@@ -158,8 +155,8 @@ function VehicleOption({
       onClick={onSelect}
       className={`w-full rounded-2xl border p-5 text-left transition-all ${
         selected
-          ? "border-zinc-900 bg-zinc-900 text-white shadow-xl"
-          : "border-zinc-200 bg-white text-zinc-900 hover:border-zinc-400 hover:shadow-md"
+          ? "border-sky-700 bg-sky-50 text-zinc-900 shadow-[0_18px_34px_-24px_rgba(3,105,161,0.55)]"
+          : "border-zinc-200 bg-white text-zinc-900 hover:border-sky-200 hover:shadow-md"
       }`}
     >
       <div className="flex items-start justify-between gap-4">
@@ -169,15 +166,15 @@ function VehicleOption({
             {cfg.badge && (
               <span
                 className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
-                  selected ? "bg-white/20 text-white" : "bg-zinc-100 text-zinc-600"
+                  selected ? "bg-sky-700 text-white" : "bg-zinc-100 text-zinc-600"
                 }`}
               >
                 {cfg.badge}
               </span>
             )}
           </div>
-          <p className={`text-sm ${selected ? "text-zinc-300" : "text-zinc-500"}`}>{cfg.subtitle}</p>
-          <div className={`mt-3 flex flex-wrap gap-3 text-xs font-medium ${selected ? "text-zinc-200" : "text-zinc-600"}`}>
+          <p className={`text-sm ${selected ? "text-zinc-700" : "text-zinc-500"}`}>{cfg.subtitle}</p>
+          <div className={`mt-3 flex flex-wrap gap-3 text-xs font-medium ${selected ? "text-zinc-700" : "text-zinc-600"}`}>
             <span className="inline-flex items-center gap-1">
               <Users className="h-3.5 w-3.5" /> {cfg.maxPax} passengers
             </span>
@@ -195,17 +192,17 @@ function VehicleOption({
 
         <div className="text-right">
           <p className="text-2xl font-black tracking-tight">{totalPrice}</p>
-          <p className={`text-xs ${selected ? "text-zinc-300" : "text-zinc-400"}`}>
+          <p className={`text-xs ${selected ? "text-zinc-600" : "text-zinc-400"}`}>
             {hasReturn ? "round trip" : "one way"}
           </p>
         </div>
       </div>
 
       {selected && (
-        <div className="mt-4 grid grid-cols-2 gap-2 border-t border-white/15 pt-4 text-xs text-zinc-100">
+        <div className="mt-4 grid grid-cols-2 gap-2 border-t border-sky-100 pt-4 text-xs text-zinc-700">
           {cfg.features.map((f) => (
             <span key={f} className="inline-flex items-center gap-1.5">
-              <CircleCheck className="h-3.5 w-3.5" /> {f}
+              <CircleCheck className="h-3.5 w-3.5 text-emerald-600" /> {f}
             </span>
           ))}
         </div>
@@ -229,7 +226,7 @@ export default function BookingPage() {
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [paymentCanceled, setPaymentCanceled] = useState(false);
   const [step, setStep] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState<"Online" | "Driver">("Online");
+  const paymentMethod = "Driver";
   const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
   const [flightNumber, setFlightNumber] = useState("");
   const [notes, setNotes] = useState("");
@@ -237,11 +234,6 @@ export default function BookingPage() {
   const [lastName, setLastName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
-  const [isPaying, setIsPaying] = useState(false);
-  const [cardFormReady, setCardFormReady] = useState(false);
-  const [cardError, setCardError] = useState<string | null>(null);
-  const mollieInitRef = useRef(false);
-  const cardTokenizeRef = useRef<null | (() => Promise<string>)>(null);
   const waitingFee = 0;
 
   const handleVehicleSelect = (vehicle: string) => {
@@ -352,21 +344,21 @@ export default function BookingPage() {
 
   const totalDisplay = selectedVehicle ? `€${computePrice().toFixed(0)}` : "—";
 
-  const hasStreetAndHouseNumber = (value: string) => {
+  const hasValidLocationInput = (value: string) => {
     const normalized = value.trim();
-    // Require at least one digit so users select a full street address with house number.
-    return normalized.length >= 6 && /\d/.test(normalized);
+    // Allow city/airport/place searches from autocomplete; do not force house numbers.
+    return normalized.length >= 3;
   };
 
   const getStepOneValidationErrors = () => {
     const errors: string[] = [];
 
-    if (!hasStreetAndHouseNumber(pickup)) {
-      errors.push("Pickup must include a full street name and house number.");
+    if (!hasValidLocationInput(pickup)) {
+      errors.push("Pickup location is required.");
     }
 
-    if (bookingType !== "hourly" && !hasStreetAndHouseNumber(dropoff)) {
-      errors.push("Drop-off must include a full street name and house number.");
+    if (bookingType !== "hourly" && !hasValidLocationInput(dropoff)) {
+      errors.push("Drop-off location is required.");
     }
 
     if (!pickupDate) {
@@ -384,7 +376,7 @@ export default function BookingPage() {
     return errors;
   };
 
-  const canProceedToDetails = Boolean(selectedVehicle) && getStepOneValidationErrors().length === 0;
+  const canProceedToDetails = Boolean(selectedVehicle);
 
   const handleContinueToDetails = () => {
     if (!selectedVehicle) return;
@@ -403,10 +395,7 @@ export default function BookingPage() {
   const parseApiJson = async (response: Response, context: string) => {
     const raw = await response.text();
     if (!raw) {
-      const backendHint =
-        context === "Booking API" || context === "Payment API" || context === "Mollie Components Config"
-          ? " Start ook de backend API met: npm run dev:server"
-          : "";
+      const backendHint = context === "Booking API" ? " Start ook de backend API met: npm run dev:server" : "";
       throw new Error(`${context}: empty response from server (status ${response.status}).${backendHint}`);
     }
 
@@ -416,130 +405,6 @@ export default function BookingPage() {
       throw new Error(`${context}: invalid server response (status ${response.status})`);
     }
   };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (step !== 2 || paymentMethod !== "Online") return;
-    if (mollieInitRef.current) return;
-
-    let canceled = false;
-
-    const loadMollieScript = async () => {
-      if ((window as any).Mollie) return;
-      await new Promise<void>((resolve, reject) => {
-        const existing = document.querySelector('script[data-mollie-components="true"]') as HTMLScriptElement | null;
-        if (existing) {
-          existing.addEventListener("load", () => resolve(), { once: true });
-          existing.addEventListener("error", () => reject(new Error("Could not load Mollie script")), { once: true });
-          return;
-        }
-
-        const script = document.createElement("script");
-        script.src = "https://js.mollie.com/v1/mollie.js";
-        script.async = true;
-        script.dataset.mollieComponents = "true";
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error("Could not load Mollie script"));
-        document.head.appendChild(script);
-      });
-    };
-
-    const initComponents = async () => {
-      try {
-        setCardError(null);
-        setCardFormReady(false);
-
-        const cfgRes = await fetch("/api/mollie/components-config");
-        const cfg = await parseApiJson(cfgRes, "Mollie Components Config");
-        if (!cfgRes.ok || !cfg.profileId) {
-          throw new Error(cfg?.error || "MOLLIE_PROFILE_ID is missing on the server.");
-        }
-
-        await loadMollieScript();
-        if (canceled) return;
-
-        const mollieFactory = (window as any).Mollie;
-        if (!mollieFactory) throw new Error("Mollie script is not available.");
-
-        const mollie = mollieFactory(cfg.profileId, {
-          locale: "en_US",
-          testmode: Boolean(cfg.testmode),
-        });
-
-        ["mollie-card-holder", "mollie-card-number", "mollie-expiry-date", "mollie-verification-code"].forEach((id) => {
-          const el = document.getElementById(id);
-          if (el) el.innerHTML = "";
-        });
-
-        const componentStyle = {
-          base: {
-            color: "#111827",
-            fontSize: "14px",
-            fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
-            '::placeholder': {
-              color: "#71717a",
-            },
-          },
-          invalid: {
-            color: "#dc2626",
-          },
-        };
-
-        const cardHolder = mollie.createComponent("cardHolder", { styles: componentStyle });
-        const cardNumber = mollie.createComponent("cardNumber", { styles: componentStyle });
-        const expiryDate = mollie.createComponent("expiryDate", { styles: componentStyle });
-        const verificationCode = mollie.createComponent("verificationCode", { styles: componentStyle });
-
-        cardHolder.mount("#mollie-card-holder");
-        cardNumber.mount("#mollie-card-number");
-        expiryDate.mount("#mollie-expiry-date");
-        verificationCode.mount("#mollie-verification-code");
-
-        const onChange = (event: any) => {
-          if (event?.error) setCardError(event.error);
-          else setCardError(null);
-        };
-
-        cardHolder.addEventListener("change", onChange);
-        cardNumber.addEventListener("change", onChange);
-        expiryDate.addEventListener("change", onChange);
-        verificationCode.addEventListener("change", onChange);
-
-        cardTokenizeRef.current = async () => {
-          const result = await mollie.createToken();
-          if (result.error || !result.token) {
-            throw new Error(result.error?.message || "Card tokenization failed");
-          }
-          return result.token;
-        };
-
-        if (!canceled) {
-          mollieInitRef.current = true;
-          setCardFormReady(true);
-        }
-      } catch (err: any) {
-        if (!canceled) {
-          setCardError(err.message || "Could not initialize the credit card form.");
-          setCardFormReady(false);
-          cardTokenizeRef.current = null;
-        }
-      }
-    };
-
-    initComponents();
-
-    return () => {
-      canceled = true;
-    };
-  }, [step, paymentMethod]);
-
-  useEffect(() => {
-    if (paymentMethod === "Online") return;
-    setCardError(null);
-    setCardFormReady(false);
-    cardTokenizeRef.current = null;
-    mollieInitRef.current = false;
-  }, [paymentMethod]);
 
   const generateFallbackBookingId = () => {
     if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -609,7 +474,7 @@ export default function BookingPage() {
             date: pickupDate,
             time: pickupTime,
             status: "Pending",
-            paymentStatus: paymentMethod === "Online" ? "Pending" : "Pending",
+            paymentStatus: "Pending",
             price: `€ ${bookingPriceAmount.toFixed(2)}`,
             vehicle: selectedVehicle || "Sedan",
             passengers: parseInt(passengers, 10),
@@ -631,71 +496,8 @@ export default function BookingPage() {
           // Local fallback should never block booking creation flow
         }
 
-        if (paymentMethod === "Driver") {
-          logEvent("Booking Confirmed", `Payment method: Driver | Booking: ${resolvedBookingId}`);
-          setBookingConfirmed(true);
-          return;
-        }
-
-        if (!cardTokenizeRef.current || !cardFormReady) {
-          alert("The credit card form is not ready yet. Please wait a moment and try again.");
-          return;
-        }
-
-        setIsPaying(true);
-        try {
-          let cardToken = "";
-          try {
-            cardToken = await cardTokenizeRef.current();
-          } catch (tokenError: any) {
-            setCardError(tokenError.message || "Card details are invalid.");
-            alert(tokenError.message || "Card details are invalid.");
-            return;
-          }
-
-          const paymentRes = await fetch("/api/create-card-payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              amount: bookingPriceAmount,
-              bookingId: resolvedBookingId,
-              currency: "eur",
-              rideName: `${pickup} to ${dropoff || "Hourly"}`,
-              cardToken,
-              returnPath:
-                typeof window !== "undefined"
-                  ? `${window.location.pathname}${window.location.search}`
-                  : "/booking",
-            }),
-          });
-
-          const payment = await parseApiJson(paymentRes, "Payment API");
-          if (!paymentRes.ok) {
-            alert(`Payment error: ${payment.error || "Unknown"}`);
-            return;
-          }
-
-          if (payment.status === "paid" || payment.status === "authorized") {
-            logEvent("Booking Confirmed", `Creditcard payment success | Booking: ${resolvedBookingId}`);
-            setBookingConfirmed(true);
-            return;
-          }
-
-          if (payment.checkoutUrl) {
-            // In some cases (such as 3D Secure), an additional verification step is required.
-            window.location.href = payment.checkoutUrl;
-            return;
-          }
-
-          if (payment.status === "pending" || payment.status === "open") {
-            alert("Payment is being processed. We will send confirmation as soon as the payment is completed.");
-            return;
-          }
-
-          alert(`Payment error: ${payment.error || payment.status || "Unknown"}`);
-        } finally {
-          setIsPaying(false);
-        }
+        logEvent("Booking Confirmed", `Payment method: Driver | Booking: ${resolvedBookingId}`);
+        setBookingConfirmed(true);
       }
     } catch (err: any) {
       logEvent("Booking Failed", `Unexpected error: ${err.message}`);
@@ -705,16 +507,14 @@ export default function BookingPage() {
 
   if (bookingConfirmed) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-100 px-4 pt-20 pb-10">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-sky-50 via-white to-zinc-50 px-4 pt-20 pb-10">
         <div className="w-full max-w-xl overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-xl">
-          <div className="border-b border-zinc-200 px-8 py-7">
+          <div className="border-b border-zinc-200 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.14),transparent_56%)] px-8 py-7">
             <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white">
               <Check className="h-7 w-7" />
             </div>
             <h1 className="text-3xl font-black tracking-tight text-zinc-900">Booking confirmed</h1>
-            <p className="mt-2 text-sm text-zinc-500">
-              {paymentMethod === "Driver" ? "Pay directly to the driver." : "Payment successful and ride secured."}
-            </p>
+            <p className="mt-2 text-sm text-zinc-500">Pay cash directly to the driver at pickup.</p>
           </div>
 
           <div className="space-y-3 px-8 py-6 text-sm">
@@ -758,7 +558,7 @@ export default function BookingPage() {
 
   if (paymentCanceled) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-100 px-4 pt-20">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-sky-50 via-white to-zinc-50 px-4 pt-20">
         <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-8 text-center shadow-xl">
           <div className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500 text-white">
             <RefreshCw className="h-6 w-6" />
@@ -788,66 +588,51 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-100 pt-16 pb-24 lg:pb-10">
-      <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/95 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-          <Stepper step={step} />
-          <div className="hidden items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-zinc-600 sm:inline-flex">
-            <Lock className="h-3.5 w-3.5 text-emerald-600" /> Secure checkout
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-zinc-50 pt-16 pb-24 lg:pb-10">
+      <div className="pointer-events-none absolute inset-x-0 top-16 h-[380px] bg-[radial-gradient(circle_at_10%_10%,rgba(14,165,233,0.15),transparent_42%),radial-gradient(circle_at_90%_0%,rgba(16,185,129,0.14),transparent_36%)]" />
 
-      <section className="border-b border-zinc-200 bg-white">
+      <section className="relative z-10 border-b border-sky-100 bg-white/80">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
-          <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5">
-            <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-xl bg-white px-3 py-2 text-sm font-bold text-zinc-800 shadow-sm">
-                  <MapPin className="h-4 w-4 text-zinc-500" /> {pickup || "—"}
-                </span>
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-400">
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-xl bg-zinc-900 px-3 py-2 text-sm font-bold text-white shadow-sm">
-                  <MapPin className="h-4 w-4 text-zinc-200" /> {dropoff || (bookingType === "hourly" ? "Hourly ride" : "—")}
-                </span>
-              </div>
+          <div className="rounded-3xl border border-sky-100 bg-white p-4 shadow-[0_16px_32px_-26px_rgba(2,132,199,0.5)] sm:p-5">
+            <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-start">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Trip summary</p>
+                <div className="mt-2 space-y-2">
+                  <div className="flex items-start gap-2 text-sm text-zinc-800">
+                    <MapPin className="mt-0.5 h-4 w-4 text-zinc-500" />
+                    <p className="font-semibold">{pickup || "—"}</p>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-zinc-900">
+                    <ArrowRight className="mt-0.5 h-4 w-4 text-sky-600" />
+                    <p className="font-bold">{dropoff || (bookingType === "hourly" ? "Hourly ride" : "—")}</p>
+                  </div>
+                </div>
 
                 {waypointLocations.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 lg:justify-end">
-                    <span className="inline-flex items-center gap-1 rounded-xl border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-600">
-                      <MapPin className="h-3.5 w-3.5" /> Via
-                    </span>
-                    {waypointLocations.map((stop, idx) => (
-                      <span
-                        key={`${stop}-${idx}`}
-                        className="inline-flex items-center rounded-xl border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-600"
-                      >
-                        {stop}
-                      </span>
-                    ))}
-                  </div>
+                  <p className="mt-2 text-xs text-zinc-500">
+                    Via: <span className="font-medium text-zinc-700">{waypointLocations.join(" • ")}</span>
+                  </p>
                 )}
+              </div>
 
-              <div className="flex flex-wrap gap-2 lg:justify-end">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs font-semibold text-zinc-600 lg:justify-end">
                 {pickupDate && (
-                  <span className="inline-flex items-center gap-1 rounded-xl border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-600">
+                  <span className="inline-flex items-center gap-1">
                     <Calendar className="h-3.5 w-3.5" /> {pickupDate}
                   </span>
                 )}
                 {pickupTime && (
-                  <span className="inline-flex items-center gap-1 rounded-xl border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-600">
+                  <span className="inline-flex items-center gap-1">
                     <Clock className="h-3.5 w-3.5" /> {pickupTime}
                   </span>
                 )}
                 {passengers && (
-                  <span className="inline-flex items-center gap-1 rounded-xl border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-600">
+                  <span className="inline-flex items-center gap-1">
                     <Users className="h-3.5 w-3.5" /> {passengers}
                   </span>
                 )}
                 {routeDuration && (
-                  <span className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-2.5 py-1.5 text-xs font-bold text-white">
+                  <span className="inline-flex items-center gap-1 text-emerald-700">
                     <Clock className="h-3.5 w-3.5" /> {routeDuration}
                   </span>
                 )}
@@ -857,37 +642,34 @@ export default function BookingPage() {
         </div>
       </section>
 
-      <section className="border-b border-zinc-200 bg-white">
+      <section className="relative z-10 border-b border-sky-100 bg-white/70">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
-            {[
-              { icon: <Star className="h-4 w-4 fill-amber-400 text-amber-400" />, text: "4.9/5 rating" },
-              { icon: <Award className="h-4 w-4 text-zinc-700" />, text: "10k+ rides" },
-              { icon: <Shield className="h-4 w-4 text-zinc-700" />, text: "Fixed fare" },
-              { icon: <RefreshCw className="h-4 w-4 text-zinc-700" />, text: "Free cancel 24h" },
-              { icon: <Phone className="h-4 w-4 text-zinc-700" />, text: "24/7 support" },
-            ].map((item) => (
-              <span
-                key={item.text}
-                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-700 sm:text-sm"
-              >
-                {item.icon}
-                <span>{item.text}</span>
-              </span>
-            ))}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs font-semibold text-zinc-600 sm:text-sm">
+            <span className="inline-flex items-center gap-1.5">
+              <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> 4.9/5 rating
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Lock className="h-4 w-4 text-emerald-600" /> Fixed fare, secure checkout
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <RefreshCw className="h-4 w-4 text-zinc-700" /> Free cancel up to 24h
+            </span>
           </div>
         </div>
       </section>
 
-      <main className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-8 sm:px-6 lg:grid-cols-3">
+      <main className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-8 sm:px-6 lg:grid-cols-3">
         <section className="space-y-6 lg:col-span-2">
           {step === 1 && (
             <>
-              <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+              <div className="rounded-3xl border border-sky-100 bg-white p-6 shadow-[0_24px_40px_-32px_rgba(2,132,199,0.55)]">
                 <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
                   <div>
-                    <h1 className="text-3xl font-black tracking-tight text-zinc-900">Book your transfer</h1>
-                    <p className="mt-1 text-sm text-zinc-500">Choose the vehicle that matches your trip.</p>
+                    <span className="inline-flex items-center gap-1 rounded-full border border-sky-100 bg-sky-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-sky-700">
+                      <Sparkles className="h-3.5 w-3.5" /> Most bookings finish in under 2 minutes
+                    </span>
+                    <h1 className="mt-3 text-3xl font-black tracking-tight text-zinc-900">Choose your ride</h1>
+                    <p className="mt-1 text-sm text-zinc-500">Clear fixed fare, licensed drivers, and instant confirmation.</p>
                   </div>
                   {distance !== null && (
                     <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-right">
@@ -940,11 +722,11 @@ export default function BookingPage() {
                   disabled={!canProceedToDetails}
                   className={`mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-bold transition ${
                     canProceedToDetails
-                      ? "bg-zinc-900 text-white hover:bg-zinc-800"
+                      ? "bg-sky-700 text-white hover:bg-sky-800"
                       : "cursor-not-allowed bg-zinc-200 text-zinc-400"
                   }`}
                 >
-                  Continue to details <ChevronRight className="h-4 w-4" />
+                  Continue to traveler details <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
 
@@ -982,7 +764,7 @@ export default function BookingPage() {
                 </div>
               )}
 
-              <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+              <div className="rounded-3xl border border-sky-100 bg-white p-6 shadow-[0_24px_40px_-32px_rgba(2,132,199,0.55)]">
                 <h2 className="mb-4 text-xl font-black tracking-tight text-zinc-900">Passenger details</h2>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -1073,91 +855,23 @@ export default function BookingPage() {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+              <div className="rounded-3xl border border-sky-100 bg-white p-6 shadow-[0_24px_40px_-32px_rgba(2,132,199,0.55)]">
                 <h3 className="mb-4 text-base font-black tracking-tight text-zinc-900">Payment method</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    {
-                      key: "Online",
-                      icon: <CreditCard className="h-4.5 w-4.5" />,
-                      title: "Pay online",
-                      sub: "Creditcard (Visa / Mastercard / Amex)",
-                    },
-                    {
-                      key: "Driver",
-                      icon: <Banknote className="h-4.5 w-4.5" />,
-                      title: "Pay driver",
-                      sub: "Cash or card",
-                    },
-                  ].map((item) => (
-                    <label
-                      key={item.key}
-                      className={`cursor-pointer rounded-2xl border p-4 transition ${
-                        paymentMethod === item.key
-                          ? "border-zinc-900 bg-zinc-900 text-white"
-                          : "border-zinc-200 bg-zinc-100 text-zinc-900 hover:border-zinc-400"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        checked={paymentMethod === (item.key as any)}
-                        onChange={() => {
-                          setPaymentMethod(item.key as "Online" | "Driver");
-                          logEvent("Payment Method Selected", `Method: ${item.key}`);
-                        }}
-                        className="sr-only"
-                      />
-                      <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/15">
-                        {item.icon}
-                      </div>
-                      <p className="mt-2 text-sm font-bold">{item.title}</p>
-                      <p className={`text-xs ${paymentMethod === item.key ? "text-zinc-200" : "text-zinc-500"}`}>
-                        {item.sub}
-                      </p>
-                    </label>
-                  ))}
-                </div>
-
-                {paymentMethod === "Online" && (
-                  <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
-                    <p className="mb-3 text-xs font-bold uppercase tracking-wide text-zinc-600">Creditcard checkout</p>
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                      <div className="sm:col-span-2">
-                        <label className="mb-1.5 block text-xs font-semibold text-zinc-600">Card holder</label>
-                        <div id="mollie-card-holder" className="rounded-xl border border-zinc-300 bg-white px-3.5 py-3" />
-                      </div>
-                      <div className="sm:col-span-2">
-                        <label className="mb-1.5 block text-xs font-semibold text-zinc-600">Card number</label>
-                        <div id="mollie-card-number" className="rounded-xl border border-zinc-300 bg-white px-3.5 py-3" />
-                      </div>
-                      <div>
-                        <label className="mb-1.5 block text-xs font-semibold text-zinc-600">Expiry date</label>
-                        <div id="mollie-expiry-date" className="rounded-xl border border-zinc-300 bg-white px-3.5 py-3" />
-                      </div>
-                      <div>
-                        <label className="mb-1.5 block text-xs font-semibold text-zinc-600">CVC</label>
-                        <div id="mollie-verification-code" className="rounded-xl border border-zinc-300 bg-white px-3.5 py-3" />
-                      </div>
-                    </div>
-                    {cardError && <p className="mt-2 text-xs font-semibold text-red-600">{cardError}</p>}
-                    <p className="mt-2 text-xs text-zinc-500">
-                      In rare cases, your bank may ask for an additional 3D Secure verification.
-                    </p>
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
+                  <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 text-white">
+                    <Banknote className="h-4.5 w-4.5" />
                   </div>
-                )}
+                  <p className="mt-2 text-sm font-bold">Cash payment only</p>
+                  <p className="text-xs text-emerald-800">You pay the driver in cash at pickup.</p>
+                </div>
               </div>
 
               <button
                 onClick={handleBookingSubmit}
-                disabled={isPaying || (paymentMethod === "Online" && !cardFormReady)}
-                className={`inline-flex w-full items-center justify-center gap-2 rounded-xl py-4 text-sm font-black uppercase tracking-wide text-white transition ${
-                  isPaying || (paymentMethod === "Online" && !cardFormReady)
-                    ? "cursor-not-allowed bg-emerald-400"
-                    : "bg-emerald-600 hover:bg-emerald-700"
-                }`}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 py-4 text-sm font-black uppercase tracking-wide text-white transition hover:bg-emerald-700"
               >
                 <Lock className="h-4 w-4" />
-                {paymentMethod === "Online" ? (isPaying ? "Processing card..." : "Confirm & pay") : "Confirm booking"}
+                Confirm booking
               </button>
 
               <p className="text-center text-xs text-zinc-500">
@@ -1169,12 +883,12 @@ export default function BookingPage() {
 
         <aside className="lg:col-span-1">
           <div className="sticky top-24 space-y-4">
-            <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
-              <div className="border-b border-zinc-200 bg-zinc-900 px-5 py-4 text-white">
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-300">Price summary</p>
+            <div className="overflow-hidden rounded-3xl border border-sky-100 bg-white shadow-[0_24px_40px_-32px_rgba(2,132,199,0.55)]">
+              <div className="border-b border-sky-100 bg-sky-700 px-5 py-4 text-white">
+                <p className="text-xs font-semibold uppercase tracking-widest text-sky-100">Price summary</p>
                 <p className="mt-1 text-4xl font-black tracking-tight">{totalDisplay}</p>
                 {selectedVehicle && (
-                  <p className="mt-1 text-xs text-zinc-300">
+                  <p className="mt-1 text-xs text-sky-100">
                     {selectedVehicle} • {returnDate ? "Round trip" : bookingType === "hourly" ? `${duration}h` : "One way"}
                   </p>
                 )}
@@ -1203,6 +917,21 @@ export default function BookingPage() {
                   <span className="font-bold text-zinc-900">Total</span>
                   <span className="text-xl font-black tracking-tight text-zinc-900">{totalDisplay}</span>
                 </div>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Why travelers finish this booking</p>
+              <div className="mt-3 space-y-2.5 text-sm text-zinc-700">
+                <p className="inline-flex items-start gap-2">
+                  <CircleCheck className="mt-0.5 h-4 w-4 text-emerald-600" /> Final price shown before payment
+                </p>
+                <p className="inline-flex items-start gap-2">
+                  <CircleCheck className="mt-0.5 h-4 w-4 text-emerald-600" /> Driver details shared after confirmation
+                </p>
+                <p className="inline-flex items-start gap-2">
+                  <CircleCheck className="mt-0.5 h-4 w-4 text-emerald-600" /> Free cancellation up to 24h before pickup
+                </p>
               </div>
             </div>
 

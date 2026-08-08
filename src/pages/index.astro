@@ -1,9 +1,81 @@
 ---
 import AppPageShell from '../components/AppPageShell.astro';
+
+const siteUrl = 'https://pickupr.com';
+const contactPhone = (import.meta.env.PUBLIC_CONTACT_PHONE || '').toString().trim();
+const streetAddress = (import.meta.env.PUBLIC_BUSINESS_STREET || 'Amsterdam Business District').toString().trim();
+const postalCode = (import.meta.env.PUBLIC_BUSINESS_POSTAL_CODE || '').toString().trim();
+
+const localBusinessSchema = {
+  '@type': 'LocalBusiness',
+  '@id': `${siteUrl}/#localbusiness`,
+  additionalType: 'https://schema.org/TaxiService',
+  name: 'Pickupr',
+  url: siteUrl,
+  image: `${siteUrl}/hero-airport-transfer.jpg`,
+  priceRange: 'EUR 75 - EUR 800',
+  areaServed: [
+    { '@type': 'Country', name: 'Netherlands' },
+    { '@type': 'Country', name: 'Belgium' },
+    { '@type': 'Country', name: 'France' },
+    { '@type': 'Country', name: 'Germany' },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress,
+    addressLocality: 'Amsterdam',
+    addressRegion: 'Noord-Holland',
+    postalCode: postalCode || undefined,
+    addressCountry: 'NL',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 52.3676,
+    longitude: 4.9041,
+  },
+  telephone: contactPhone || undefined,
+  email: 'bookings@pickupr.com',
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '00:00',
+      closes: '23:59',
+    },
+  ],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '500',
+    bestRating: '5',
+    worstRating: '1',
+  },
+};
+
+const offerCatalogSchema = {
+  '@type': 'OfferCatalog',
+  name: 'Pickupr chauffeur services',
+  itemListElement: [
+    {
+      '@type': 'Offer',
+      name: 'Airport transfer',
+      priceCurrency: 'EUR',
+      price: '75',
+      availability: 'https://schema.org/InStock',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Hourly chauffeur service',
+      priceCurrency: 'EUR',
+      price: '120',
+      availability: 'https://schema.org/InStock',
+    },
+  ],
+};
 ---
 <AppPageShell
-  title="Pickupr | Private airport and city transfers"
-  description="Reserve reliable private transport for airports, city rides, and long-distance journeys."
+  title="Schiphol Transfers and Private Chauffeurs NL | Pickupr"
+  description="Book fixed-price Schiphol transfers and private chauffeurs across the Netherlands and nearby countries with meet-and-greet service and English-speaking drivers."
   canonical="/"
   structuredData={{
     '@context': 'https://schema.org',
@@ -11,23 +83,43 @@ import AppPageShell from '../components/AppPageShell.astro';
       {
         '@type': 'TransportationService',
         name: 'Pickupr',
-        url: '/',
+        url: siteUrl,
         areaServed: ['Netherlands', 'Belgium', 'Germany', 'France'],
         description: 'Private chauffeur service with transfers and hourly bookings.',
       },
       {
         '@type': 'Organization',
         name: 'Pickupr',
-        url: '/',
+        url: siteUrl,
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'customer support',
+          telephone: contactPhone || undefined,
+          email: 'bookings@pickupr.com',
           availableLanguage: ['English', 'Dutch'],
         },
       },
+      localBusinessSchema,
+      offerCatalogSchema,
       {
         '@type': 'FAQPage',
         mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'How much is a transfer from Schiphol to Amsterdam?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Pricing depends on vehicle type and exact route, but every booking is shown as a fixed all-in quote before checkout.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Do you offer cross-border transfers from the Netherlands?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. Pickupr offers private chauffeur transfers from the Netherlands to Belgium, Germany, and France for airport rides, city trips, and business travel.',
+            },
+          },
           {
             '@type': 'Question',
             name: 'How far in advance should I book?',
