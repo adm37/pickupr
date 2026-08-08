@@ -439,7 +439,6 @@ export default function BookingPage() {
             flight_number: flightNumber,
             notes: notes.trim(),
             payment_method: paymentMethod,
-            payment_status: "Pending",
             ride_type: bookingType === "hourly" ? "Hourly Driver" : "Transfer",
             return_date: returnDate || null,
             return_time: returnTime || null,
