@@ -6,11 +6,62 @@ import { createClient } from '@supabase/supabase-js';
 
 import { Client as MollieClientType } from 'mollie-api-typescript';
 
-const supabaseUrlRaw = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
-const supabaseUrl = supabaseUrlRaw.replace('.supabase.com', '.supabase.co');
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
+function normalizeEnv(value: unknown): string {
+  return String(value ?? '')
+    .trim()
+    .replace(/^['\"]|['\"]$/g, '')
+    .trim();
+}
 
-const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+function getSupabaseUrlCandidates(urlValue: string): string[] {
+  const normalized = normalizeEnv(urlValue);
+  if (!normalized) return [];
+
+  const urls = new Set<string>([normalized]);
+  if (normalized.includes('.supabase.com')) {
+    urls.add(normalized.replace('.supabase.com', '.supabase.co'));
+  }
+  if (normalized.includes('.supabase.co')) {
+    urls.add(normalized.replace('.supabase.co', '.supabase.com'));
+  }
+
+  return Array.from(urls);
+}
+
+function getSupabaseClients() {
+  const rawUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
+  const key = normalizeEnv(
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_ANON_KEY ||
+      process.env.VITE_SUPABASE_ANON_KEY ||
+      '',
+  );
+
+  if (!key) return [];
+  return getSupabaseUrlCandidates(rawUrl).map((url) => createClient(url, key));
+}
+
+async function runWithSupabaseRetry<T>(
+  operation: (client: ReturnType<typeof createClient>) => Promise<T>,
+): Promise<T> {
+  const clients = getSupabaseClients();
+  if (clients.length === 0) {
+    throw new Error('Supabase configuration missing');
+  }
+
+  let lastError: any = null;
+  for (const client of clients) {
+    try {
+      return await operation(client);
+    } catch (error: any) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error('Supabase request failed');
+}
+
+const supabase = getSupabaseClients()[0] || null;
 
 let mollieClient: MollieClientType | null = null;
 function normalizeProfileId(value: unknown): string {
@@ -125,14 +176,16 @@ async function startServer() {
   app.get('/api/bookings', async (req, res) => {
     if (!supabase) return res.json({ bookings: [] });
     try {
-      const { data, error } = await supabase
-        .from('bookings')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await runWithSupabaseRetry((client) =>
+        client
+          .from('bookings')
+          .select('*')
+          .order('created_at', { ascending: false }),
+      );
       if (error) throw error;
       res.json({ bookings: data });
-    } catch (e) {
-      res.status(500).json({ error: 'Failed to fetch bookings' });
+    } catch (e: any) {
+      res.status(503).json({ error: { message: e?.message || 'Failed to fetch bookings' } });
     }
   });
 
@@ -142,10 +195,12 @@ async function startServer() {
       return res.status(500).json({ error: { message: 'Database niet geconfigureerd' } });
     }
     try {
-      const { data, error } = await supabase
-        .from('bookings')
-        .insert([req.body])
-        .select();
+      const { data, error } = await runWithSupabaseRetry((client) =>
+        client
+          .from('bookings')
+          .insert([req.body])
+          .select(),
+      );
         
       if (error) {
          return res.status(400).json({ error });
