@@ -10,6 +10,19 @@ export default function Services() {
     { label: 'Cruise port transfers', href: '/routes' },
   ];
 
+  const seoLandingLinks = [
+    { label: 'Private Chauffeur Service', href: '/private-chauffeur-service' },
+    { label: 'Private Driver Services', href: '/private-driver-services' },
+    { label: 'Business Chauffeur Hire', href: '/business-chauffeur-hire' },
+    { label: 'Personal Driver Service', href: '/personal-driver-service' },
+    { label: 'Personal Drivers for Hire', href: '/personal-drivers-for-hire' },
+    { label: 'Best VIP Chauffeured Worldwide', href: '/best-vip-chauffeured-worldwide' },
+    { label: 'VIP Taxi Cab', href: '/vip-taxi-cab' },
+    { label: 'VIP Transportation', href: '/vip-transportation' },
+    { label: 'Personal Chauffeur', href: '/personal-chauffeur' },
+    { label: 'Private Chauffeur', href: '/private-chauffeur' },
+  ];
+
   const services = [
     {
       icon: <Car className="w-8 h-8 text-emerald-600" />,
@@ -71,6 +84,37 @@ export default function Services() {
                 <h3 className="text-xl font-bold mb-3 text-zinc-900">{service.title}</h3>
                 <p className="text-zinc-600 leading-relaxed">{service.description}</p>
               </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-zinc-50 border-y border-zinc-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-black tracking-tight text-zinc-900">Popular Chauffeur Searches</h3>
+              <p className="mt-2 text-zinc-600 max-w-3xl">
+                Explore dedicated chauffeur and VIP service pages to compare options and book the right private transfer for your travel intent.
+              </p>
+            </div>
+            <a
+              href="/routes"
+              className="inline-flex w-fit items-center rounded-full border border-emerald-600 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
+            >
+              Browse all route pages
+            </a>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {seoLandingLinks.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm font-semibold text-zinc-800 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
+              >
+                {item.label}
+              </a>
             ))}
           </div>
         </div>

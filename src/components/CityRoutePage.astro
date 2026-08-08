@@ -22,34 +22,54 @@ if (!route) {
   throw new Error(`Unknown city route path: ${resolvedPathname}`);
 }
 
+const isTaxiVariant = resolvedPathname.endsWith('-taxi');
+const originLabel = route.pattern === 'schiphol' ? 'Schiphol Airport' : 'Amsterdam';
+const pageKeyword = isTaxiVariant
+  ? `${originLabel} to ${route.city} Taxi`
+  : `${originLabel} to ${route.city} Private Transfer`;
+
+function buildTitle(): string {
+  const primary = isTaxiVariant
+    ? `${originLabel} to ${route.city} Taxi | Fixed Fare | Pickupr`
+    : `${originLabel} to ${route.city} Private Transfer | Pickupr`;
+
+  if (primary.length <= 64) {
+    return primary;
+  }
+
+  const fallback = `${originLabel} to ${route.city} | Pickupr`;
+  return fallback.length <= 64 ? fallback : `${route.city} Transfer | Pickupr`;
+}
+
 function buildDescription(): string {
-  const primary = route.pattern === 'schiphol'
-    ? `Book ${route.keyword} with private transfer, fixed pricing, flight tracking, and meet-and-greet from Schiphol Airport to ${route.city}.`
-    : `Book ${route.keyword} with private long-distance transfer, fixed pricing, and direct door-to-door pickup from Amsterdam to ${route.city}.`;
+  const primary = isTaxiVariant
+    ? `Book ${pageKeyword} with fixed fare, private door-to-door ride, and direct confirmation for ${route.countryName} travel.`
+    : `Reserve ${pageKeyword} with private chauffeur comfort, transparent pricing, and direct booking from ${originLabel}.`;
 
   if (primary.length <= 160) {
     return primary;
   }
 
-  const secondary = route.pattern === 'schiphol'
-    ? `Book ${route.keyword} private transfer from Schiphol Airport to ${route.city} with fixed pricing and direct online confirmation.`
-    : `Book ${route.keyword} private transfer from Amsterdam to ${route.city} with fixed pricing and direct online confirmation.`;
+  const secondary = isTaxiVariant
+    ? `${pageKeyword} from ${originLabel} to ${route.city} with fixed pricing, private transfer, and instant online confirmation.`
+    : `${pageKeyword} from ${originLabel} to ${route.city} with private service and direct online reservation.`;
 
   if (secondary.length <= 160) {
     return secondary;
   }
 
-  return `Book private transfer from ${route.origin} to ${route.city} with fixed pricing and direct online confirmation.`;
+  return `Private transfer from ${originLabel} to ${route.city} with fixed pricing and direct online confirmation from Pickupr.`;
 }
 
-const title = `${route.keyword} | Pickupr`;
+const title = buildTitle();
 const description = buildDescription();
 // Keep canonical aligned with the actual visited page path.
 const canonical = resolvedPathname;
 const keywords = [
-  route.keyword,
+  pageKeyword,
   `${route.origin} to ${route.city} transfer`,
   `${route.origin} to ${route.city} private taxi`,
+  `${route.origin} to ${route.city} private transfer`,
   `${route.city} airport transfer`,
   'fixed price transfer',
 ];
@@ -75,7 +95,7 @@ const structuredData = {
   '@graph': [
     {
       '@type': 'Service',
-      name: route.keyword,
+      name: pageKeyword,
       provider: { '@type': 'Organization', name: 'Pickupr', url: '/' },
       areaServed,
       serviceType,

@@ -25,10 +25,16 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
   }
 
   const bookingHref = '/#hero';
-  const keyword = route.keyword;
+  const isTaxiVariant = path.endsWith('-taxi');
+  const originLabel = route.pattern === 'schiphol' ? 'Schiphol Airport' : 'Amsterdam';
+  const keyword = isTaxiVariant
+    ? `${originLabel} to ${route.city} Taxi`
+    : `${originLabel} to ${route.city} Private Transfer`;
   const routeLabel = `${route.origin} to ${route.city}`;
-  const heroTitle = `${keyword}`;
-  const heroSubtitle = `Book your ${routeLabel} private transfer with fixed pricing, meet-and-greet support, and direct confirmation. Reserve in minutes through the booking form below.`;
+  const heroTitle = keyword;
+  const heroSubtitle = isTaxiVariant
+    ? `Book your ${routeLabel} taxi with fixed pricing, meet-and-greet support, and direct confirmation. Reserve in minutes through the booking form below.`
+    : `Reserve your ${routeLabel} private transfer with chauffeur comfort, fixed pricing clarity, and direct online confirmation.`;
 
   return (
     <>
@@ -54,28 +60,28 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           <article>
             <h2 className="text-2xl font-black tracking-tight text-zinc-900">Why book {keyword} with Pickupr</h2>
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
-              Travelers comparing {keyword} options typically want three things: dependable pickup timing, transparent pricing,
-              and a direct booking flow without hidden extras. Pickupr is built around that intent. You get private transport,
-              professional drivers, and a clear reservation path from quote to confirmation on one page.
+              {isTaxiVariant
+                ? `Travelers comparing ${keyword} options typically want dependable pickup timing, transparent pricing, and a direct booking flow without hidden extras. Pickupr is built around that intent with private transport, professional drivers, and clear reservation steps.`
+                : `Users searching ${keyword} usually prioritize comfort, discretion, and schedule control. This page targets that intent with private transfer positioning, reliable route planning, and a frictionless booking process from quote to confirmation.`}
             </p>
           </article>
 
           <article>
             <h2 className="text-2xl font-black tracking-tight text-zinc-900">A reliable transfer for airport, business, and family itineraries</h2>
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
-              This route is frequently booked for airport arrivals, executive travel, and cross-border family trips.
-              Private door-to-door service removes connection stress, reduces waiting time, and keeps luggage handling simple.
-              When you book {keyword}, your journey is planned as one dedicated transfer from {route.origin} to {route.city}.
+              {isTaxiVariant
+                ? `This route is frequently booked for airport arrivals, executive travel, and cross-border family trips. Private door-to-door taxi service reduces waiting time and simplifies luggage handling from ${route.origin} to ${route.city}.`
+                : `This route is frequently reserved for executive schedules, premium airport pickups, and long-distance private travel. Dedicated transfer service helps keep timing precise while removing the uncertainty of on-demand alternatives.`}
             </p>
           </article>
 
           <article>
             <h2 className="text-2xl font-black tracking-tight text-zinc-900">Route details for {routeLabel}</h2>
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
-              Typical distance for {routeLabel} is around {route.distanceKm} km, with an estimated travel time of {toDurationLabel(route.durationMin)}
-              depending on traffic, border flow, and pickup window. Private fares start from EUR {route.priceFrom}. During booking,
-              you can add pickup instructions, choose transfer timing, and complete confirmation directly from this page.
-              If you are comparing {keyword} providers, this page gives you route facts plus a direct conversion path.
+              Typical distance for {routeLabel} is around {route.distanceKm} km, with an estimated travel time of {toDurationLabel(route.durationMin)} depending on traffic and route conditions.
+              {isTaxiVariant
+                ? ` Taxi fares on this route start from EUR ${route.priceFrom}, and you can confirm your booking online with clear trip details before checkout.`
+                : ` Private transfer pricing on this route starts from EUR ${route.priceFrom}, with direct confirmation and full pickup instructions available during booking.`}
             </p>
           </article>
 
@@ -84,8 +90,9 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
             <p className="mt-3 text-base leading-relaxed text-zinc-700">
               Pre-booking usually gives the strongest balance between availability, pickup precision, and predictable pricing.
               For high-demand windows, secure your transfer early and provide full flight details where relevant.
-              This page is optimized for travelers searching terms like {keyword.toLowerCase()}, {route.origin.toLowerCase()} transfer,
-              and private taxi alternatives with fixed rates.
+              {isTaxiVariant
+                ? ` This page is tailored for users searching ${keyword.toLowerCase()} and fixed-rate ${route.origin.toLowerCase()} transport alternatives.`
+                : ` This page is tailored for users searching ${keyword.toLowerCase()} and premium private transfer options with direct confirmation.`}
             </p>
           </article>
         </div>

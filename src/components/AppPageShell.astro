@@ -1,7 +1,6 @@
 ---
 import App from '../App.tsx';
 import '../index.css';
-import { isCityLandingPath } from '../lib/cityLandingRoutes';
 
 interface Props {
   title: string;
@@ -24,21 +23,7 @@ const {
 } = Astro.props;
 
 const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
-const { canonicalPath, isAliasCanonical } = (() => {
-  if (!canonical.startsWith('/')) {
-    return { canonicalPath: canonical, isAliasCanonical: false };
-  }
-
-  const trimmed = canonical.replace(/\/$/, '') || '/';
-  const looksLikeAlias = /^\/(amsterdam|schiphol)-to-[^/]+$/i.test(trimmed);
-  const preferredTaxiPath = `${trimmed}-taxi`;
-
-  if (looksLikeAlias && isCityLandingPath(preferredTaxiPath)) {
-    return { canonicalPath: preferredTaxiPath, isAliasCanonical: true };
-  }
-
-  return { canonicalPath: trimmed, isAliasCanonical: false };
-})();
+const canonicalPath = canonical.startsWith('/') ? (canonical.replace(/\/$/, '') || '/') : canonical;
 const canonicalUrl = canonicalPath.startsWith('http') ? canonicalPath : (siteBase ? `${siteBase}${canonicalPath}` : canonicalPath);
 const heroImagePath = '/hero-airport-transfer.jpg';
 const heroImageUrl = siteBase ? `${siteBase}${heroImagePath}` : heroImagePath;
@@ -67,10 +52,7 @@ const keywordList = Array.isArray(keywords)
     : defaultKeywords;
 const keywordContent = keywordList.join(', ');
 const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
-const normalizedRobots = robots.toLowerCase();
-const robotsContent = isAliasCanonical && !normalizedRobots.includes('noindex')
-  ? 'noindex, follow'
-  : robots;
+const robotsContent = robots;
 const webPageSchema = {
   '@type': 'WebPage',
   name: title,

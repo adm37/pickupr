@@ -98,6 +98,16 @@ const STATIC_KEYWORDS = [
   'Meet and Greet Airport Service',
   'Private Taxi Amsterdam Airport',
   'Shuttle Schiphol Airport',
+  'Private Chauffeur Service',
+  'Private Driver Services',
+  'Business Chauffeur Hire',
+  'Personal Driver Service',
+  'Personal Drivers for Hire',
+  'Best VIP Chauffeured Worldwide',
+  'VIP Taxi Cab',
+  'VIP Transportation',
+  'Personal Chauffeur',
+  'Private Chauffeur',
 ] as const;
 
 function slugifyKeyword(keyword: string): string {
@@ -131,6 +141,19 @@ const airportCityKeywords = [
   ...[...SCHIPHOL_NETHERLANDS_ROUTES, ...AMSTERDAM_INTERNATIONAL_ROUTES].map((route) => `Schiphol Airport to ${route.city} Taxi`),
 ];
 
+const CUSTOM_KEYWORD_DESCRIPTIONS: Record<string, string> = {
+  'private chauffeur service': 'Book a private chauffeur service with fixed pricing, discreet pickup, and professional transfer support in the Netherlands and nearby countries.',
+  'private driver services': 'Reserve private driver services for airport rides, city transfers, and hourly bookings with direct online confirmation and clear fares.',
+  'business chauffeur hire': 'Business chauffeur hire for meetings, roadshows, and executive airport transfers with punctual pickup and invoice-ready booking.',
+  'personal driver service': 'Personal driver service for daily mobility, appointments, and airport travel with flexible planning and private transfer comfort.',
+  'personal drivers for hire': 'Find personal drivers for hire for one-way rides, return trips, and recurring transport needs with easy online reservation.',
+  'best vip chauffeured worldwide': 'Book best VIP chauffeured worldwide style transfers with premium comfort, route planning, and direct booking support from Pickupr.',
+  'vip taxi cab': 'VIP taxi cab bookings with private service, fixed-rate clarity, and premium transfer experience for airport and city travel.',
+  'vip transportation': 'VIP transportation for business events, airport pickups, and private city travel with reliable scheduling and smooth booking.',
+  'personal chauffeur': 'Book a personal chauffeur for private airport transfers, city meetings, and door-to-door travel with direct confirmation.',
+  'private chauffeur': 'Reserve a private chauffeur with premium service standards, transparent pricing, and reliable transfers across the Netherlands and beyond.',
+};
+
 const allKeywords = [...STATIC_KEYWORDS, ...airportCityKeywords];
 const routeByPath = new Map<string, KeywordLandingRoute>();
 
@@ -149,7 +172,9 @@ for (const keyword of allKeywords) {
     keyword,
     pathname,
     title: `${keyword} | Pickupr`,
-    description: `Book ${keyword} with private transfer, fixed fare clarity, and direct online confirmation from Pickupr.`,
+    description:
+      CUSTOM_KEYWORD_DESCRIPTIONS[keyword.toLowerCase()] ||
+      `Book ${keyword} with private transfer, fixed fare clarity, and direct online confirmation from Pickupr.`,
   });
 }
 
