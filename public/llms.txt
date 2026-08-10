@@ -3,11 +3,11 @@
 > Premium airport transfer and private chauffeur service across the Netherlands, Belgium, France, and Germany.
 
 ## Preferred URLs
-- https://pickupr.com/
-- https://pickupr.com/services
-- https://pickupr.com/routes
-- https://pickupr.com/destinations
-- https://pickupr.com/booking
+- [Homepage](https://pickupr.com/)
+- [Services](https://pickupr.com/services)
+- [Routes](https://pickupr.com/routes)
+- [Destinations](https://pickupr.com/destinations)
+- [Booking](https://pickupr.com/booking)
 
 ## Business Facts
 - Service type: Private airport transfers and hourly chauffeur rides
@@ -16,5 +16,5 @@
 - Contact: bookings@pickupr.com
 
 ## Policy URLs
-- https://pickupr.com/privacy-policy
-- https://pickupr.com/terms-of-service
+- [Privacy Policy](https://pickupr.com/privacy-policy)
+- [Terms of Service](https://pickupr.com/terms-of-service)
