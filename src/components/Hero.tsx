@@ -195,7 +195,9 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
   return (
     <section id="hero" className="relative min-h-[80vh] lg:min-h-[84vh] flex items-center justify-center pt-20 md:pt-28 pb-12 overflow-hidden bg-sky-50">
       <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <img src="/hero-airport-transfer.jpg" alt="Luxury Chauffeur Car" className="w-full h-full object-cover object-[70%_center]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-sky-100 to-cyan-50" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_18%,rgba(14,165,233,0.28),transparent_40%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_78%,rgba(16,185,129,0.18),transparent_42%)]" />
         <div className="absolute inset-0 bg-gradient-to-r from-sky-50 via-white/95 to-white/35" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_22%,rgba(14,165,233,0.2),transparent_34%)]" />
       </div>

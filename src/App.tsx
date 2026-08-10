@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
@@ -7,23 +7,24 @@ import PopularTransfers from './components/PopularTransfers';
 import FAQ from './components/FAQ';
 import DriversSection from './components/DriversSection';
 import Footer from './components/Footer';
-import AdminPanel from './components/AdminPanel';
-import BookingPage from './components/BookingPage';
-import Login from './components/Login';
-import CustomerRating from './components/CustomerRating';
-import CustomerPanel from './components/CustomerPanel';
-import CustomerRegistration from './components/CustomerRegistration';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import StickyBookingCTA from './components/StickyBookingCTA';
 import WhatsAppButton from './components/WhatsAppButton';
-import KeywordLandingContent from './components/KeywordLandingContent';
-import CityRouteLandingContent from './components/CityRouteLandingContent';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { getApiKey } from './components/BookingMap';
 import { logEvent } from './lib/tracking';
 import { getCurrentPath, scrollToSection } from './lib/navigation';
 import { isCityLandingPath } from './lib/cityLandingRoutes';
 import { isKeywordLandingPath } from './lib/keywordLandingRoutes';
+
+const AdminPanel = lazy(() => import('./components/AdminPanel'));
+const BookingPage = lazy(() => import('./components/BookingPage'));
+const Login = lazy(() => import('./components/Login'));
+const CustomerRating = lazy(() => import('./components/CustomerRating'));
+const CustomerPanel = lazy(() => import('./components/CustomerPanel'));
+const CustomerRegistration = lazy(() => import('./components/CustomerRegistration'));
+const KeywordLandingContent = lazy(() => import('./components/KeywordLandingContent'));
+const CityRouteLandingContent = lazy(() => import('./components/CityRouteLandingContent'));
 
 type AppProps = {
   initialPath?: string;
@@ -118,6 +119,8 @@ export default function App({ initialPath = '/' }: AppProps) {
   const isKeywordLanding = isKeywordLandingPath(normalizedPath);
   const isCityLanding = isCityLandingPath(normalizedPath);
   const isHomeSection = normalizedPath === '/' || normalizedPath === '/services' || normalizedPath === '/hourly';
+  const mapsLibraries = isBooking || isAdmin ? ['places', 'routes', 'geocoding'] : ['places'];
+  const lazyFallback = <div className="min-h-[40vh]" aria-hidden="true" />;
 
   useEffect(() => {
     if (!isHomeSection) return;
@@ -138,7 +141,9 @@ export default function App({ initialPath = '/' }: AppProps) {
       return (
         <div className="min-h-screen bg-zinc-50 text-zinc-900 flex flex-col font-sans">
           <Navigation isAdminView={true} />
-          <AdminPanel />
+          <Suspense fallback={lazyFallback}>
+            <AdminPanel />
+          </Suspense>
         </div>
       );
     }
@@ -147,7 +152,9 @@ export default function App({ initialPath = '/' }: AppProps) {
       return (
         <div className="min-h-screen bg-zinc-50 text-zinc-900 flex flex-col font-sans">
           <Navigation isAdminView={false} />
-          <CustomerRating />
+          <Suspense fallback={lazyFallback}>
+            <CustomerRating />
+          </Suspense>
         </div>
       );
     }
@@ -156,7 +163,9 @@ export default function App({ initialPath = '/' }: AppProps) {
       return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans">
           <Navigation isBookingView={true} />
-          <BookingPage />
+          <Suspense fallback={lazyFallback}>
+            <BookingPage />
+          </Suspense>
         </div>
       );
     }
@@ -165,7 +174,9 @@ export default function App({ initialPath = '/' }: AppProps) {
       return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans">
           <Navigation isAdminView={false} />
-          <Login />
+          <Suspense fallback={lazyFallback}>
+            <Login />
+          </Suspense>
         </div>
       );
     }
@@ -174,7 +185,9 @@ export default function App({ initialPath = '/' }: AppProps) {
       return (
         <div className="min-h-screen bg-zinc-50 text-zinc-100 flex flex-col font-sans">
           <Navigation isCustomerView={true} />
-          <CustomerPanel />
+          <Suspense fallback={lazyFallback}>
+            <CustomerPanel />
+          </Suspense>
         </div>
       );
     }
@@ -183,7 +196,9 @@ export default function App({ initialPath = '/' }: AppProps) {
       return (
         <div className="min-h-screen bg-zinc-50 text-zinc-100 flex flex-col font-sans">
           <Navigation isCustomerView={true} />
-          <CustomerRegistration />
+          <Suspense fallback={lazyFallback}>
+            <CustomerRegistration />
+          </Suspense>
         </div>
       );
     }
@@ -193,11 +208,13 @@ export default function App({ initialPath = '/' }: AppProps) {
         <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans">
           <Navigation isAdminView={false} />
           <main className="flex-grow bg-zinc-50">
-            {isKeywordLanding ? (
-              <KeywordLandingContent path={normalizedPath} />
-            ) : (
-              <CityRouteLandingContent path={normalizedPath} />
-            )}
+            <Suspense fallback={lazyFallback}>
+              {isKeywordLanding ? (
+                <KeywordLandingContent path={normalizedPath} />
+              ) : (
+                <CityRouteLandingContent path={normalizedPath} />
+              )}
+            </Suspense>
           </main>
           <Footer />
           <StickyBookingCTA />
@@ -224,7 +241,7 @@ export default function App({ initialPath = '/' }: AppProps) {
   };
 
   return (
-    <APIProvider apiKey={apiKey} version="weekly" libraries={['places', 'routes', 'geocoding']}>
+    <APIProvider apiKey={apiKey} version="weekly" libraries={mapsLibraries}>
       {renderContent()}
     </APIProvider>
   );

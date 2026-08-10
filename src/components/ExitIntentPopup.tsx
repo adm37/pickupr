@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { X, Gift } from 'lucide-react';
 import { logEvent } from '../lib/tracking';
 
+const settingsApiEnabled = ((import.meta as any).env?.PUBLIC_ENABLE_SETTINGS_API || 'false') === 'true';
+
 export default function ExitIntentPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [settings, setSettings] = useState<any>(null);
   const [hasShown, setHasShown] = useState(false);
 
   useEffect(() => {
+    if (!settingsApiEnabled) return;
     // Check local storage so we only show once per session or set time
     const shown = sessionStorage.getItem('exit_intent_shown');
     if (shown) {

@@ -130,11 +130,9 @@ export default function Services() {
         style={{marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)'}}
       >
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/hourly-chauffeur-bg.jpg" 
-            alt="Premium Chauffeur Service" 
-            className="w-full h-full object-cover object-[70%_center] scale-[1.04]"
-          />
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-white to-sky-100" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_14%,rgba(16,185,129,0.25),transparent_42%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_82%,rgba(14,165,233,0.2),transparent_44%)]" />
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 md:via-white/80 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-transparent md:hidden" />
         </div>
