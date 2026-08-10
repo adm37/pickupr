@@ -104,14 +104,16 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
             ))}
             <a 
               href={getLoginHref()} 
-                className={`transition-colors flex items-center gap-2 ${forceDarkBackground ? 'text-zinc-300 hover:text-white' : 'text-zinc-600 hover:text-zinc-900'}`}
+              className={`transition-colors flex items-center gap-2 ${forceDarkBackground ? 'text-zinc-300 hover:text-white' : 'text-zinc-600 hover:text-zinc-900'}`}
               onClick={(e) => {
                 e.preventDefault();
                 navigateTo(getLoginHref());
               }}
-              title={userRole ? "Dashboard" : "Login for customers and taxi companies"}
+              rel="nofollow"
+              aria-label={userRole ? 'Dashboard' : 'Login'}
             >
               <User className="w-5 h-5" />
+              <span className="sr-only">{userRole ? 'Dashboard' : 'Login'}</span>
             </a>
           </nav>
         )}
@@ -217,7 +219,8 @@ export default function Navigation({ isAdminView = false, isBookingView = false,
               navigateTo(getLoginHref());
             }}
             className={`text-lg font-medium py-2 flex items-center gap-2 ${forceDarkBackground ? 'text-zinc-300 hover:text-white' : 'text-zinc-700 hover:text-zinc-900'}`}
-            title={userRole ? "Dashboard" : "Login for customers and taxi companies"}
+            rel="nofollow"
+            aria-label={userRole ? 'Dashboard' : 'Login'}
           >
             <User className="w-5 h-5" />
             {userRole ? 'Dashboard' : 'Login'}

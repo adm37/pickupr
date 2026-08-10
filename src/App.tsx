@@ -218,7 +218,6 @@ export default function App({ initialPath = '/' }: AppProps) {
         </main>
         <Footer />
         <ExitIntentPopup />
-        <StickyBookingCTA />
         <WhatsAppButton />
       </div>
     );

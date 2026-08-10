@@ -63,8 +63,8 @@ function buildDescription(): string {
 
 const title = buildTitle();
 const description = buildDescription();
-// Keep canonical aligned with the actual visited page path.
-const canonical = resolvedPathname;
+const canonical = route.pathname;
+const robots = resolvedPathname === route.pathname ? 'index, follow' : 'noindex, follow';
 const keywords = [
   pageKeyword,
   `${route.origin} to ${route.city} transfer`,
@@ -135,6 +135,7 @@ const structuredData = {
   title={title}
   description={description}
   canonical={canonical}
+  robots={robots}
   keywords={keywords}
   structuredData={structuredData}
 />

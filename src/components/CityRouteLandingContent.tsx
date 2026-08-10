@@ -1,6 +1,6 @@
 import { Clock3, MapPin, Car, Shield } from 'lucide-react';
 import Hero from './Hero';
-import { getCityRouteByPath } from '../lib/cityLandingRoutes';
+import { getCityRouteByPath, getRelatedCityRoutes } from '../lib/cityLandingRoutes';
 
 function toDurationLabel(durationMin: number): string {
   const hours = Math.floor(durationMin / 60);
@@ -25,6 +25,7 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
   }
 
   const bookingHref = '/#hero';
+  const relatedRoutes = getRelatedCityRoutes(path, 10);
   const isTaxiVariant = path.endsWith('-taxi');
   const originLabel = route.pattern === 'schiphol' ? 'Schiphol Airport' : 'Amsterdam';
   const keyword = isTaxiVariant
@@ -127,6 +128,37 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           </article>
         </div>
       </section>
+
+      {relatedRoutes.length > 0 && (
+        <section className="mx-auto mb-10 max-w-7xl px-6">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-6">
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900">Nearby transfer routes</h2>
+            <p className="mt-2 text-sm text-zinc-600">
+              Explore similar routes from {route.origin} across {route.countryName}.
+            </p>
+            <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedRoutes.map((relatedRoute) => (
+                <li key={relatedRoute.pathname}>
+                  <a
+                    href={relatedRoute.pathname}
+                    className="block rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-semibold text-zinc-800 transition hover:border-emerald-500 hover:text-emerald-700"
+                  >
+                    {relatedRoute.origin} to {relatedRoute.city}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5 flex flex-wrap gap-4 text-sm font-semibold">
+              <a href="/destinations" className="text-emerald-700 hover:text-emerald-800">
+                Browse all destinations
+              </a>
+              <a href="/routes" className="text-emerald-700 hover:text-emerald-800">
+                Open full route index
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto mb-14 max-w-7xl px-6">
         <div className="py-1">

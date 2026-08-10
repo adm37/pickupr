@@ -172,4 +172,35 @@ export function isCityLandingPath(pathname: string): boolean {
   return ROUTE_BY_PATH.has(pathname);
 }
 
+export function getRelatedCityRoutes(pathname: string, limit = 8): CityRoute[] {
+  const currentRoute = getCityRouteByPath(pathname);
+  if (!currentRoute || limit <= 0) {
+    return [];
+  }
+
+  const normalizedPath = currentRoute.pathname;
+  const inSameCluster = ALL_CITY_ROUTES
+    .filter((route) => route.pathname !== normalizedPath)
+    .filter((route) => route.pattern === currentRoute.pattern && route.countryCode === currentRoute.countryCode)
+    .sort((a, b) => a.city.localeCompare(b.city, 'en', { sensitivity: 'base' }));
+
+  if (inSameCluster.length <= limit) {
+    return inSameCluster;
+  }
+
+  const routeIndex = inSameCluster.findIndex((route) => route.city.localeCompare(currentRoute.city, 'en', { sensitivity: 'base' }) > 0);
+  const startIndex = routeIndex <= 0 ? 0 : routeIndex;
+  const results: CityRoute[] = [];
+
+  for (let i = startIndex; i < inSameCluster.length && results.length < limit; i += 1) {
+    results.push(inSameCluster[i]);
+  }
+
+  for (let i = 0; i < startIndex && results.length < limit; i += 1) {
+    results.push(inSameCluster[i]);
+  }
+
+  return results;
+}
+
 export const CITY_LANDING_COUNT = ALL_CITY_ROUTES.length;

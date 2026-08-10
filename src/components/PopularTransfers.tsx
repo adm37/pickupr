@@ -107,6 +107,7 @@ export default function PopularTransfers() {
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="font-bold text-zinc-900">{transfer.from}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-400">to</span>
                   <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-emerald-600 transition-colors shrink-0" />
                   <span className="font-bold text-zinc-900 truncate">{transfer.to}</span>
                 </div>
