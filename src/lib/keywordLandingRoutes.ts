@@ -1,4 +1,4 @@
-import { ALL_CITY_ROUTES, AMSTERDAM_INTERNATIONAL_ROUTES, SCHIPHOL_NETHERLANDS_ROUTES } from './cityLandingRoutes';
+import { ALL_CITY_ROUTES, AMSTERDAM_INTERNATIONAL_ROUTES, SCHIPHOL_NETHERLANDS_ROUTES } from './cityLandingRoutes.ts';
 
 export type KeywordLandingRoute = {
   keyword: string;
