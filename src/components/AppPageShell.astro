@@ -52,6 +52,7 @@ const keywordList = Array.isArray(keywords)
     : defaultKeywords;
 const keywordContent = keywordList.join(', ');
 const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
+const googleAdsTagId = 'AW-11308826939';
 const robotsContent = robots;
 const webPageSchema = {
   '@type': 'WebPage',
@@ -121,6 +122,14 @@ const jsonLdPayload = (() => {
     {googleSiteVerification && (
       <meta name="google-site-verification" content={googleSiteVerification} />
     )}
+
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsTagId}`}></script>
+    <script is:inline define:vars={{ googleAdsTagId }}>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', googleAdsTagId);
+    </script>
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLdPayload)}></script>
   </head>

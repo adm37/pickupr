@@ -12,6 +12,7 @@
     "start": "node dist/server.cjs",
     "clean": "rm -rf dist .astro",
     "lint": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test src/**/*.test.ts",
     "seo:guard": "node scripts/seo-page-guard.mjs",
     "seo:audit:source": "node scripts/seo-meta-audit.mjs",
     "seo:sitemap:check": "node scripts/seo-sitemap-check.mjs",

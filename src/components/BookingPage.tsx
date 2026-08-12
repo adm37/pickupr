@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BookingMap from "./BookingMap";
 import {
   Car,
@@ -25,6 +25,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { logEvent } from "../lib/tracking";
+import { trackConfirmedBooking } from "../lib/googleAds";
 import { navigateTo } from "../lib/navigation";
 import { isSupabaseConfigured, supabase, supabaseUrl } from "../lib/supabaseClient";
 
@@ -213,6 +214,8 @@ function VehicleOption({
 }
 
 export default function BookingPage() {
+  const bookingSubmissionLocked = useRef(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const getHashParams = () => {
     if (typeof window === "undefined") return new URLSearchParams();
     return new URLSearchParams(window.location.search);
@@ -401,6 +404,8 @@ export default function BookingPage() {
   };
 
   const handleBookingSubmit = async () => {
+    if (bookingSubmissionLocked.current) return;
+
     logEvent("Booking Initiated", `Vehicle: ${selectedVehicle} | ${pickup} -> ${dropoff}`);
 
     if (!isSupabaseConfigured || !supabase) {
@@ -418,6 +423,8 @@ export default function BookingPage() {
     }
 
     const bookingPriceAmount = computePrice();
+    bookingSubmissionLocked.current = true;
+    setIsSubmitting(true);
 
     try {
       const { data, error } = await supabase
@@ -450,11 +457,17 @@ export default function BookingPage() {
       if (error) {
         logEvent("Booking Failed", `Supabase error: ${error.message || "Unknown"}`);
         alert(`Booking error: ${error.message || "Please try again."}`);
+        bookingSubmissionLocked.current = false;
+        setIsSubmitting(false);
         return;
       }
 
       const resolvedBookingId = String(data?.id || generateFallbackBookingId());
       logEvent("Booking Confirmed", `Payment method: Driver | Booking: ${resolvedBookingId}`);
+      trackConfirmedBooking({
+        amount: bookingPriceAmount,
+        bookingId: resolvedBookingId,
+      });
       setBookingConfirmed(true);
     } catch (err: any) {
       const rawMessage = err?.message || "Unknown error";
@@ -466,6 +479,8 @@ export default function BookingPage() {
 
       logEvent("Booking Failed", message);
       alert(message);
+      bookingSubmissionLocked.current = false;
+      setIsSubmitting(false);
     }
   };
 
@@ -832,10 +847,11 @@ export default function BookingPage() {
 
               <button
                 onClick={handleBookingSubmit}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 py-4 text-sm font-black uppercase tracking-wide text-white transition hover:bg-emerald-700"
+                disabled={isSubmitting}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 py-4 text-sm font-black uppercase tracking-wide text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Lock className="h-4 w-4" />
-                Confirm booking
+                {isSubmitting ? "Confirming..." : "Confirm booking"}
               </button>
 
               <p className="text-center text-xs text-zinc-500">
@@ -940,7 +956,7 @@ export default function BookingPage() {
                 handleBookingSubmit();
               }
             }}
-            disabled={step === 1 && !canProceedToDetails}
+            disabled={(step === 1 && !canProceedToDetails) || isSubmitting}
             className={`inline-flex items-center gap-1.5 rounded-xl px-5 py-3 text-sm font-bold transition ${
               step === 1 && !canProceedToDetails
                 ? "bg-zinc-200 text-zinc-500"
@@ -949,7 +965,7 @@ export default function BookingPage() {
                   : "bg-zinc-900 text-white"
             }`}
           >
-            {step === 1 ? "Continue" : "Confirm"}
+            {step === 1 ? "Continue" : isSubmitting ? "Confirming..." : "Confirm"}
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>
