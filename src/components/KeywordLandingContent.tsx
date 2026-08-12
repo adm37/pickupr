@@ -501,10 +501,10 @@ export default function KeywordLandingContent({ path }: { path: string }) {
               <p className="mt-1 text-lg font-black tracking-tight text-emerald-900">Reserve your {keyword} transfer now</p>
             </div>
             <a
-              href="/#hero"
+              href="#hero"
               className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-emerald-700"
             >
-              <Car className="h-4 w-4" /> Book now
+              <Car className="h-4 w-4" /> Enter route & check price
             </a>
           </div>
           <p className="mt-3 inline-flex items-center gap-2 text-sm text-zinc-700">
