@@ -209,7 +209,6 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight mb-5 leading-[1.08] text-zinc-900">
             {heroTitle}
-            <span className="block text-lg md:text-2xl text-zinc-700 mt-3 font-medium">Netherlands, Belgium, France, and Germany</span>
           </h1>
           <p className="text-zinc-700 text-base md:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">{heroSubtitle}</p>
         </motion.div>
