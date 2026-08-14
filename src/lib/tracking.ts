@@ -8,7 +8,7 @@ export interface TrackingEvent {
 
 let cachedIp: string | null = null;
 let trackingEndpointAvailable: boolean | null = null;
-const trackingApiEnabled = ((import.meta as any).env?.PUBLIC_ENABLE_TRACKING_API || 'false') === 'true';
+const trackingCollectionEnabled = ((import.meta as any).env?.PUBLIC_ENABLE_TRACKING_API || 'true') === 'true';
 
 const isLikelyBot = () => {
   if (typeof navigator === 'undefined') return false;
@@ -23,10 +23,6 @@ const isTrackingCollectionEnabled = () => {
 };
 
 const ensureTrackingEndpointAvailable = async () => {
-  if (!trackingApiEnabled) {
-    trackingEndpointAvailable = false;
-    return false;
-  }
   if (trackingEndpointAvailable === true) return true;
   try {
     const controller = new AbortController();
@@ -45,7 +41,7 @@ const ensureTrackingEndpointAvailable = async () => {
 };
 
 const getIpAddress = async () => {
-  if (!trackingApiEnabled) return 'Tracking disabled';
+  if (!trackingCollectionEnabled) return 'Tracking disabled';
   if (cachedIp) return cachedIp;
   try {
     const res = await fetch('https://api.ipify.org?format=json');
@@ -60,7 +56,7 @@ const getIpAddress = async () => {
 
 export const logEvent = async (action: string, details: string = '') => {
   try {
-    if (!trackingApiEnabled) return;
+    if (!trackingCollectionEnabled) return;
     if (!isTrackingCollectionEnabled()) return;
     const userStr = localStorage.getItem('pickupr_user');
     if (userStr) {
@@ -93,7 +89,6 @@ export const logEvent = async (action: string, details: string = '') => {
 
 export const getTrackingEvents = async (): Promise<TrackingEvent[]> => {
     try {
-  if (!trackingApiEnabled) return [];
     if (typeof window === 'undefined') return [];
         if (!(await ensureTrackingEndpointAvailable())) return [];
         const res = await fetch('/api/tracking');
@@ -106,7 +101,6 @@ export const getTrackingEvents = async (): Promise<TrackingEvent[]> => {
 
 export const clearTrackingEvents = async () => {
     try {
-  if (!trackingApiEnabled) return;
   if (typeof window === 'undefined') return;
     if (!(await ensureTrackingEndpointAvailable())) return;
         await fetch('/api/tracking', { method: 'DELETE' });
