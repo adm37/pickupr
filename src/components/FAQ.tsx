@@ -48,7 +48,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-24 bg-white border-t border-zinc-100">
+    <section className="py-24">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-black font-sans tracking-tight text-zinc-900 mb-6">Frequently Asked Questions</h2>
@@ -59,7 +59,7 @@ export default function FAQ() {
           {faqs.map((faq, i) => (
             <div 
               key={i} 
-              className="border border-zinc-200 rounded-2xl overflow-hidden hover:border-emerald-200 transition-colors bg-white"
+              className="border border-zinc-200 rounded-2xl overflow-hidden hover:border-emerald-200 transition-colors bg-white/95 shadow-[0_16px_28px_-24px_rgba(15,23,42,0.45)]"
             >
               <button
                 className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"

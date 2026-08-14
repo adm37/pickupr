@@ -48,7 +48,7 @@ export default function Services() {
 
   return (
     <>
-      <section id="services" className="py-24 bg-white text-zinc-950">
+      <section id="services" className="py-24 text-zinc-950">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black font-sans tracking-tight mb-4 text-zinc-900">
@@ -78,7 +78,7 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="bg-white border border-zinc-200 p-8 rounded-3xl hover:border-emerald-200 hover:shadow-md transition-all duration-300 group"
+                className="bg-white/95 border border-zinc-200 p-8 rounded-3xl hover:border-emerald-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
               >
                 <div className="mb-6 group-hover:scale-110 transition-transform">{service.icon}</div>
                 <h3 className="text-xl font-bold mb-3 text-zinc-900">{service.title}</h3>
@@ -89,7 +89,7 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="py-12 bg-zinc-50 border-y border-zinc-100">
+      <section className="py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
@@ -111,7 +111,7 @@ export default function Services() {
               <a
                 key={item.href}
                 href={item.href}
-                className="rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm font-semibold text-zinc-800 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
+                className="rounded-2xl border border-zinc-200 bg-white/95 px-4 py-3 text-sm font-semibold text-zinc-800 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
               >
                 {item.label}
               </a>
@@ -126,7 +126,7 @@ export default function Services() {
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
         id="hourly" 
-        className="relative overflow-hidden bg-white min-h-[600px]"
+        className="relative overflow-hidden bg-transparent min-h-[600px]"
         style={{marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)'}}
       >
         <div className="absolute inset-0 z-0">

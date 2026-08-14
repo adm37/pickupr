@@ -4,7 +4,7 @@ import { Star, ShieldCheck, GraduationCap, Users } from 'lucide-react';
 
 export default function DriversSection() {
   return (
-    <section className="py-32 bg-white text-zinc-950 overflow-hidden relative border-y border-zinc-100">
+    <section className="py-28 text-zinc-950 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold uppercase tracking-widest rounded-full mb-6 shadow-sm">
@@ -24,7 +24,7 @@ export default function DriversSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-white border border-zinc-200 p-8 lg:p-10 rounded-3xl hover:bg-emerald-50 hover:shadow-md transition-all duration-300 group"
+            className="bg-white/95 border border-zinc-200 p-8 lg:p-10 rounded-3xl hover:bg-emerald-50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
           >
             <div className="w-14 h-14 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-700 font-black text-2xl mb-8 group-hover:scale-110 transition-transform">
               1
@@ -42,7 +42,7 @@ export default function DriversSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-white border border-zinc-200 p-8 lg:p-10 rounded-3xl hover:bg-emerald-50 hover:shadow-md transition-all duration-300 group"
+            className="bg-white/95 border border-zinc-200 p-8 lg:p-10 rounded-3xl hover:bg-emerald-50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
           >
             <div className="w-14 h-14 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-700 font-black text-2xl mb-8 group-hover:scale-110 transition-transform">
               2
@@ -60,7 +60,7 @@ export default function DriversSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-white border border-zinc-200 p-8 lg:p-10 rounded-3xl hover:bg-emerald-50 hover:shadow-md transition-all duration-300 group"
+            className="bg-white/95 border border-zinc-200 p-8 lg:p-10 rounded-3xl hover:bg-emerald-50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
           >
             <div className="w-14 h-14 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-700 font-black text-2xl mb-8 group-hover:scale-110 transition-transform">
               3

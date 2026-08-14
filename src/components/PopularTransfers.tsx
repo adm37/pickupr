@@ -79,7 +79,7 @@ export default function PopularTransfers() {
   };
 
   return (
-    <section className="py-24 bg-white text-zinc-950">
+    <section className="py-24 text-zinc-950">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12 text-center md:text-left">
           <h2 className="text-3xl md:text-4xl font-black font-sans tracking-tight mb-4 text-zinc-900">
@@ -102,7 +102,7 @@ export default function PopularTransfers() {
             <a 
               key={idx}
               href={buildBookingUrl(transfer.from, transfer.to)}
-              className="flex items-center justify-between p-4 rounded-xl bg-white border border-zinc-200 hover:border-emerald-200 hover:bg-emerald-50 hover:shadow-sm transition-all duration-300 group"
+              className="flex items-center justify-between p-4 rounded-2xl bg-white/95 border border-zinc-200 hover:border-emerald-200 hover:bg-emerald-50 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 group"
             >
               <div>
                 <div className="flex items-center gap-2 mb-1.5">

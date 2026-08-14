@@ -213,7 +213,7 @@ export default function App({ initialPath = '/' }: AppProps) {
       return (
         <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans">
           <Navigation isAdminView={false} />
-          <main className="flex-grow bg-zinc-50">
+          <main className="modern-flow flex-grow">
             <Suspense fallback={lazyFallback}>
               {isKeywordLanding ? (
                 <KeywordLandingContent path={normalizedPath} />
@@ -231,7 +231,7 @@ export default function App({ initialPath = '/' }: AppProps) {
     return (
       <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans">
         <Navigation isAdminView={false} />
-        <main className="flex-grow">
+        <main className="modern-flow flex-grow">
           <Hero />
           <HowItWorks />
           <Services />

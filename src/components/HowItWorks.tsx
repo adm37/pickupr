@@ -35,7 +35,7 @@ const highlights = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-zinc-50 py-20 text-zinc-950 border-y border-zinc-100">
+    <section className="py-24 text-zinc-950">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-zinc-900 mb-4">
@@ -48,7 +48,7 @@ export default function HowItWorks() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
           {steps.map((step) => (
-            <article key={step.title} className="rounded-2xl bg-white border border-zinc-200 p-6 hover:border-emerald-200 transition-colors">
+            <article key={step.title} className="rounded-3xl bg-white/95 border border-zinc-200 p-7 shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] hover:border-emerald-200 hover:-translate-y-0.5 transition-all">
               <div className="mb-4">{step.icon}</div>
               <h3 className="text-lg font-bold text-zinc-900 mb-2">{step.title}</h3>
               <p className="text-zinc-600 leading-relaxed">{step.text}</p>
@@ -58,7 +58,7 @@ export default function HowItWorks() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {highlights.map((item) => (
-            <div key={item.title} className="inline-flex items-center gap-2.5 rounded-xl border border-zinc-200 bg-white px-4 py-3">
+            <div key={item.title} className="inline-flex items-center gap-2.5 rounded-2xl border border-zinc-200 bg-white/95 px-4 py-3 shadow-[0_12px_24px_-22px_rgba(15,23,42,0.45)]">
               {item.icon}
               <span className="font-medium text-zinc-800">{item.title}</span>
             </div>
