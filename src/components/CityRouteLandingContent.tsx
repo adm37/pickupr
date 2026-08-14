@@ -107,7 +107,17 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
     <>
       <Hero title={heroTitle} subtitle={heroSubtitle} />
 
-      <section className="mx-auto max-w-7xl px-6 py-10">
+      <section className="mx-auto max-w-7xl px-6 py-14 md:py-18">
+        <div className="mb-10 rounded-3xl border border-zinc-200 bg-white px-6 py-7 md:px-8 md:py-9 shadow-[0_24px_50px_-38px_rgba(15,23,42,0.4)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700">Route overview</p>
+          <h2 className="mt-3 text-2xl font-black tracking-tight text-zinc-900 md:text-3xl">
+            {routeLabel} private transfer details
+          </h2>
+          <p className="mt-3 max-w-3xl text-base leading-relaxed text-zinc-600 md:text-lg">
+            Everything below is structured to help you compare options quickly, understand timing and pricing, and book with confidence.
+          </p>
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-3">
           <article className="rounded-2xl border border-zinc-200 bg-white p-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Distance</p>
@@ -142,10 +152,10 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           </article>
         </div>
 
-        <div className="mt-10 space-y-10">
+        <div className="mt-14 space-y-8 md:space-y-10">
           <article>
-            <h2 className="text-2xl font-black tracking-tight text-zinc-900">Why book {keyword} with Pickupr</h2>
-            <p className="mt-3 text-base leading-relaxed text-zinc-700">
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900 md:text-[2rem]">Why book {keyword} with Pickupr</h2>
+            <p className="mt-4 max-w-4xl text-[1.05rem] leading-8 text-zinc-700">
               {isTaxiVariant
                 ? `Travelers comparing ${keyword} options typically want dependable pickup timing, transparent pricing, and a direct booking flow without hidden extras. Pickupr is built around that intent with private transport, professional drivers, and clear reservation steps.`
                 : `Users searching ${keyword} usually prioritize comfort, discretion, and schedule control. This page targets that intent with private transfer positioning, reliable route planning, and a frictionless booking process from quote to confirmation.`}
@@ -153,8 +163,8 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           </article>
 
           <article>
-            <h2 className="text-2xl font-black tracking-tight text-zinc-900">A reliable transfer for airport, business, and family itineraries</h2>
-            <p className="mt-3 text-base leading-relaxed text-zinc-700">
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900 md:text-[2rem]">A reliable transfer for airport, business, and family itineraries</h2>
+            <p className="mt-4 max-w-4xl text-[1.05rem] leading-8 text-zinc-700">
               {isTaxiVariant
                 ? `This route is frequently booked for airport arrivals, executive travel, and cross-border family trips. Private door-to-door taxi service reduces waiting time and simplifies luggage handling from ${route.origin} to ${route.city}.`
                 : `This route is frequently reserved for executive schedules, premium airport pickups, and long-distance private travel. Dedicated transfer service helps keep timing precise while removing the uncertainty of on-demand alternatives.`}
@@ -162,8 +172,8 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           </article>
 
           <article>
-            <h2 className="text-2xl font-black tracking-tight text-zinc-900">Route details for {routeLabel}</h2>
-            <p className="mt-3 text-base leading-relaxed text-zinc-700">
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900 md:text-[2rem]">Route details for {routeLabel}</h2>
+            <p className="mt-4 max-w-4xl text-[1.05rem] leading-8 text-zinc-700">
               Typical distance for {routeLabel} is around {route.distanceKm} km, with an estimated travel time of {toDurationLabel(route.durationMin)} depending on traffic and route conditions.
               {isTaxiVariant
                 ? ` Taxi fares on this route start from EUR ${route.priceFrom}, and you can confirm your booking online with clear trip details before checkout.`
@@ -172,8 +182,8 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           </article>
 
           <article>
-            <h2 className="text-2xl font-black tracking-tight text-zinc-900">How to get the best value on {routeLabel} transfers</h2>
-            <p className="mt-3 text-base leading-relaxed text-zinc-700">
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900 md:text-[2rem]">How to get the best value on {routeLabel} transfers</h2>
+            <p className="mt-4 max-w-4xl text-[1.05rem] leading-8 text-zinc-700">
               Pre-booking usually gives the strongest balance between availability, pickup precision, and predictable pricing.
               For high-demand windows, secure your transfer early and provide full flight details where relevant.
               {isTaxiVariant
@@ -183,8 +193,8 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           </article>
 
           <article>
-            <h2 className="text-2xl font-black tracking-tight text-zinc-900">Pickup and planning tips for this route</h2>
-            <p className="mt-3 text-base leading-relaxed text-zinc-700">
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900 md:text-[2rem]">Pickup and planning tips for this route</h2>
+            <p className="mt-4 max-w-4xl text-[1.05rem] leading-8 text-zinc-700">
               Share full pickup notes during booking, including terminal or address details, so handover is fast and clear.
               For airport arrivals, keep your phone reachable after landing and verify meeting instructions before baggage claim to reduce waiting time.
               If your journey includes meetings or onward travel, schedule a realistic time buffer around peak traffic windows.
@@ -192,30 +202,30 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           </article>
         </div>
 
-        <article className="mt-10 rounded-2xl border border-zinc-200 bg-white p-6">
+        <article className="mt-14 rounded-3xl border border-zinc-200 bg-white p-6 md:p-8 shadow-[0_24px_50px_-38px_rgba(15,23,42,0.4)]">
           <h2 className="text-2xl font-black tracking-tight text-zinc-900">Compare transfer choices for {routeLabel}</h2>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600 md:text-base">
             This overview helps you choose between private transfer, taxis, ride-hailing, and public transport based on reliability and comfort.
           </p>
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-5 overflow-x-auto rounded-2xl border border-zinc-200">
             <table className="min-w-full border-collapse text-sm">
-              <thead>
+              <thead className="bg-zinc-50">
                 <tr className="border-b border-zinc-200 text-left text-zinc-600">
-                  <th className="px-2 py-2 font-semibold">Option</th>
-                  <th className="px-2 py-2 font-semibold">Pricing</th>
-                  <th className="px-2 py-2 font-semibold">Timing</th>
-                  <th className="px-2 py-2 font-semibold">Comfort</th>
-                  <th className="px-2 py-2 font-semibold">Best for</th>
+                  <th className="px-4 py-3 font-semibold">Option</th>
+                  <th className="px-4 py-3 font-semibold">Pricing</th>
+                  <th className="px-4 py-3 font-semibold">Timing</th>
+                  <th className="px-4 py-3 font-semibold">Comfort</th>
+                  <th className="px-4 py-3 font-semibold">Best for</th>
                 </tr>
               </thead>
               <tbody>
                 {comparisonRows.map((row) => (
                   <tr key={row.option} className="border-b border-zinc-100 text-zinc-800">
-                    <td className="px-2 py-2 font-semibold">{row.option}</td>
-                    <td className="px-2 py-2">{row.price}</td>
-                    <td className="px-2 py-2">{row.timing}</td>
-                    <td className="px-2 py-2">{row.comfort}</td>
-                    <td className="px-2 py-2">{row.bestFor}</td>
+                    <td className="px-4 py-3 font-semibold">{row.option}</td>
+                    <td className="px-4 py-3">{row.price}</td>
+                    <td className="px-4 py-3">{row.timing}</td>
+                    <td className="px-4 py-3">{row.comfort}</td>
+                    <td className="px-4 py-3">{row.bestFor}</td>
                   </tr>
                 ))}
               </tbody>
@@ -224,13 +234,13 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
         </article>
       </section>
 
-      <section className="mx-auto mb-8 max-w-7xl px-6 py-2">
+      <section className="mx-auto mb-10 max-w-7xl px-6">
         <h2 className="text-2xl font-black tracking-tight text-zinc-900">Frequently asked questions</h2>
-        <div className="mt-4 space-y-5">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
           {expandedFaqs.map((faq) => (
-            <article key={faq.q} className="border-b border-zinc-200 pb-4">
-              <h3 className="text-sm font-bold text-zinc-900">{faq.q}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-700">{faq.a}</p>
+            <article key={faq.q} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-[0_18px_36px_-32px_rgba(15,23,42,0.45)]">
+              <h3 className="text-base font-bold text-zinc-900">{faq.q}</h3>
+              <p className="mt-2 text-sm leading-7 text-zinc-700 md:text-base">{faq.a}</p>
             </article>
           ))}
         </div>
@@ -267,12 +277,12 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
         </section>
       )}
 
-      <section className="mx-auto mb-14 max-w-7xl px-6">
-        <div className="py-1">
+      <section className="mx-auto mb-16 max-w-7xl px-6">
+        <div className="rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white px-6 py-8 md:px-8 md:py-10 shadow-[0_24px_50px_-38px_rgba(5,150,105,0.35)]">
           <div className="space-y-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Ready to book</p>
-              <p className="mt-1 text-lg font-black tracking-tight text-emerald-900">Reserve your {keyword} transfer now</p>
+              <p className="mt-1 text-2xl font-black tracking-tight text-emerald-900">Reserve your {keyword} transfer now</p>
             </div>
             <a
               href={bookingHref}
@@ -281,10 +291,10 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
               <Car className="h-4 w-4" /> Book now
             </a>
           </div>
-          <p className="mt-3 inline-flex items-center gap-2 text-sm text-zinc-700">
+          <p className="mt-4 inline-flex items-center gap-2 text-sm text-zinc-700 md:text-base">
             <Clock3 className="h-4 w-4" /> Fast confirmation for {route.origin} to {route.city}
           </p>
-          <p className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-700">
+          <p className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-700 md:text-base">
             <MapPin className="h-4 w-4" /> Route: {route.origin} to {route.city}, {route.countryName}
           </p>
         </div>

@@ -506,7 +506,17 @@ export default function KeywordLandingContent({ path }: { path: string }) {
     <>
       <Hero title={heroTitle} subtitle={heroSubtitle} />
 
-      <section className="mx-auto max-w-7xl px-6 py-10">
+      <section className="mx-auto max-w-7xl px-6 py-14 md:py-18">
+        <div className="mb-10 rounded-3xl border border-zinc-200 bg-white px-6 py-7 md:px-8 md:py-9 shadow-[0_24px_50px_-38px_rgba(15,23,42,0.4)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700">Route overview</p>
+          <h2 className="mt-3 text-2xl font-black tracking-tight text-zinc-900 md:text-3xl">
+            {keyword} booking guide
+          </h2>
+          <p className="mt-3 max-w-3xl text-base leading-relaxed text-zinc-600 md:text-lg">
+            A cleaner overview to help you evaluate this route quickly, compare options clearly, and move to booking without friction.
+          </p>
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-3">
           <article className="rounded-2xl border border-zinc-200 bg-white p-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Keyword</p>
@@ -541,39 +551,39 @@ export default function KeywordLandingContent({ path }: { path: string }) {
           </article>
         </div>
 
-        <div className="mt-10 space-y-10">
+        <div className="mt-14 space-y-8 md:space-y-10">
           {seoSections.map((section) => (
             <article key={section.title}>
-              <h2 className="text-2xl font-black tracking-tight text-zinc-900">{section.title}</h2>
-              <p className="mt-3 text-base leading-relaxed text-zinc-700">{section.text}</p>
+              <h2 className="text-2xl font-black tracking-tight text-zinc-900 md:text-[2rem]">{section.title}</h2>
+              <p className="mt-4 max-w-4xl text-[1.05rem] leading-8 text-zinc-700">{section.text}</p>
             </article>
           ))}
         </div>
 
-        <article className="mt-10 rounded-2xl border border-zinc-200 bg-white p-6">
+        <article className="mt-14 rounded-3xl border border-zinc-200 bg-white p-6 md:p-8 shadow-[0_24px_50px_-38px_rgba(15,23,42,0.4)]">
           <h2 className="text-2xl font-black tracking-tight text-zinc-900">Which transfer option fits your trip?</h2>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600 md:text-base">
             Use this quick comparison before booking {keyword}. If certainty and timing matter, pre-booked private transfer is usually the strongest fit.
           </p>
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-5 overflow-x-auto rounded-2xl border border-zinc-200">
             <table className="min-w-full border-collapse text-sm">
-              <thead>
+              <thead className="bg-zinc-50">
                 <tr className="border-b border-zinc-200 text-left text-zinc-600">
-                  <th className="px-2 py-2 font-semibold">Option</th>
-                  <th className="px-2 py-2 font-semibold">Pricing</th>
-                  <th className="px-2 py-2 font-semibold">Pickup reliability</th>
-                  <th className="px-2 py-2 font-semibold">Luggage convenience</th>
-                  <th className="px-2 py-2 font-semibold">Support</th>
+                  <th className="px-4 py-3 font-semibold">Option</th>
+                  <th className="px-4 py-3 font-semibold">Pricing</th>
+                  <th className="px-4 py-3 font-semibold">Pickup reliability</th>
+                  <th className="px-4 py-3 font-semibold">Luggage convenience</th>
+                  <th className="px-4 py-3 font-semibold">Support</th>
                 </tr>
               </thead>
               <tbody>
                 {comparisonRows.map((row) => (
                   <tr key={row.option} className="border-b border-zinc-100 text-zinc-800">
-                    <td className="px-2 py-2 font-semibold">{row.option}</td>
-                    <td className="px-2 py-2">{row.price}</td>
-                    <td className="px-2 py-2">{row.waiting}</td>
-                    <td className="px-2 py-2">{row.luggage}</td>
-                    <td className="px-2 py-2">{row.support}</td>
+                    <td className="px-4 py-3 font-semibold">{row.option}</td>
+                    <td className="px-4 py-3">{row.price}</td>
+                    <td className="px-4 py-3">{row.waiting}</td>
+                    <td className="px-4 py-3">{row.luggage}</td>
+                    <td className="px-4 py-3">{row.support}</td>
                   </tr>
                 ))}
               </tbody>
@@ -582,24 +592,24 @@ export default function KeywordLandingContent({ path }: { path: string }) {
         </article>
       </section>
 
-      <section className="mx-auto mb-8 max-w-7xl px-6 py-2">
+      <section className="mx-auto mb-10 max-w-7xl px-6">
         <h2 className="text-2xl font-black tracking-tight text-zinc-900">Frequently asked questions</h2>
-        <div className="mt-4 space-y-5">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
           {expandedFaqs.map((faq) => (
-            <article key={faq.q} className="border-b border-zinc-200 pb-4">
-              <h3 className="text-sm font-bold text-zinc-900">{faq.q}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-700">{faq.a}</p>
+            <article key={faq.q} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-[0_18px_36px_-32px_rgba(15,23,42,0.45)]">
+              <h3 className="text-base font-bold text-zinc-900">{faq.q}</h3>
+              <p className="mt-2 text-sm leading-7 text-zinc-700 md:text-base">{faq.a}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto mb-14 max-w-7xl px-6">
-        <div className="py-1">
+      <section className="mx-auto mb-16 max-w-7xl px-6">
+        <div className="rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white px-6 py-8 md:px-8 md:py-10 shadow-[0_24px_50px_-38px_rgba(5,150,105,0.35)]">
           <div className="space-y-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Ready to book</p>
-              <p className="mt-1 text-lg font-black tracking-tight text-emerald-900">Reserve your {keyword} transfer now</p>
+              <p className="mt-1 text-2xl font-black tracking-tight text-emerald-900">Reserve your {keyword} transfer now</p>
             </div>
             <a
               href="#hero"
@@ -608,10 +618,10 @@ export default function KeywordLandingContent({ path }: { path: string }) {
               <Car className="h-4 w-4" /> Enter route & check price
             </a>
           </div>
-          <p className="mt-3 inline-flex items-center gap-2 text-sm text-zinc-700">
+          <p className="mt-4 inline-flex items-center gap-2 text-sm text-zinc-700 md:text-base">
             <Clock3 className="h-4 w-4" /> Fast confirmation for {keyword}
           </p>
-          <p className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-700">
+          <p className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-700 md:text-base">
             <MapPin className="h-4 w-4" /> Service area: Netherlands, Belgium, Germany, France
           </p>
         </div>
