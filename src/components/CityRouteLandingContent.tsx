@@ -37,6 +37,72 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
     ? `Book your ${routeLabel} taxi with fixed pricing, meet-and-greet support, and direct confirmation. Reserve in minutes through the booking form below.`
     : `Reserve your ${routeLabel} private transfer with chauffeur comfort, fixed pricing clarity, and direct online confirmation.`;
 
+  const comparisonRows = [
+    {
+      option: 'Pickupr private transfer',
+      price: `From EUR ${route.priceFrom}`,
+      timing: 'Pre-booked slot with direct confirmation',
+      comfort: 'Private vehicle and luggage support',
+      bestFor: 'Airport, business, and family travel',
+    },
+    {
+      option: 'Taxi rank',
+      price: 'Meter-based and traffic dependent',
+      timing: 'Queue and availability dependent',
+      comfort: 'Vehicle type varies',
+      bestFor: 'Immediate short-notice rides',
+    },
+    {
+      option: 'Ride-hailing',
+      price: 'Dynamic by demand',
+      timing: 'Driver availability dependent',
+      comfort: 'Category dependent',
+      bestFor: 'On-demand app users',
+    },
+    {
+      option: 'Public transport',
+      price: 'Low base fare',
+      timing: 'Schedule and transfers required',
+      comfort: 'Self-managed luggage',
+      bestFor: 'Budget-first travelers',
+    },
+  ];
+
+  const expandedFaqs = [
+    {
+      q: `Can I pre-book ${keyword} online?`,
+      a: 'Yes. You can pre-book this route online and receive direct confirmation with your planned pickup details.',
+    },
+    {
+      q: 'Is this transfer private or shared?',
+      a: 'The vehicle is reserved for your booking only, with no shared passengers.',
+    },
+    {
+      q: 'Can I add return travel in the same reservation?',
+      a: 'Yes. You can add return details during booking to organize round-trip travel in one reservation flow.',
+    },
+    {
+      q: `How long does ${routeLabel} usually take?`,
+      a: `Typical travel time is around ${toDurationLabel(route.durationMin)}, depending on traffic and route conditions.`,
+    },
+    {
+      q: `How does ${keyword} compare to Uber or regular taxis?`,
+      a: 'Pre-booking typically provides fixed-fare clarity and confirmed pickup timing, while on-demand options can vary by queue and demand.',
+    },
+    {
+      q: 'Can I request child seats or extra luggage support?',
+      a: 'Yes. Add your travel requirements during booking so vehicle setup can match your trip needs.',
+    },
+    {
+      q: 'What if my plan changes after booking?',
+      a: 'Contact support with your booking details to request timing or route adjustments based on availability.',
+    },
+    {
+      q: 'Do travel time and final fare ever change?',
+      a: 'Travel time can vary with traffic. Pricing and route details are clearly presented before booking confirmation.',
+    },
+  ];
+
   return (
     <>
       <Hero title={heroTitle} subtitle={heroSubtitle} />
@@ -54,6 +120,25 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           <article className="rounded-2xl border border-zinc-200 bg-white p-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Private fare from</p>
             <p className="mt-1 text-xl font-black text-zinc-900">EUR {route.priceFrom}</p>
+          </article>
+        </div>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Fixed fare clarity</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Price visibility before confirmation.</p>
+          </article>
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Private vehicle</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Dedicated transfer for your booking.</p>
+          </article>
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Cross-border coverage</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Netherlands, Belgium, Germany, and France.</p>
+          </article>
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Fast booking</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Direct quote and reservation flow.</p>
           </article>
         </div>
 
@@ -96,36 +181,58 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
                 : ` This page is tailored for users searching ${keyword.toLowerCase()} and premium private transfer options with direct confirmation.`}
             </p>
           </article>
+
+          <article>
+            <h2 className="text-2xl font-black tracking-tight text-zinc-900">Pickup and planning tips for this route</h2>
+            <p className="mt-3 text-base leading-relaxed text-zinc-700">
+              Share full pickup notes during booking, including terminal or address details, so handover is fast and clear.
+              For airport arrivals, keep your phone reachable after landing and verify meeting instructions before baggage claim to reduce waiting time.
+              If your journey includes meetings or onward travel, schedule a realistic time buffer around peak traffic windows.
+            </p>
+          </article>
         </div>
+
+        <article className="mt-10 rounded-2xl border border-zinc-200 bg-white p-6">
+          <h2 className="text-2xl font-black tracking-tight text-zinc-900">Compare transfer choices for {routeLabel}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+            This overview helps you choose between private transfer, taxis, ride-hailing, and public transport based on reliability and comfort.
+          </p>
+          <div className="mt-4 overflow-x-auto">
+            <table className="min-w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-zinc-200 text-left text-zinc-600">
+                  <th className="px-2 py-2 font-semibold">Option</th>
+                  <th className="px-2 py-2 font-semibold">Pricing</th>
+                  <th className="px-2 py-2 font-semibold">Timing</th>
+                  <th className="px-2 py-2 font-semibold">Comfort</th>
+                  <th className="px-2 py-2 font-semibold">Best for</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonRows.map((row) => (
+                  <tr key={row.option} className="border-b border-zinc-100 text-zinc-800">
+                    <td className="px-2 py-2 font-semibold">{row.option}</td>
+                    <td className="px-2 py-2">{row.price}</td>
+                    <td className="px-2 py-2">{row.timing}</td>
+                    <td className="px-2 py-2">{row.comfort}</td>
+                    <td className="px-2 py-2">{row.bestFor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </article>
       </section>
 
       <section className="mx-auto mb-8 max-w-7xl px-6 py-2">
         <h2 className="text-2xl font-black tracking-tight text-zinc-900">Frequently asked questions</h2>
         <div className="mt-4 space-y-5">
-          <article className="border-b border-zinc-200 pb-4">
-            <h3 className="text-sm font-bold text-zinc-900">Can I pre-book {keyword} online?</h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              Yes. You can pre-book this route online and receive direct confirmation with your planned pickup details.
-            </p>
-          </article>
-          <article className="border-b border-zinc-200 pb-4">
-            <h3 className="text-sm font-bold text-zinc-900">Is this transfer private or shared?</h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              The vehicle is reserved for your booking only, with no shared passengers.
-            </p>
-          </article>
-          <article className="border-b border-zinc-200 pb-4">
-            <h3 className="text-sm font-bold text-zinc-900">Can I add return travel in the same reservation?</h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              Yes. You can add return details during booking to organize round-trip travel in one reservation flow.
-            </p>
-          </article>
-          <article className="border-b border-zinc-200 pb-4">
-            <h3 className="text-sm font-bold text-zinc-900">Do travel time and final fare ever change?</h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-700">
-              Travel time and final fare can vary by traffic, schedule, and route conditions, but the booking flow shows clear pricing and trip details before confirmation.
-            </p>
-          </article>
+          {expandedFaqs.map((faq) => (
+            <article key={faq.q} className="border-b border-zinc-200 pb-4">
+              <h3 className="text-sm font-bold text-zinc-900">{faq.q}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-700">{faq.a}</p>
+            </article>
+          ))}
         </div>
       </section>
 

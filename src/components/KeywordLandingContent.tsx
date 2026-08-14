@@ -451,6 +451,57 @@ export default function KeywordLandingContent({ path }: { path: string }) {
       },
     ];
 
+  const expandedFaqs = [
+    ...faqs,
+    {
+      q: `Where will my driver meet me for ${keyword}?`,
+      a: 'Meeting instructions are shared before pickup. For airport transfers, the exact meeting point is provided in advance.',
+    },
+    {
+      q: `How does ${keyword} compare to Uber or regular taxi queues?`,
+      a: 'Pre-booking gives fixed-fare clarity and confirmed pickup timing, while on-demand alternatives can vary by queue times and demand.',
+    },
+    {
+      q: `Can I request child seats for ${keyword}?`,
+      a: 'Yes. You can add child seat requirements during booking so the ride setup matches your travel needs.',
+    },
+    {
+      q: `What happens if my plans change after booking ${keyword}?`,
+      a: 'You can contact support with your booking details to adjust timing or route information based on availability.',
+    },
+  ];
+
+  const comparisonRows = [
+    {
+      option: 'Pickupr private transfer',
+      price: 'Fixed before confirmation',
+      waiting: 'Pre-booked pickup slot',
+      luggage: 'Included in trip setup',
+      support: 'Direct booking support',
+    },
+    {
+      option: 'Taxi rank',
+      price: 'Meter-based at trip time',
+      waiting: 'Can vary in peak periods',
+      luggage: 'Driver dependent',
+      support: 'Limited after pickup',
+    },
+    {
+      option: 'Ride-hailing apps',
+      price: 'Dynamic demand pricing',
+      waiting: 'Vehicle availability dependent',
+      luggage: 'Vehicle type dependent',
+      support: 'App ticket flow',
+    },
+    {
+      option: 'Public transport',
+      price: 'Usually lowest base fare',
+      waiting: 'Schedule dependent',
+      luggage: 'Self-managed',
+      support: 'Operator support channels',
+    },
+  ];
+
   return (
     <>
       <Hero title={heroTitle} subtitle={heroSubtitle} />
@@ -471,6 +522,25 @@ export default function KeywordLandingContent({ path }: { path: string }) {
           </article>
         </div>
 
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Fixed fare clarity</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Price is confirmed before checkout.</p>
+          </article>
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Private ride</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Dedicated vehicle for your booking only.</p>
+          </article>
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Fast confirmation</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Direct booking flow with clear next steps.</p>
+          </article>
+          <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Cross-border ready</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">Netherlands, Belgium, Germany, and France coverage.</p>
+          </article>
+        </div>
+
         <div className="mt-10 space-y-10">
           {seoSections.map((section) => (
             <article key={section.title}>
@@ -479,12 +549,43 @@ export default function KeywordLandingContent({ path }: { path: string }) {
             </article>
           ))}
         </div>
+
+        <article className="mt-10 rounded-2xl border border-zinc-200 bg-white p-6">
+          <h2 className="text-2xl font-black tracking-tight text-zinc-900">Which transfer option fits your trip?</h2>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+            Use this quick comparison before booking {keyword}. If certainty and timing matter, pre-booked private transfer is usually the strongest fit.
+          </p>
+          <div className="mt-4 overflow-x-auto">
+            <table className="min-w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-zinc-200 text-left text-zinc-600">
+                  <th className="px-2 py-2 font-semibold">Option</th>
+                  <th className="px-2 py-2 font-semibold">Pricing</th>
+                  <th className="px-2 py-2 font-semibold">Pickup reliability</th>
+                  <th className="px-2 py-2 font-semibold">Luggage convenience</th>
+                  <th className="px-2 py-2 font-semibold">Support</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonRows.map((row) => (
+                  <tr key={row.option} className="border-b border-zinc-100 text-zinc-800">
+                    <td className="px-2 py-2 font-semibold">{row.option}</td>
+                    <td className="px-2 py-2">{row.price}</td>
+                    <td className="px-2 py-2">{row.waiting}</td>
+                    <td className="px-2 py-2">{row.luggage}</td>
+                    <td className="px-2 py-2">{row.support}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </article>
       </section>
 
       <section className="mx-auto mb-8 max-w-7xl px-6 py-2">
         <h2 className="text-2xl font-black tracking-tight text-zinc-900">Frequently asked questions</h2>
         <div className="mt-4 space-y-5">
-          {faqs.map((faq) => (
+          {expandedFaqs.map((faq) => (
             <article key={faq.q} className="border-b border-zinc-200 pb-4">
               <h3 className="text-sm font-bold text-zinc-900">{faq.q}</h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-700">{faq.a}</p>

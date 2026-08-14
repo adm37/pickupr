@@ -1,6 +1,8 @@
 ---
 import App from '../App.tsx';
 import '../index.css';
+import { getCityRouteByPath } from '../lib/cityLandingRoutes';
+import { getKeywordLandingRouteByPath } from '../lib/keywordLandingRoutes';
 
 interface Props {
   title: string;
@@ -29,6 +31,13 @@ const heroImagePath = '/hero-airport-transfer.jpg';
 const heroImageUrl = siteBase ? `${siteBase}${heroImagePath}` : heroImagePath;
 const pageTopic = title.replace(/\s*\|\s*Pickupr\s*$/i, '').trim() || 'Private transfer service';
 const normalizedPath = canonicalPath.replace(/^https?:\/\/[^/]+/i, '').replace(/\/$/, '') || '/';
+const shouldEagerHydrate =
+  normalizedPath.startsWith('/booking') ||
+  normalizedPath === '/admin' ||
+  normalizedPath === '/login' ||
+  normalizedPath === '/customer' ||
+  normalizedPath === '/register' ||
+  normalizedPath.startsWith('/rate/');
 const slugWords = normalizedPath
   .replace(/^\//, '')
   .split('-')
@@ -67,11 +76,110 @@ const webPageSchema = {
   },
 };
 
+const cityRoute = getCityRouteByPath(normalizedPath);
+const keywordRoute = cityRoute ? null : getKeywordLandingRouteByPath(normalizedPath);
+
+const landingKeyword = cityRoute
+  ? `${cityRoute.origin} to ${cityRoute.city} Taxi`
+  : keywordRoute?.keyword || null;
+
+const landingFaqSchema = landingKeyword
+  ? {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: `How much does ${landingKeyword} cost?`,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: cityRoute
+              ? `Typical pricing starts from EUR ${cityRoute.priceFrom}. Final pricing is confirmed before checkout based on route, schedule, and vehicle type.`
+              : `Pricing is fixed before confirmation and depends on route, schedule, and selected vehicle type.`,
+          },
+        },
+        {
+          '@type': 'Question',
+          name: `Can I pre-book ${landingKeyword} with flight monitoring?`,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. You can pre-book online and include full trip details to receive confirmation and support for schedule changes.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: `Is ${landingKeyword} private or shared?`,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'All bookings are private transfers with a dedicated vehicle for your reservation only.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: `Can I add a return trip in the same booking flow?`,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. Return trip details can be added in the same reservation flow during booking.',
+          },
+        },
+      ],
+    }
+  : null;
+
+const landingServiceSchema = landingKeyword
+  ? {
+      '@type': 'Service',
+      name: landingKeyword,
+      description,
+      provider: {
+        '@type': 'Organization',
+        name: 'Pickupr',
+        url: siteBase || '/',
+      },
+      serviceType: cityRoute ? 'Private airport and city-to-city transfer' : 'Private transfer service',
+      areaServed: cityRoute ? [cityRoute.countryName, cityRoute.city, 'Netherlands'] : ['Netherlands', 'Belgium', 'Germany', 'France'],
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'EUR',
+        price: cityRoute ? String(cityRoute.priceFrom) : undefined,
+        availability: 'https://schema.org/InStock',
+        url: canonicalUrl,
+      },
+    }
+  : null;
+
+const landingHowToSchema = landingKeyword
+  ? {
+      '@type': 'HowTo',
+      name: `How to book ${landingKeyword}`,
+      description: `Step-by-step booking process for ${landingKeyword}.`,
+      totalTime: 'PT3M',
+      step: [
+        {
+          '@type': 'HowToStep',
+          name: 'Enter your route details',
+          text: 'Provide pickup, drop-off, date, time, passengers, and luggage.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Review fixed fare details',
+          text: 'Check pricing, trip details, and transfer type before confirmation.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Confirm your booking',
+          text: 'Complete the booking and receive transfer confirmation.',
+        },
+      ],
+    }
+  : null;
+
+const landingExtraGraph = [landingServiceSchema, landingFaqSchema, landingHowToSchema].filter(Boolean);
+
 const jsonLdPayload = (() => {
   if (!structuredData) {
     return {
       '@context': 'https://schema.org',
-      '@graph': [webPageSchema],
+      '@graph': [webPageSchema, ...landingExtraGraph],
     };
   }
 
@@ -81,13 +189,13 @@ const jsonLdPayload = (() => {
   if (graph) {
     return {
       '@context': (data['@context'] as string) || 'https://schema.org',
-      '@graph': [webPageSchema, ...graph],
+      '@graph': [webPageSchema, ...graph, ...landingExtraGraph],
     };
   }
 
   return {
     '@context': (data['@context'] as string) || 'https://schema.org',
-    '@graph': [webPageSchema, data],
+    '@graph': [webPageSchema, data, ...landingExtraGraph],
   };
 })();
 ---
@@ -134,6 +242,10 @@ const jsonLdPayload = (() => {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLdPayload)}></script>
   </head>
   <body>
-    <App client:load initialPath={normalizedPath} />
+    {shouldEagerHydrate ? (
+      <App client:load initialPath={normalizedPath} />
+    ) : (
+      <App client:idle initialPath={normalizedPath} />
+    )}
   </body>
 </html>

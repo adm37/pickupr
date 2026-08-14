@@ -32,6 +32,7 @@ type AppProps = {
 
 export default function App({ initialPath = '/' }: AppProps) {
   const normalizedInitialPath = initialPath || '/';
+  const enableVerboseTracking = import.meta.env.DEV || import.meta.env.PUBLIC_VERBOSE_TRACKING === 'true';
   const [currentPath, setCurrentPath] = useState(normalizedInitialPath);
   const [apiKey, setApiKey] = useState(() => getApiKey());
 
@@ -44,6 +45,10 @@ export default function App({ initialPath = '/' }: AppProps) {
   }, [currentPath]);
 
   useEffect(() => {
+    if (!enableVerboseTracking) {
+      return;
+    }
+
     const handleChange = (e: Event) => {
       const target = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
       if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) {
@@ -84,7 +89,7 @@ export default function App({ initialPath = '/' }: AppProps) {
       document.removeEventListener('change', handleChange, true);
       document.removeEventListener('click', handleClick, true);
     };
-  }, []);
+  }, [enableVerboseTracking]);
 
   useEffect(() => {
     const onLocationChange = () => setCurrentPath(getCurrentPath());
@@ -119,6 +124,7 @@ export default function App({ initialPath = '/' }: AppProps) {
   const isKeywordLanding = isKeywordLandingPath(normalizedPath);
   const isCityLanding = isCityLandingPath(normalizedPath);
   const isHomeSection = normalizedPath === '/' || normalizedPath === '/services' || normalizedPath === '/hourly';
+  const needsMapsProvider = isBooking || isAdmin || isHomeSection || isKeywordLanding || isCityLanding;
   const mapsLibraries = isBooking || isAdmin ? ['places', 'routes', 'geocoding'] : ['places'];
   const lazyFallback = <div className="min-h-[40vh]" aria-hidden="true" />;
 
@@ -240,9 +246,15 @@ export default function App({ initialPath = '/' }: AppProps) {
     );
   };
 
+  const content = renderContent();
+
+  if (!needsMapsProvider) {
+    return content;
+  }
+
   return (
     <APIProvider apiKey={apiKey} version="weekly" libraries={mapsLibraries}>
-      {renderContent()}
+      {content}
     </APIProvider>
   );
 }

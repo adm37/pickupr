@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
 import { Car, Clock, MapPin, Calendar, User, Briefcase, ArrowLeftRight, Plus, X, Users } from 'lucide-react';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { logEvent } from '../lib/tracking';
@@ -22,13 +21,14 @@ function AutocompleteInput({
   const placesLib = useMapsLibrary('places');
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const onChangeRef = useRef(onChange);
+  const [isAutocompleteEnabled, setIsAutocompleteEnabled] = useState(false);
 
   useEffect(() => {
     onChangeRef.current = onChange;
   }, [onChange]);
 
   useEffect(() => {
-    if (!placesLib || !inputRef.current) return;
+    if (!isAutocompleteEnabled || !placesLib || !inputRef.current) return;
 
     if (!autocompleteRef.current) {
       autocompleteRef.current = new placesLib.Autocomplete(inputRef.current, {
@@ -45,13 +45,14 @@ function AutocompleteInput({
         }
       });
     }
-  }, [placesLib]);
+  }, [isAutocompleteEnabled, placesLib]);
 
   return (
     <input
       ref={inputRef}
       type="text"
       value={value}
+      onFocus={() => setIsAutocompleteEnabled(true)}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       autoComplete="new-password"
@@ -203,7 +204,7 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-start">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="w-full text-center lg:text-left order-2 lg:order-none lg:max-w-[620px]">
+        <div className="w-full text-center lg:text-left order-2 lg:order-none lg:max-w-[620px]">
           <p className="inline-flex items-center rounded-full border border-sky-200 bg-white/85 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-sky-700 mb-5">
             Arrive. Relax. Enjoy.
           </p>
@@ -211,9 +212,9 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
             {heroTitle}
           </h1>
           <p className="text-zinc-700 text-base md:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">{heroSubtitle}</p>
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="w-full max-w-xl md:max-w-xl lg:max-w-2xl lg:justify-self-end order-1 lg:order-none lg:col-start-2 lg:row-start-1">
+        <div className="w-full max-w-xl md:max-w-xl lg:max-w-2xl lg:justify-self-end order-1 lg:order-none lg:col-start-2 lg:row-start-1">
           <div className="mb-2">
             <div className="flex flex-wrap items-center gap-5">
               <button onClick={() => setActiveTab('transfers')} className={`inline-flex items-center gap-2 py-1 text-left text-sm font-semibold transition-colors ${activeTab === 'transfers' ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'}`}>
@@ -459,7 +460,7 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent" />
