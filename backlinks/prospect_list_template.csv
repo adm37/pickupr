@@ -1,0 +1,5 @@
+priority,domain,contact_name,contact_email,page_url,site_type,country,relevance_score(1-5),authority_bucket,status,last_contact_date,next_followup_date,anchor_suggestion,target_url,notes
+High,,,,Hotel/Travel Blog/City Guide,NL,5,Mid,Not contacted,,,Pickupr,https://pickupr.com/,
+High,,,,Travel resource page,BE,5,Mid,Not contacted,,,Amsterdam to Brussels private transfer,https://pickupr.com/amsterdam-to-brussels-taxi,
+Medium,,,,Business mobility blog,DE,4,Mid,Not contacted,,,Pickupr private transfers,https://pickupr.com/routes,
+Medium,,,,Airport transfer directory,FR,4,Low,Not contacted,,,Schiphol private transfer,https://pickupr.com/schiphol-to-amsterdam-taxi,

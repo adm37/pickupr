@@ -1,0 +1,51 @@
+id,priority,prospect_type,example_site_type,country,anchor_text,target_url,link_asset,suggested_outreach_angle
+1,High,Airport hotel partner page,Hotel transfer page,NL,Pickupr,https://pickupr.com/,Partner text block,Guest transfer partner listing
+2,High,Airport hotel partner page,Hotel transfer page,NL,Schiphol private transfer,https://pickupr.com/schiphol-to-amsterdam-taxi,Route page,Airport pickup page update
+3,High,Business hotel concierge page,Concierge services page,NL,Pickupr private transfers,https://pickupr.com/routes,Routes index,Business guest transport option
+4,High,Serviced apartments mobility page,Apartment guest info page,NL,Airport transfer Netherlands,https://pickupr.com/destinations,Destinations index,Long-stay guest transport
+5,High,Conference venue travel page,Venue access page,NL,Amsterdam to Brussels private transfer,https://pickupr.com/amsterdam-to-brussels-taxi,Route page,Speaker and attendee logistics
+6,High,Event agency supplier page,Preferred suppliers page,NL,Pickupr.com,https://pickupr.com/,Brand homepage,Event transport supplier listing
+7,High,DMC partner directory,Destination partner page,NL,Private airport transfer Netherlands,https://pickupr.com/private-airport-transfer,Commercial page,DMC transport collaboration
+8,High,Travel management company provider page,TMC partner page,NL,Executive airport transfer,https://pickupr.com/executive-airport-transfer,Commercial page,Corporate traveler solution
+9,High,Corporate relocation resources,Relocation guide page,NL,Schiphol to Utrecht taxi,https://pickupr.com/schiphol-to-utrecht-taxi,Route page,New employee airport transfer
+10,High,University international office resources,International student guide,NL,Schiphol to The Hague taxi,https://pickupr.com/schiphol-to-the-hague-taxi,Route page,Arrival transfer recommendation
+11,High,City travel guide transport section,City guide article,NL,Schiphol to Rotterdam taxi,https://pickupr.com/schiphol-to-rotterdam-taxi,Route page,Transport options update
+12,High,City travel guide transport section,City guide article,NL,Schiphol to Eindhoven taxi,https://pickupr.com/schiphol-to-eindhoven-taxi,Route page,Transport options update
+13,High,Airport parking blog partner list,Airport services article,NL,Pickupr,https://pickupr.com/,Brand homepage,Related airport service mention
+14,High,Flight compensation blog resources,Travel resources page,NL,Airport transfer to Amsterdam,https://pickupr.com/airport-transfer-to-amsterdam,Keyword page,Post-flight travel option
+15,High,Travel insurance partner content,Travel advice article,NL,Door to door airport transfer,https://pickupr.com/door-to-door-airport-transfer,Keyword page,Safety and convenience mention
+16,Medium,Expat platform moving guide,Expat transport guide,NL,Private chauffeur service,https://pickupr.com/private-chauffeur-service,Commercial page,Relocation mobility recommendation
+17,Medium,Expat forum resource thread,Forum resource post,NL,Pickupr.com,https://pickupr.com/,Brand homepage,Community resource insertion
+18,Medium,Coworking space local services,Coworking partner page,NL,Business chauffeur hire,https://pickupr.com/business-chauffeur-hire,Commercial page,Member business travel perk
+19,Medium,Startup ecosystem resource page,Startup city guide,NL,Executive taxi Netherlands,https://pickupr.com/executive-taxi-netherlands,Keyword page,Founder travel support
+20,Medium,Law firm corporate mobility blog,Corporate travel article,NL,Corporate airport transfer,https://pickupr.com/corporate-airport-transfer,Commercial page,Client transfer service
+21,Medium,HR mobility benefits page,Employee mobility page,NL,Personal driver service,https://pickupr.com/personal-driver-service,Commercial page,Employee transport benefit
+22,Medium,Private clinic international patients,Patient travel page,NL,Private airport transfer,https://pickupr.com/private-airport-transfer,Commercial page,Medical travel logistics
+23,Medium,Dental tourism page,Travel for treatment page,NL,Amsterdam to Cologne taxi,https://pickupr.com/amsterdam-to-cologne-taxi,Route page,Cross-border patient transport
+24,Medium,Wedding planner vendor page,Vendor recommendation page,NL,VIP transportation,https://pickupr.com/vip-transportation,Keyword page,Guest transfer vendor
+25,Medium,Luxury travel advisor page,Advisor resource page,NL,Luxury airport transfer Netherlands,https://pickupr.com/luxury-airport-transfer-netherlands,Keyword page,Premium transfer mention
+26,Medium,Travel podcast show notes,Episode resources,NL,Pickupr private transfers,https://pickupr.com/routes,Routes index,Listener travel resource
+27,Medium,YouTube travel description links,Video description,NL,Airport taxi Netherlands,https://pickupr.com/airport-taxi-netherlands,Keyword page,Video route recommendation
+28,Medium,Newsletter travel deals roundup,Newsletter partner block,NL,Pickupr,https://pickupr.com/,Brand homepage,Partner spotlight
+29,Medium,Regional tourism board transport,Visitor transport page,BE,Amsterdam to Antwerp taxi,https://pickupr.com/amsterdam-to-antwerp-taxi,Route page,Cross-border city transfer
+30,Medium,Regional tourism board transport,Visitor transport page,BE,Amsterdam to Ghent taxi,https://pickupr.com/amsterdam-to-ghent-taxi,Route page,Cross-border city transfer
+31,Medium,Regional tourism board transport,Visitor transport page,BE,Amsterdam to Bruges taxi,https://pickupr.com/amsterdam-to-bruges-taxi,Route page,Cross-border city transfer
+32,Medium,Belgium business club resources,Member services page,BE,Amsterdam to Brussels private transfer,https://pickupr.com/amsterdam-to-brussels-taxi,Route page,Business member travel
+33,Medium,Trade fair exhibitor guide,How to reach venue page,DE,Amsterdam to Dusseldorf taxi,https://pickupr.com/amsterdam-to-dusseldorf-taxi,Route page,Fair attendee route recommendation
+34,Medium,Trade fair exhibitor guide,How to reach venue page,DE,Amsterdam to Frankfurt taxi,https://pickupr.com/amsterdam-to-frankfurt-taxi,Route page,Fair attendee route recommendation
+35,Medium,Trade fair exhibitor guide,How to reach venue page,DE,Amsterdam to Munich taxi,https://pickupr.com/amsterdam-to-munich-taxi,Route page,Fair attendee route recommendation
+36,Medium,Germany travel blog comparison post,Route comparison article,DE,Netherlands to Germany taxi,https://pickupr.com/netherlands-to-germany-taxi,Keyword page,Cross-border transfer comparison
+37,Medium,France city break guide,How to get there page,FR,Amsterdam to Paris taxi,https://pickupr.com/amsterdam-to-paris-taxi,Route page,Long-distance transfer option
+38,Medium,France city break guide,How to get there page,FR,Amsterdam to Lille taxi,https://pickupr.com/amsterdam-to-lille-taxi,Route page,Long-distance transfer option
+39,Medium,France city break guide,How to get there page,FR,Netherlands to France taxi,https://pickupr.com/netherlands-to-france-taxi,Keyword page,Border travel option
+40,Medium,International student relocation blog,Relocation checklist,EU,Airport chauffeur Netherlands,https://pickupr.com/airport-chauffeur-netherlands,Keyword page,Arrival support recommendation
+41,Low,Travel coupon site partner page,Partner listing page,EU,Pickupr.com,https://pickupr.com/,Brand homepage,Partner mention only if editorial
+42,Low,General business directory profile,Business profile page,NL,Pickupr,https://pickupr.com/,Brand homepage,Brand citation and profile
+43,Low,Local chamber member listing,Member directory page,NL,Pickupr private transfers,https://pickupr.com/routes,Routes index,Member profile with service link
+44,Low,Startup directory company page,Company profile page,EU,Pickupr,https://pickupr.com/,Brand homepage,Brand citation and profile
+45,Low,SaaS integration marketplace style page,Partner profile page,EU,Private driver services,https://pickupr.com/private-driver-services,Commercial page,Service profile mention
+46,Low,Roundup article best airport transfers,Editorial roundup,EU,Best VIP chauffeured worldwide,https://pickupr.com/best-vip-chauffeured-worldwide,Keyword page,Roundup inclusion pitch
+47,Low,Travel tools resource page,Resource listing page,EU,Airport transfer Netherlands,https://pickupr.com/airport-transfer-netherlands,Keyword page,Tool and service roundup
+48,Low,Digital nomad city guide,City transport section,EU,Chauffeur service Amsterdam,https://pickupr.com/chauffeur-service-amsterdam,Keyword page,Nomad mobility recommendation
+49,Low,Private aviation concierge resources,Ground transport page,EU,VIP taxi service,https://pickupr.com/vip-taxi-service,Keyword page,Premium transfer partner
+50,Low,Lifestyle magazine transport article,Service mention article,EU,Pickupr,https://pickupr.com/,Brand homepage,Editorial brand mention

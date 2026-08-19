@@ -35,6 +35,9 @@ const {
   faqs,
 } = Astro.props as Props;
 const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
+const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
+const canonicalPath = canonical.startsWith('http') ? canonical : (canonical.startsWith('/') ? canonical : `/${canonical}`);
+const canonicalUrl = canonicalPath.startsWith('http') ? canonicalPath : (siteBase ? `${siteBase}${canonicalPath}` : canonicalPath);
 
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -43,7 +46,7 @@ const serviceSchema = {
       '@type': 'WebPage',
       name: title,
       description,
-      url: canonical,
+      url: canonicalUrl,
       inLanguage: 'en',
       isPartOf: {
         '@type': 'WebSite',
@@ -95,7 +98,7 @@ const serviceSchema = {
           '@type': 'ListItem',
           position: 2,
           name: primaryKeyword,
-          item: canonical,
+          item: canonicalUrl,
         },
       ],
     },
@@ -108,13 +111,20 @@ const serviceSchema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="language" content="English" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hrefLang="en" href={canonicalUrl} />
+    <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="Pickupr" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

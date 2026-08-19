@@ -118,8 +118,8 @@ function calculateMetrics(city: string, countryCode: 'NL' | 'BE' | 'DE' | 'FR', 
 function createRoute(city: string, countryCode: 'NL' | 'BE' | 'DE' | 'FR', pattern: CityRoutePattern): CityRoute {
   const slug = slugifyCity(city);
   const countryName = COUNTRY_NAMES[countryCode];
-  const keyword = pattern === 'schiphol' ? `Schiphol to ${city} Taxi` : `Amsterdam to ${city} Taxi`;
-  const pathname = pattern === 'schiphol' ? `/schiphol-to-${slug}-taxi` : `/amsterdam-to-${slug}-taxi`;
+  const keyword = pattern === 'schiphol' ? `Schiphol Airport to ${city} Taxi` : `Amsterdam to ${city} Taxi`;
+  const pathname = pattern === 'schiphol' ? `/schiphol-airport-to-${slug}-taxi` : `/amsterdam-to-${slug}-taxi`;
   const origin = pattern === 'schiphol' ? 'Schiphol Airport' : 'Amsterdam';
   const destination = city;
   const { distanceKm, durationMin, priceFrom } = calculateMetrics(city, countryCode, pattern);
@@ -162,6 +162,14 @@ const ROUTE_BY_PATH = new Map<string, CityRoute>();
 for (const route of ALL_CITY_ROUTES) {
   ROUTE_BY_PATH.set(route.pathname, route);
   ROUTE_BY_PATH.set(toAliasPath(route.pathname), route);
+
+  // Keep legacy Schiphol URLs resolving so existing links can consolidate to
+  // the canonical Schiphol Airport URL via noindex + canonical handling.
+  if (route.pattern === 'schiphol') {
+    const legacyTaxiPath = `/schiphol-airport-to-${route.slug}-taxi`;
+    ROUTE_BY_PATH.set(legacyTaxiPath, route);
+    ROUTE_BY_PATH.set(toAliasPath(legacyTaxiPath), route);
+  }
 }
 
 export function getCityRouteByPath(pathname: string): CityRoute | null {

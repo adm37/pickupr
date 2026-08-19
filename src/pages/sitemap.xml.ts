@@ -41,6 +41,13 @@ export const GET: APIRoute = ({ url }) => {
   const routeSet = new Set(rawRoutes);
   const routes = rawRoutes.filter((route) => {
     if (route === '/' || route.endsWith('-taxi')) {
+      // Exclude legacy Schiphol short URLs when an airport-specific canonical
+      // URL exists to avoid splitting ranking signals.
+      if (route.startsWith('/schiphol-airport-to-')) {
+        const canonicalSchipholRoute = route.replace('/schiphol-airport-to-', '/schiphol-airport-to-');
+        return !routeSet.has(canonicalSchipholRoute);
+      }
+
       return true;
     }
 
