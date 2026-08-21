@@ -418,7 +418,7 @@ export default function KeywordLandingContent({ path }: { path: string }) {
     [
       {
         title: `Why travelers book ${keyword}`,
-        text: `Travelers searching for ${keyword} are usually comparing reliability, total fare transparency, and how quickly they can confirm. This page is built for that exact intent: a direct reservation path, private transfer positioning, and practical planning details without unnecessary steps.`,
+        text: `Travelers comparing ${keyword} usually focus on reliability, total fare transparency, and how quickly they can confirm. This guide keeps those essentials clear with direct reservation steps and practical planning details.`,
       },
       {
         title: `${keyword} for airport, executive, and cross-border travel`,
@@ -426,7 +426,7 @@ export default function KeywordLandingContent({ path }: { path: string }) {
       },
       {
         title: `Book ${keyword} online with direct confirmation`,
-        text: `Enter your transfer details in the hero booking form, review your trip setup, and complete reservation in one flow. This page is optimized for users who want a fast booking action after searching high-intent terms related to ${keyword}.`,
+        text: `Enter your transfer details in the booking form, review your trip setup, and complete reservation in one flow. The process is designed for fast booking with clear next steps from quote to confirmation.`,
       },
     ];
 

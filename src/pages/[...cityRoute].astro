@@ -1,0 +1,16 @@
+---
+import CityRoutePage from '../components/CityRoutePage.astro';
+import { INDEXABLE_CITY_ROUTES } from '../lib/cityLandingRoutes';
+
+export function getStaticPaths() {
+  return INDEXABLE_CITY_ROUTES.map((route) => ({
+    params: {
+      cityRoute: route.pathname.replace(/^\//, ''),
+    },
+  }));
+}
+
+const pathname = `/${Astro.params.cityRoute || ''}`.replace(/\/$/, '') || '/';
+---
+
+<CityRoutePage pathname={pathname} />

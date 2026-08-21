@@ -5,14 +5,20 @@ export type CityRoute = {
   countryCode: 'NL' | 'BE' | 'DE' | 'FR';
   countryName: string;
   pattern: CityRoutePattern;
+  primaryIntent: 'commercial-transfer';
+  active: boolean;
+  canonicalSlug: string;
   keyword: string;
   slug: string;
   pathname: string;
   origin: 'Schiphol Airport' | 'Amsterdam';
   destination: string;
-  distanceKm: number;
-  durationMin: number;
-  priceFrom: number;
+  distanceKm: number | null;
+  durationMin: number | null;
+  priceFrom: number | null;
+  dataSource: 'verified-route-table' | 'none';
+  dataConfidence: 'verified' | 'none';
+  aliases: string[];
 };
 
 const COUNTRY_NAMES: Record<'NL' | 'BE' | 'DE' | 'FR', string> = {
@@ -83,92 +89,183 @@ function slugifyCity(city: string): string {
     .toLowerCase();
 }
 
-function hashValue(input: string): number {
-  return [...input].reduce((sum, ch, index) => sum + ch.charCodeAt(0) * (index + 3), 0);
-}
-
-function calculateMetrics(city: string, countryCode: 'NL' | 'BE' | 'DE' | 'FR', pattern: CityRoutePattern): {
+type RouteMetric = {
   distanceKm: number;
   durationMin: number;
   priceFrom: number;
-} {
-  const hash = hashValue(`${pattern}-${countryCode}-${city}`);
+};
 
-  const baseDistance: Record<'NL' | 'BE' | 'DE' | 'FR', number> = {
-    NL: 35,
-    BE: 180,
-    DE: 230,
-    FR: 430,
-  };
+const VERIFIED_ROUTE_METRICS: Record<string, RouteMetric> = {
+  'schiphol:amsterdam': { distanceKm: 22, durationMin: 30, priceFrom: 55 },
+  'schiphol:rotterdam': { distanceKm: 60, durationMin: 50, priceFrom: 120 },
+  'schiphol:the-hague': { distanceKm: 47, durationMin: 45, priceFrom: 105 },
+  'schiphol:utrecht': { distanceKm: 49, durationMin: 45, priceFrom: 100 },
+  'schiphol:eindhoven': { distanceKm: 128, durationMin: 90, priceFrom: 220 },
+  'schiphol:breda': { distanceKm: 108, durationMin: 80, priceFrom: 195 },
+  'schiphol:haarlem': { distanceKm: 18, durationMin: 25, priceFrom: 50 },
+  'schiphol:leiden': { distanceKm: 31, durationMin: 30, priceFrom: 75 },
+  'schiphol:delft': { distanceKm: 46, durationMin: 40, priceFrom: 95 },
+  'schiphol:groningen': { distanceKm: 191, durationMin: 130, priceFrom: 320 },
+  'schiphol:maastricht': { distanceKm: 219, durationMin: 150, priceFrom: 355 },
+  'schiphol:nijmegen': { distanceKm: 124, durationMin: 90, priceFrom: 220 },
+  'schiphol:amersfoort': { distanceKm: 58, durationMin: 50, priceFrom: 110 },
+  'schiphol:alkmaar': { distanceKm: 43, durationMin: 40, priceFrom: 90 },
+  'schiphol:den-helder': { distanceKm: 86, durationMin: 70, priceFrom: 165 },
+  'amsterdam:brussels': { distanceKm: 210, durationMin: 160, priceFrom: 350 },
+  'amsterdam:antwerp': { distanceKm: 160, durationMin: 125, priceFrom: 280 },
+  'amsterdam:bruges': { distanceKm: 253, durationMin: 185, priceFrom: 400 },
+  'amsterdam:ghent': { distanceKm: 220, durationMin: 165, priceFrom: 365 },
+  'amsterdam:leuven': { distanceKm: 193, durationMin: 145, priceFrom: 330 },
+  'amsterdam:cologne': { distanceKm: 264, durationMin: 180, priceFrom: 430 },
+  'amsterdam:dusseldorf': { distanceKm: 227, durationMin: 160, priceFrom: 380 },
+  'amsterdam:frankfurt': { distanceKm: 440, durationMin: 290, priceFrom: 690 },
+  'amsterdam:berlin': { distanceKm: 655, durationMin: 400, priceFrom: 980 },
+  'amsterdam:hamburg': { distanceKm: 465, durationMin: 300, priceFrom: 720 },
+  'amsterdam:munich': { distanceKm: 820, durationMin: 500, priceFrom: 1200 },
+  'amsterdam:stuttgart': { distanceKm: 615, durationMin: 390, priceFrom: 920 },
+  'amsterdam:paris': { distanceKm: 520, durationMin: 360, priceFrom: 790 },
+  'amsterdam:lille': { distanceKm: 285, durationMin: 210, priceFrom: 450 },
+  'amsterdam:lyon': { distanceKm: 735, durationMin: 480, priceFrom: 1080 },
+  'amsterdam:strasbourg': { distanceKm: 575, durationMin: 390, priceFrom: 880 },
+  'amsterdam:marseille': { distanceKm: 1210, durationMin: 760, priceFrom: 1750 },
+};
 
-  const spread: Record<'NL' | 'BE' | 'DE' | 'FR', number> = {
-    NL: 180,
-    BE: 120,
-    DE: 170,
-    FR: 190,
-  };
+function toCanonicalPath(pattern: CityRoutePattern, slug: string): string {
+  return pattern === 'schiphol' ? `/schiphol-to-${slug}` : `/amsterdam-to-${slug}`;
+}
 
-  const distanceKm = baseDistance[countryCode] + (hash % spread[countryCode]);
-  const durationMin = Math.max(35, Math.round((distanceKm / 78) * 60 + 20));
-  const priceFrom = Math.round((distanceKm * 2.2 + 32) / 5) * 5;
-
-  return { distanceKm, durationMin, priceFrom };
+function getLegacyAliases(pattern: CityRoutePattern, slug: string, canonicalPath: string): string[] {
+  const aliases = new Set<string>();
+  aliases.add(`${canonicalPath}-taxi`);
+  if (pattern === 'schiphol') {
+    aliases.add(`/schiphol-airport-to-${slug}`);
+    aliases.add(`/schiphol-airport-to-${slug}-taxi`);
+  } else {
+    aliases.add(`/amsterdam-airport-to-${slug}`);
+    aliases.add(`/amsterdam-airport-to-${slug}-taxi`);
+  }
+  return Array.from(aliases);
 }
 
 function createRoute(city: string, countryCode: 'NL' | 'BE' | 'DE' | 'FR', pattern: CityRoutePattern): CityRoute {
   const slug = slugifyCity(city);
+  return createRouteWithSlug(city, countryCode, pattern, slug);
+}
+
+function createRouteWithSlug(
+  city: string,
+  countryCode: 'NL' | 'BE' | 'DE' | 'FR',
+  pattern: CityRoutePattern,
+  slug: string,
+): CityRoute {
+  const canonicalSlug = pattern === 'schiphol' ? `schiphol-to-${slug}` : `amsterdam-to-${slug}`;
   const countryName = COUNTRY_NAMES[countryCode];
   const keyword = pattern === 'schiphol' ? `Schiphol Airport to ${city} Taxi` : `Amsterdam to ${city} Taxi`;
-  const pathname = pattern === 'schiphol' ? `/schiphol-airport-to-${slug}-taxi` : `/amsterdam-to-${slug}-taxi`;
+  const pathname = toCanonicalPath(pattern, slug);
   const origin = pattern === 'schiphol' ? 'Schiphol Airport' : 'Amsterdam';
   const destination = city;
-  const { distanceKm, durationMin, priceFrom } = calculateMetrics(city, countryCode, pattern);
+  const metricKey = `${pattern}:${slug}`;
+  const metrics = VERIFIED_ROUTE_METRICS[metricKey] || null;
+  const active = Boolean(metrics);
 
   return {
     city,
     countryCode,
     countryName,
     pattern,
+    primaryIntent: 'commercial-transfer',
+    active,
+    canonicalSlug,
     keyword,
     slug,
     pathname,
     origin,
     destination,
-    distanceKm,
-    durationMin,
-    priceFrom,
+    distanceKm: metrics?.distanceKm ?? null,
+    durationMin: metrics?.durationMin ?? null,
+    priceFrom: metrics?.priceFrom ?? null,
+    dataSource: metrics ? 'verified-route-table' : 'none',
+    dataConfidence: metrics ? 'verified' : 'none',
+    aliases: getLegacyAliases(pattern, slug, pathname),
   };
 }
 
-export const SCHIPHOL_NETHERLANDS_ROUTES: CityRoute[] = DUTCH_CITIES.map((city) => createRoute(city, 'NL', 'schiphol'));
+type RawRouteInput = {
+  city: string;
+  countryCode: 'NL' | 'BE' | 'DE' | 'FR';
+  pattern: CityRoutePattern;
+};
 
-export const AMSTERDAM_INTERNATIONAL_ROUTES: CityRoute[] = [
-  ...BELGIAN_CITIES.map((city) => createRoute(city, 'BE', 'amsterdam')),
-  ...GERMAN_CITIES.map((city) => createRoute(city, 'DE', 'amsterdam')),
-  ...FRENCH_CITIES.map((city) => createRoute(city, 'FR', 'amsterdam')),
-];
+function buildRoutes(inputs: RawRouteInput[]): CityRoute[] {
+  const slugUseCount = new Map<string, number>();
+  for (const input of inputs) {
+    const baseSlug = slugifyCity(input.city);
+    const key = `${input.pattern}:${baseSlug}`;
+    slugUseCount.set(key, (slugUseCount.get(key) || 0) + 1);
+  }
+
+  return inputs.map((input) => {
+    const baseSlug = slugifyCity(input.city);
+    const key = `${input.pattern}:${baseSlug}`;
+    const count = slugUseCount.get(key) || 0;
+    const resolvedSlug = count > 1 ? `${baseSlug}-${input.countryCode.toLowerCase()}` : baseSlug;
+    return createRouteWithSlug(input.city, input.countryCode, input.pattern, resolvedSlug);
+  });
+}
+
+export const SCHIPHOL_NETHERLANDS_ROUTES: CityRoute[] = buildRoutes(
+  DUTCH_CITIES.map((city) => ({ city, countryCode: 'NL', pattern: 'schiphol' })),
+);
+
+export const AMSTERDAM_INTERNATIONAL_ROUTES: CityRoute[] = buildRoutes([
+  ...BELGIAN_CITIES.map((city) => ({ city, countryCode: 'BE' as const, pattern: 'amsterdam' as const })),
+  ...GERMAN_CITIES.map((city) => ({ city, countryCode: 'DE' as const, pattern: 'amsterdam' as const })),
+  ...FRENCH_CITIES.map((city) => ({ city, countryCode: 'FR' as const, pattern: 'amsterdam' as const })),
+]);
 
 export const ALL_CITY_ROUTES: CityRoute[] = [
   ...SCHIPHOL_NETHERLANDS_ROUTES,
   ...AMSTERDAM_INTERNATIONAL_ROUTES,
 ];
 
-function toAliasPath(pathname: string): string {
-  return pathname.endsWith('-taxi') ? pathname.slice(0, -5) : pathname;
-}
+export const INDEXABLE_CITY_ROUTES: CityRoute[] = ALL_CITY_ROUTES.filter((route) => route.active);
 
 const ROUTE_BY_PATH = new Map<string, CityRoute>();
 
 for (const route of ALL_CITY_ROUTES) {
   ROUTE_BY_PATH.set(route.pathname, route);
-  ROUTE_BY_PATH.set(toAliasPath(route.pathname), route);
+  for (const alias of route.aliases) {
+    ROUTE_BY_PATH.set(alias, route);
+  }
 
-  // Keep legacy Schiphol URLs resolving so existing links can consolidate to
-  // the canonical Schiphol Airport URL via noindex + canonical handling.
-  if (route.pattern === 'schiphol') {
-    const legacyTaxiPath = `/schiphol-airport-to-${route.slug}-taxi`;
-    ROUTE_BY_PATH.set(legacyTaxiPath, route);
-    ROUTE_BY_PATH.set(toAliasPath(legacyTaxiPath), route);
+  const duplicateSlugMatch = route.slug.match(/^(.*)-(nl|be|de|fr)$/);
+  if (duplicateSlugMatch) {
+    const baseSlug = duplicateSlugMatch[1];
+    if (route.pattern === 'schiphol') {
+      const fallbackAliases = [
+        `/schiphol-to-${baseSlug}`,
+        `/schiphol-to-${baseSlug}-taxi`,
+        `/schiphol-airport-to-${baseSlug}`,
+        `/schiphol-airport-to-${baseSlug}-taxi`,
+      ];
+      for (const alias of fallbackAliases) {
+        if (!ROUTE_BY_PATH.has(alias)) {
+          ROUTE_BY_PATH.set(alias, route);
+        }
+      }
+    } else {
+      const fallbackAliases = [
+        `/amsterdam-to-${baseSlug}`,
+        `/amsterdam-to-${baseSlug}-taxi`,
+        `/amsterdam-airport-to-${baseSlug}`,
+        `/amsterdam-airport-to-${baseSlug}-taxi`,
+      ];
+      for (const alias of fallbackAliases) {
+        if (!ROUTE_BY_PATH.has(alias)) {
+          ROUTE_BY_PATH.set(alias, route);
+        }
+      }
+    }
   }
 }
 
@@ -176,18 +273,28 @@ export function getCityRouteByPath(pathname: string): CityRoute | null {
   return ROUTE_BY_PATH.get(pathname) || null;
 }
 
+export function getCanonicalCityRoutePath(pathname: string): string | null {
+  const route = getCityRouteByPath(pathname);
+  return route ? route.pathname : null;
+}
+
 export function isCityLandingPath(pathname: string): boolean {
   return ROUTE_BY_PATH.has(pathname);
 }
 
+export function isIndexableCityRoutePath(pathname: string): boolean {
+  const route = getCityRouteByPath(pathname);
+  return Boolean(route?.active && pathname === route.pathname);
+}
+
 export function getRelatedCityRoutes(pathname: string, limit = 8): CityRoute[] {
   const currentRoute = getCityRouteByPath(pathname);
-  if (!currentRoute || limit <= 0) {
+  if (!currentRoute || !currentRoute.active || limit <= 0) {
     return [];
   }
 
   const normalizedPath = currentRoute.pathname;
-  const inSameCluster = ALL_CITY_ROUTES
+  const inSameCluster = INDEXABLE_CITY_ROUTES
     .filter((route) => route.pathname !== normalizedPath)
     .filter((route) => route.pattern === currentRoute.pattern && route.countryCode === currentRoute.countryCode)
     .sort((a, b) => a.city.localeCompare(b.city, 'en', { sensitivity: 'base' }));
@@ -209,6 +316,16 @@ export function getRelatedCityRoutes(pathname: string, limit = 8): CityRoute[] {
   }
 
   return results;
+}
+
+export function getLegacyCityRouteRedirectMap(): Map<string, string> {
+  const redirects = new Map<string, string>();
+  for (const route of ALL_CITY_ROUTES) {
+    for (const alias of route.aliases) {
+      redirects.set(alias, route.pathname);
+    }
+  }
+  return redirects;
 }
 
 export const CITY_LANDING_COUNT = ALL_CITY_ROUTES.length;

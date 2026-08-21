@@ -1,18 +1,11 @@
 ---
 import AppPageShell from './AppPageShell.astro';
 import { getCityRouteByPath } from '../lib/cityLandingRoutes';
+import { normalizePathname } from '../lib/canonical';
 
 interface Props {
   pathname?: string;
 }
-
-const normalizePathname = (value: string): string => {
-  const withoutQuery = value.split('?')[0].split('#')[0] || '/';
-  if (withoutQuery.length > 1 && withoutQuery.endsWith('/')) {
-    return withoutQuery.slice(0, -1);
-  }
-  return withoutQuery || '/';
-};
 
 const { pathname: pathnameProp } = Astro.props as Props;
 const resolvedPathname = normalizePathname(Astro.url?.pathname || pathnameProp || '/');
@@ -24,6 +17,8 @@ if (!route) {
 
 const isTaxiVariant = resolvedPathname.endsWith('-taxi');
 const originLabel = route.pattern === 'schiphol' ? 'Schiphol Airport' : 'Amsterdam';
+const routePriceFrom = route.priceFrom;
+const routeDuration = route.durationMin;
 const pageKeyword = isTaxiVariant
   ? `${originLabel} to ${route.city} Taxi`
   : `${originLabel} to ${route.city} Private Transfer`;
@@ -64,7 +59,7 @@ function buildDescription(): string {
 const title = buildTitle();
 const description = buildDescription();
 const canonical = route.pathname;
-const robots = resolvedPathname === route.pathname ? 'index, follow' : 'noindex, follow';
+const robots = resolvedPathname === route.pathname && route.active ? 'index, follow' : 'noindex, follow';
 const keywords = [
   pageKeyword,
   `${route.origin} to ${route.city} transfer`,
@@ -79,8 +74,12 @@ const faqTravelQuestion = route.pattern === 'schiphol'
   : `What is the estimated travel time from Amsterdam to ${route.city}?`;
 
 const faqTravelAnswer = route.pattern === 'schiphol'
-  ? `Typical duration is around ${route.durationMin} minutes depending on traffic conditions.`
-  : `Estimated duration is around ${route.durationMin} minutes depending on road and border conditions.`;
+  ? routeDuration
+    ? `Typical duration is around ${routeDuration} minutes depending on traffic conditions.`
+    : 'Travel time depends on traffic conditions and is confirmed during booking.'
+  : routeDuration
+    ? `Estimated duration is around ${routeDuration} minutes depending on road and border conditions.`
+    : 'Travel time depends on road conditions and is confirmed during booking.';
 
 const serviceType = route.pattern === 'schiphol'
   ? 'Private airport transfer'
@@ -102,7 +101,7 @@ const structuredData = {
       offers: {
         '@type': 'Offer',
         priceCurrency: 'EUR',
-        price: String(route.priceFrom),
+        ...(routePriceFrom ? { price: String(routePriceFrom) } : {}),
         availability: 'https://schema.org/InStock',
       },
     },

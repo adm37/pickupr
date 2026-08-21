@@ -3,6 +3,7 @@ import App from '../App.tsx';
 import '../index.css';
 import { getCityRouteByPath } from '../lib/cityLandingRoutes';
 import { getKeywordLandingRouteByPath } from '../lib/keywordLandingRoutes';
+import { normalizePathname, toCanonicalUrl } from '../lib/canonical';
 
 interface Props {
   title: string;
@@ -24,13 +25,12 @@ const {
   structuredData = null,
 } = Astro.props;
 
-const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
-const canonicalPath = canonical.startsWith('/') ? (canonical.replace(/\/$/, '') || '/') : canonical;
-const canonicalUrl = canonicalPath.startsWith('http') ? canonicalPath : (siteBase ? `${siteBase}${canonicalPath}` : canonicalPath);
+const siteBase = 'https://pickupr.com';
+const requestedCanonicalPath = normalizePathname(canonical.startsWith('http') ? new URL(canonical).pathname : canonical);
 const heroImagePath = '/hero-airport-transfer.jpg';
 const heroImageUrl = siteBase ? `${siteBase}${heroImagePath}` : heroImagePath;
 const pageTopic = title.replace(/\s*\|\s*Pickupr\s*$/i, '').trim() || 'Private transfer service';
-const normalizedPath = canonicalPath.replace(/^https?:\/\/[^/]+/i, '').replace(/\/$/, '') || '/';
+const normalizedPath = normalizePathname(Astro.url?.pathname || requestedCanonicalPath);
 const shouldEagerHydrate =
   normalizedPath.startsWith('/booking') ||
   normalizedPath === '/admin' ||
@@ -62,7 +62,13 @@ const keywordList = Array.isArray(keywords)
 const keywordContent = keywordList.join(', ');
 const googleSiteVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '').toString().trim();
 const googleAdsTagId = 'AW-11308826939';
-const robotsContent = robots;
+const cityRoute = getCityRouteByPath(normalizedPath);
+const keywordRoute = cityRoute ? null : getKeywordLandingRouteByPath(normalizedPath);
+
+const canonicalPath = cityRoute ? cityRoute.pathname : requestedCanonicalPath;
+const canonicalUrl = toCanonicalUrl(canonicalPath);
+const isLegacyCityAlias = Boolean(cityRoute && normalizedPath !== cityRoute.pathname);
+const robotsContent = isLegacyCityAlias ? 'noindex, follow' : robots;
 const webPageSchema = {
   '@type': 'WebPage',
   name: title,
@@ -75,9 +81,6 @@ const webPageSchema = {
     url: siteBase || undefined,
   },
 };
-
-const cityRoute = getCityRouteByPath(normalizedPath);
-const keywordRoute = cityRoute ? null : getKeywordLandingRouteByPath(normalizedPath);
 
 const landingKeyword = cityRoute
   ? `${cityRoute.origin} to ${cityRoute.city} Taxi`
@@ -93,7 +96,9 @@ const landingFaqSchema = landingKeyword
           acceptedAnswer: {
             '@type': 'Answer',
             text: cityRoute
-              ? `Typical pricing starts from EUR ${cityRoute.priceFrom}. Final pricing is confirmed before checkout based on route, schedule, and vehicle type.`
+              ? cityRoute.priceFrom
+                ? `Typical pricing starts from EUR ${cityRoute.priceFrom}. Final pricing is confirmed before checkout based on route, schedule, and vehicle type.`
+                : 'Pricing is confirmed before checkout based on route, schedule, and vehicle type.'
               : `Pricing is fixed before confirmation and depends on route, schedule, and selected vehicle type.`,
           },
         },
@@ -140,7 +145,7 @@ const landingServiceSchema = landingKeyword
       offers: {
         '@type': 'Offer',
         priceCurrency: 'EUR',
-        price: cityRoute ? String(cityRoute.priceFrom) : undefined,
+        price: cityRoute && cityRoute.priceFrom ? String(cityRoute.priceFrom) : undefined,
         availability: 'https://schema.org/InStock',
         url: canonicalUrl,
       },

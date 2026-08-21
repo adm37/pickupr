@@ -109,20 +109,6 @@ type HeroProps = {
   subtitle?: string;
 };
 
-function getDailyTravelerCount(): number {
-  const now = new Date();
-  const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-
-  let hash = 0;
-  for (let i = 0; i < dateKey.length; i++) {
-    hash = (hash * 31 + dateKey.charCodeAt(i)) % 100000;
-  }
-
-  const min = 18000;
-  const max = 32000;
-  return min + (hash % (max - min + 1));
-}
-
 export default function Hero({ title, subtitle }: HeroProps = {}) {
   const [activeTab, setActiveTab] = useState<'transfers' | 'hourly' | 'multicity'>('transfers');
   const [multicityStops, setMulticityStops] = useState<{ location: string, waitTime: number }[]>([{ location: '', waitTime: 0 }, { location: '', waitTime: 0 }]);
@@ -139,7 +125,6 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
   const [passengers, setPassengers] = useState(1);
   const [luggage, setLuggage] = useState(1);
   const [duration, setDuration] = useState('');
-  const dailyTravelerCount = getDailyTravelerCount();
 
   const handleSearch = () => {
     let details = `Mode: ${activeTab}`;
@@ -314,7 +299,7 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
 
                 <div className="flex items-center justify-center gap-2 text-slate-500 text-sm pt-0.5">
                   <Users className="w-4 h-4" />
-                  <p>{dailyTravelerCount} travelers in 4 destinations booked a ride today</p>
+                  <p>Live booking support for airport and cross-border transfers</p>
                 </div>
               </>
             )}

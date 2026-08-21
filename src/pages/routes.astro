@@ -1,6 +1,6 @@
 ---
 import '../index.css';
-import { ALL_CITY_ROUTES } from '../lib/cityLandingRoutes';
+import { INDEXABLE_CITY_ROUTES } from '../lib/cityLandingRoutes';
 import { KEYWORD_LANDING_ROUTES } from '../lib/keywordLandingRoutes';
 
 const siteBase = (import.meta.env.SITE || import.meta.env.PUBLIC_SITE_URL || '').toString().replace(/\/$/, '');
@@ -22,7 +22,7 @@ function groupByFirstLetter<T extends { city?: string; keyword?: string }>(items
   }, new Map<string, T[]>());
 }
 
-const cityGroups = groupByFirstLetter(ALL_CITY_ROUTES, 'city');
+const cityGroups = groupByFirstLetter(INDEXABLE_CITY_ROUTES, 'city');
 const cityLetters = Array.from(cityGroups.keys()).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
 
 const keywordGroups = groupByFirstLetter(KEYWORD_LANDING_ROUTES, 'keyword');
@@ -39,7 +39,7 @@ const routesSchema = {
     },
     {
       '@type': 'ItemList',
-      itemListElement: [...ALL_CITY_ROUTES, ...KEYWORD_LANDING_ROUTES].slice(0, 300).map((item, index) => ({
+      itemListElement: [...INDEXABLE_CITY_ROUTES, ...KEYWORD_LANDING_ROUTES].slice(0, 300).map((item, index) => ({
         '@type': 'ListItem',
         position: index + 1,
         url: (siteBase || '') + item.pathname,
@@ -56,7 +56,7 @@ const routesSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>All Transfer Routes and Destination Pages | Pickupr</title>
     <meta name="description" content="Complete route index for Pickupr including all city destinations and airport transfer keyword pages." />
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content="noindex,follow" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="All Transfer Routes and Destination Pages | Pickupr" />
@@ -74,7 +74,7 @@ const routesSchema = {
         <h1 class="mt-3 text-3xl font-black tracking-tight md:text-4xl">All routes</h1>
         <p class="mt-3 max-w-3xl text-zinc-400">
           Central route index for faster discovery by users and search crawlers.
-          City routes: <strong class="text-zinc-100">{ALL_CITY_ROUTES.length}</strong>.
+          City routes: <strong class="text-zinc-100">{INDEXABLE_CITY_ROUTES.length}</strong>.
           Keyword routes: <strong class="text-zinc-100">{KEYWORD_LANDING_ROUTES.length}</strong>.
         </p>
       </header>

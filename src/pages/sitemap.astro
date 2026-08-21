@@ -1,7 +1,7 @@
 ---
 import '../index.css';
-import { getCityRouteByPath } from '../lib/cityLandingRoutes';
-import { getKeywordLandingRouteByPath } from '../lib/keywordLandingRoutes';
+import { INDEXABLE_CITY_ROUTES } from '../lib/cityLandingRoutes';
+import { KEYWORD_LANDING_ROUTES, getKeywordLandingRouteByPath } from '../lib/keywordLandingRoutes';
 
 const pageModules = import.meta.glob('./**/*.astro', { eager: true });
 
@@ -23,11 +23,21 @@ function toRoute(globPath: string): string {
   return `/${clean}`;
 }
 
-const routes = Object.keys(pageModules)
+const staticRoutes = Object.keys(pageModules)
   .map(toRoute)
   .filter((route) => !route.includes('[') && !route.includes(']'))
   .filter((route) => !hiddenRoutes.has(route))
+  .filter((route) => !route.startsWith('/schiphol-airport-to-'))
+  .filter((route) => !route.startsWith('/amsterdam-airport-to-'))
+  .filter((route) => !route.endsWith('-taxi'))
+  .filter((route) => route !== '/routes')
   .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+
+const routes = Array.from(new Set([
+  ...staticRoutes,
+  ...INDEXABLE_CITY_ROUTES.map((route) => route.pathname),
+  ...KEYWORD_LANDING_ROUTES.map((route) => route.pathname),
+])).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
 
 function toTitleCase(value: string): string {
   return value
@@ -42,7 +52,7 @@ function routeToLabel(route: string): string {
     return 'Home';
   }
 
-  const cityRoute = getCityRouteByPath(route);
+  const cityRoute = INDEXABLE_CITY_ROUTES.find((item) => item.pathname === route) || null;
   if (cityRoute) {
     return route.endsWith('-taxi')
       ? `${cityRoute.origin} to ${cityRoute.city} Taxi`

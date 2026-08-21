@@ -1,6 +1,17 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  RewriteCond %{HTTP_HOST} ^www\.pickupr\.com$ [NC]
+  RewriteRule ^(.*)$ https://pickupr.com/$1 [R=301,L]
+
+  RewriteRule ^schiphol-airport-to-([a-z0-9-]+)-taxi/?$ /schiphol-to-$1 [R=301,L,NC]
+  RewriteRule ^schiphol-airport-to-([a-z0-9-]+)/?$ /schiphol-to-$1 [R=301,L,NC]
+  RewriteRule ^schiphol-to-([a-z0-9-]+)-taxi/?$ /schiphol-to-$1 [R=301,L,NC]
+  RewriteRule ^amsterdam-airport-to-([a-z0-9-]+)-taxi/?$ /amsterdam-to-$1 [R=301,L,NC]
+  RewriteRule ^amsterdam-airport-to-([a-z0-9-]+)/?$ /amsterdam-to-$1 [R=301,L,NC]
+  RewriteRule ^amsterdam-to-([a-z0-9-]+)-taxi/?$ /amsterdam-to-$1 [R=301,L,NC]
+
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

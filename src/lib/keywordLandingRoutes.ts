@@ -1,4 +1,4 @@
-import { ALL_CITY_ROUTES, AMSTERDAM_INTERNATIONAL_ROUTES, SCHIPHOL_NETHERLANDS_ROUTES } from './cityLandingRoutes.ts';
+import { ALL_CITY_ROUTES, INDEXABLE_CITY_ROUTES } from './cityLandingRoutes.ts';
 
 export type KeywordLandingRoute = {
   keyword: string;
@@ -131,14 +131,15 @@ function normalizePath(pathname: string): string {
 const cityPaths = new Set<string>();
 for (const route of ALL_CITY_ROUTES) {
   cityPaths.add(route.pathname);
-  if (route.pathname.endsWith('-taxi')) {
-    cityPaths.add(route.pathname.slice(0, -5));
+  for (const alias of route.aliases) {
+    cityPaths.add(alias);
   }
 }
 
 const airportCityKeywords = [
-  ...AMSTERDAM_INTERNATIONAL_ROUTES.map((route) => `Amsterdam Airport to ${route.city} Taxi`),
-  ...[...SCHIPHOL_NETHERLANDS_ROUTES, ...AMSTERDAM_INTERNATIONAL_ROUTES].map((route) => `Schiphol Airport to ${route.city} Taxi`),
+  ...INDEXABLE_CITY_ROUTES
+    .filter((route) => route.pattern === 'schiphol')
+    .map((route) => `Schiphol Airport to ${route.city} Taxi`),
 ];
 
 const CUSTOM_KEYWORD_DESCRIPTIONS: Record<string, string> = {

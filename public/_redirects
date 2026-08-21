@@ -1,1 +1,11 @@
+http://www.pickupr.com/* https://pickupr.com/:splat 301!
+https://www.pickupr.com/* https://pickupr.com/:splat 301!
+
+/schiphol-airport-to-:city-taxi /schiphol-to-:city 301!
+/schiphol-airport-to-:city /schiphol-to-:city 301!
+/schiphol-to-:city-taxi /schiphol-to-:city 301!
+/amsterdam-airport-to-:city-taxi /amsterdam-to-:city 301!
+/amsterdam-airport-to-:city /amsterdam-to-:city 301!
+/amsterdam-to-:city-taxi /amsterdam-to-:city 301!
+
 /* /index.html 200

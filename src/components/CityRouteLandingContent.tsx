@@ -27,6 +27,9 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
   const bookingHref = '/#hero';
   const relatedRoutes = getRelatedCityRoutes(path, 10);
   const isTaxiVariant = path.endsWith('-taxi');
+  const distanceKm = route.distanceKm ?? null;
+  const durationMin = route.durationMin ?? null;
+  const priceFrom = route.priceFrom ?? null;
   const originLabel = route.pattern === 'schiphol' ? 'Schiphol Airport' : 'Amsterdam';
   const keyword = isTaxiVariant
     ? `${originLabel} to ${route.city} Taxi`
@@ -40,7 +43,7 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
   const comparisonRows = [
     {
       option: 'Pickupr private transfer',
-      price: `From EUR ${route.priceFrom}`,
+      price: priceFrom ? `From EUR ${priceFrom}` : 'Quote shown before confirmation',
       timing: 'Pre-booked slot with direct confirmation',
       comfort: 'Private vehicle and luggage support',
       bestFor: 'Airport, business, and family travel',
@@ -83,7 +86,9 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
     },
     {
       q: `How long does ${routeLabel} usually take?`,
-      a: `Typical travel time is around ${toDurationLabel(route.durationMin)}, depending on traffic and route conditions.`,
+      a: durationMin
+        ? `Typical travel time is around ${toDurationLabel(durationMin)}, depending on traffic and route conditions.`
+        : 'Travel time depends on live traffic and route conditions. You will receive a clear estimate during booking.',
     },
     {
       q: `How does ${keyword} compare to Uber or regular taxis?`,
@@ -121,15 +126,15 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
         <div className="grid gap-4 sm:grid-cols-3">
           <article className="rounded-2xl border border-zinc-200 bg-white p-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Distance</p>
-            <p className="mt-1 text-xl font-black text-zinc-900">{route.distanceKm} km</p>
+            <p className="mt-1 text-xl font-black text-zinc-900">{distanceKm ? `${distanceKm} km` : 'Available in quote'}</p>
           </article>
           <article className="rounded-2xl border border-zinc-200 bg-white p-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Estimated duration</p>
-            <p className="mt-1 text-xl font-black text-zinc-900">{toDurationLabel(route.durationMin)}</p>
+            <p className="mt-1 text-xl font-black text-zinc-900">{durationMin ? toDurationLabel(durationMin) : 'Shown before confirmation'}</p>
           </article>
           <article className="rounded-2xl border border-zinc-200 bg-white p-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Private fare from</p>
-            <p className="mt-1 text-xl font-black text-zinc-900">EUR {route.priceFrom}</p>
+            <p className="mt-1 text-xl font-black text-zinc-900">{priceFrom ? `EUR ${priceFrom}` : 'Request quote'}</p>
           </article>
         </div>
 
@@ -174,10 +179,12 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
           <article>
             <h2 className="text-2xl font-black tracking-tight text-zinc-900 md:text-[2rem]">Route details for {routeLabel}</h2>
             <p className="mt-4 max-w-4xl text-[1.05rem] leading-8 text-zinc-700">
-              Typical distance for {routeLabel} is around {route.distanceKm} km, with an estimated travel time of {toDurationLabel(route.durationMin)} depending on traffic and route conditions.
+              {distanceKm && durationMin
+                ? `Typical distance for ${routeLabel} is around ${distanceKm} km, with an estimated travel time of ${toDurationLabel(durationMin)} depending on traffic and route conditions.`
+                : `Distance and timing for ${routeLabel} are confirmed from live route details during booking.`}
               {isTaxiVariant
-                ? ` Taxi fares on this route start from EUR ${route.priceFrom}, and you can confirm your booking online with clear trip details before checkout.`
-                : ` Private transfer pricing on this route starts from EUR ${route.priceFrom}, with direct confirmation and full pickup instructions available during booking.`}
+                ? ` Taxi pricing on this route is confirmed before checkout, and you can finalize your booking online with clear trip details.`
+                : ` Private transfer pricing on this route is confirmed before checkout, with direct confirmation and full pickup instructions available during booking.`}
             </p>
           </article>
 
@@ -187,8 +194,8 @@ export default function CityRouteLandingContent({ path }: { path: string }) {
               Pre-booking usually gives the strongest balance between availability, pickup precision, and predictable pricing.
               For high-demand windows, secure your transfer early and provide full flight details where relevant.
               {isTaxiVariant
-                ? ` This page is tailored for users searching ${keyword.toLowerCase()} and fixed-rate ${route.origin.toLowerCase()} transport alternatives.`
-                : ` This page is tailored for users searching ${keyword.toLowerCase()} and premium private transfer options with direct confirmation.`}
+                ? ` This route is often chosen by travelers comparing fixed-rate ${route.origin.toLowerCase()} transport alternatives.`
+                : ` This route is frequently selected by travelers who want premium private transfer options with direct confirmation.`}
             </p>
           </article>
 
