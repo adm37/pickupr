@@ -4,12 +4,12 @@ import { logEvent } from '../lib/tracking';
 
 const faqs = [
   {
-    question: "How much is a transfer from Schiphol to Amsterdam?",
-    answer: "Prices depend on vehicle type, time, and exact pickup point. You get a fixed all-in quote before checkout, so there are no surprises later."
+    question: "How much does an Amsterdam airport transfer cost?",
+    answer: "Prices depend on your route, vehicle class, and pickup timing. You always receive a fixed all-in quote before checkout, so your Amsterdam airport transfer price is clear upfront."
   },
   {
-    question: "Do you operate cross-border transfers from the Netherlands?",
-    answer: "Yes. We frequently drive from the Netherlands to Belgium, Germany, and France, including airport pickups, city transfers, and business travel itineraries."
+    question: "Do you provide private transfers across the Netherlands?",
+    answer: "Yes. Pickupr provides private transfer service throughout the Netherlands, including Schiphol airport transfer routes, Amsterdam city rides, and long-distance intercity travel."
   },
   {
     question: "What happens if my flight is delayed?",
@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     question: "Where will my driver meet me?",
-    answer: "At Schiphol Airport, passengers will be picked up at Departure Hall Door 3C. For other locations, your driver will meet you at the designated pickup point. You will receive their contact details before the trip."
+    answer: "For Schiphol airport transfer bookings, your meeting point is shared in advance with clear instructions. For Amsterdam and other pickups, your private driver meets you at the confirmed location and you receive contact details before departure."
   },
   {
     question: "Are there any hidden costs?",
@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     question: "Can I book an hourly chauffeur for meetings and events?",
-    answer: "Absolutely. Our hourly chauffeur option is ideal for roadshows, executive meetings, shopping trips, and flexible schedules where multiple stops are needed."
+    answer: "Absolutely. Our chauffeur service in the Netherlands is ideal for roadshows, executive meetings, shopping trips, and flexible schedules with multiple stops."
   },
   {
     question: "Do you provide child seats?",
@@ -52,7 +52,7 @@ export default function FAQ() {
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-black font-sans tracking-tight text-zinc-900 mb-6">Frequently Asked Questions</h2>
-          <p className="text-zinc-500 text-lg">Everything you need to know about our premium chauffeur service.</p>
+          <p className="text-zinc-500 text-lg">Everything you need to know about airport transfers and private driver service in the Netherlands.</p>
         </div>
 
         <div className="space-y-4">

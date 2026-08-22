@@ -175,8 +175,8 @@ export default function Hero({ title, subtitle }: HeroProps = {}) {
     navigateTo(url);
   };
 
-  const heroTitle = title || 'Private Airport Transfers Across Europe';
-  const heroSubtitle = subtitle || 'Book your airport or cross-border transfer in under 30 seconds with fixed pricing, professional English-speaking drivers, direct WhatsApp support, and pay in the car by cash or credit card.';
+  const heroTitle = title || 'Airport Transfer Netherlands with Private Drivers';
+  const heroSubtitle = subtitle || 'Book an Amsterdam airport transfer, Schiphol airport transfer, or private city-to-city ride with fixed pricing. Pickupr delivers private transfer service across the Netherlands with professional chauffeurs and direct confirmation.';
 
   return (
     <section id="hero" className="relative min-h-[80vh] lg:min-h-[84vh] flex items-center justify-center pt-20 md:pt-28 pb-12 overflow-hidden bg-sky-50">

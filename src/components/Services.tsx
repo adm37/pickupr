@@ -4,10 +4,11 @@ import { motion } from 'motion/react';
 export default function Services() {
   const intentLinks = [
     { label: 'City-to-city transfers', href: '/routes' },
-    { label: 'Airport transfers', href: '/airport-transfer-netherlands' },
-    { label: 'Hourly chauffeur', href: '/airport-chauffeur-netherlands' },
+    { label: 'Airport transfer Netherlands', href: '/airport-transfer-netherlands' },
+    { label: 'Amsterdam airport transfer', href: '/airport-transfer-to-amsterdam' },
+    { label: 'Schiphol airport transfer', href: '/schiphol-to-amsterdam' },
     { label: 'Business travel', href: '/destinations' },
-    { label: 'Cruise port transfers', href: '/routes' },
+    { label: 'Chauffeur service Netherlands', href: '/airport-chauffeur-netherlands' },
   ];
 
   const seoLandingLinks = [
@@ -26,13 +27,13 @@ export default function Services() {
   const services = [
     {
       icon: <Car className="w-8 h-8 text-emerald-600" />,
-      title: 'Premium Transfers',
-      description: 'Comfortable, reliable transfers across the Netherlands, Belgium, France, and Germany.',
+      title: 'Private Transfer Netherlands',
+      description: 'Reliable private transfers throughout the Netherlands for airport pickups, hotels, and intercity rides.',
     },
     {
       icon: <Clock className="w-8 h-8 text-emerald-600" />,
-      title: 'Hourly Chauffeur',
-      description: 'Hire a professional chauffeur from €120/hour for flexible, on-demand travel.',
+      title: 'Private Driver Amsterdam',
+      description: 'Book a private driver in Amsterdam for flexible schedules, business appointments, and premium local travel.',
     },
     {
       icon: <Globe className="w-8 h-8 text-emerald-600" />,
@@ -41,8 +42,8 @@ export default function Services() {
     },
     {
       icon: <MapPin className="w-8 h-8 text-emerald-600" />,
-      title: 'Cross-Border Travel',
-      description: 'Start in the Netherlands and travel seamlessly across Europe, or get picked up abroad to return.',
+      title: 'Chauffeur Service Netherlands',
+      description: 'Professional chauffeur coverage from Amsterdam and Schiphol to every major Dutch city, with optional cross-border rides.',
     },
   ];
 
@@ -52,10 +53,10 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black font-sans tracking-tight mb-4 text-zinc-900">
-              Uncompromising Excellence
+              Private Airport Transfer Expertise Across the Netherlands
             </h2>
             <p className="text-zinc-600 max-w-2xl mx-auto text-lg mb-8">
-              Experience the highest standard of private transportation. Whether you need a local transfer, a day of flexible travel, or a cross-border journey, we deliver comfort and reliability.
+              Pickupr is your all-in-one platform for Amsterdam airport transfer, Schiphol airport transfer, and private transfer service across the Netherlands. Compare options, book fast, and ride with vetted professional drivers.
             </p>
             <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
               {intentLinks.map((item) => (
